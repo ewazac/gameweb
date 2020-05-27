@@ -10,10 +10,12 @@ import javax.validation.constraints.NotBlank;
 @Getter
 public class UserDTO {  //data transport object
 
-    private String firstName;
-    private String lastName;
+    public String firstName;
+    public String lastName;
     @Email
     @NotBlank
-    private String email;
+    public String email;
+    public String username;
+    public String password;
 
 }
