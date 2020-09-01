@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.List;
 
 @Getter
-@Document(collection = "user" )
+@Document(collection = "user")
 @Builder
 public class AppUser {
 
