@@ -32,6 +32,10 @@ const routes = [
     name: 'Register',
     component: Register,
   },
+  { 
+    path: '*',
+    redirect: '/',
+  },
 ]
 
 const router = new VueRouter({
@@ -40,3 +44,18 @@ const router = new VueRouter({
 })
 
 export default router
+
+router.beforeEach((to, from, next) => {
+  const publicPages = ['/login', '/Games'];
+  const authRequired = !publicPages.includes(to.path);
+  const loggedIn = localStorage.getItem('user');
+
+  if (authRequired && !loggedIn) {
+    return next({ 
+      path: '/login', 
+      query: { returnUrl: to.path } 
+    });
+  }
+
+  next();
+})
