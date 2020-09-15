@@ -1,17 +1,22 @@
-import {AXIOS} from '../http-commons';
+import axios from 'axios'
 
 const API_URL = 'http://localhost:8086/users';
 
 class AuthService {
   login(user) {
-    return AXIOS.get(API_URL, {
-        username: user.username,
-        password: user.password
+    return axios.get(API_URL, {
+        withCredentials: true,
+        auth: {
+          username: user.username,
+          password: user.password
+        }
       })
       .then(response => {
+        console.log(response.data)
         if (response.data.accessToken) {
           localStorage.setItem('user', JSON.stringify(response.data));
         }
+
         return response.data;
       });
   }
@@ -21,7 +26,7 @@ class AuthService {
   }
 
   register(user) {
-    return AXIOS.post(API_URL, {
+    return axios.post(API_URL, {
       username: user.username,
       password: user.password
     });

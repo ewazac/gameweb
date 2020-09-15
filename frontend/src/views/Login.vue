@@ -51,8 +51,9 @@ export default {
         }
 
         if (this.user.username && this.user.password) {
-          this.$store.dispatch('auth/login', this.user).then(
+          this.$store.dispatch('auth/login',  this.user ).then(
             () => {
+              console.log(this.$store.state.auth.user);
               this.$router.push('/account');
             },
             error => {
