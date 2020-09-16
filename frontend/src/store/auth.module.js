@@ -25,6 +25,12 @@ export const auth = {
       commit('logout');
     },
     register({ commit }, user) {
+      if (!user.firstName) {
+        user.firstName = null
+      }
+      if (!user.lastName) {
+        user.lastName = null
+      }
       return AuthService.register(user).then(
         response => {
           commit('registerSuccess');

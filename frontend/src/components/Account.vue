@@ -1,7 +1,9 @@
 <template>
   <div id="v-for-object">
-    <div class="container" v-for="(user) in currentUser" v-bind:key="user.id">
-      <span> id: {{ user }} </span>
+    <div class="container" >
+      <p> id: {{ currentUser.id }} </p>
+      <p> email: {{ currentUser.email }} </p>
+      <p> password(tymczasowo): {{ currentUser.password }} </p>
     </div>
   </div>
 </template>

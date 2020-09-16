@@ -1,112 +1,177 @@
 <template>
-  <div class="col-md-12">
-    <div class="card card-container">
-      <img
-        id="profile-img"
-        src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-        class="profile-img-card"
-      />
-      <form name="form" @submit.prevent="handleRegister">
-        <div v-if="!successful">
-          <div class="form-group">
-            <input
-              v-model="user.username"
-              v-validate="'required|username|max:50'"
-              type="username"
-              class="form-control"
-              placeholder="Username"
-              name="username"
-            />
-            <div
-              v-if="submitted && errors.has('username')"
-              class="alert-danger"
-            >{{errors.first('username')}}</div>
-          </div>
-          <div class="form-group">
-            <input
-              v-model="user.password"
-              v-validate="'required|min:6|max:40'"
-              type="password"
-              class="form-control"
-              name="password"
-              placeholder="Password"
-              autocomplete="on"
-            />
-            <div
-              v-if="submitted && errors.has('password')"
-              class="alert-danger"
-            >{{errors.first('password')}}</div>
-          </div>
-          <div class="form-group">
-            <button class="btn btn-primary btn-block">Sign Up</button>
-          </div>
+  <div class="reg">
+    <form class="register" name="form" @submit.prevent="handleRegister">
+      <h1>Rejestracja</h1>
+      <div v-if="!successful">
+        <div class="form-group">
+          <input
+            v-model="user.username"
+            v-validate="'required|email|max:50'"
+            type="username"
+            class="form-control"
+            placeholder="Email"
+            name="username"
+          />
+          <div
+            v-if="submitted && errors.has('username')"
+            class="alert-danger"
+          >{{errors.first('username')}}</div>
         </div>
-      </form>
-
-      <div
-        v-if="message"
-        class="alert"
-        :class="successful ? 'alert-success' : 'alert-danger'"
-      >{{message}}</div>
-    </div>
+        <div class="form-group">
+          <input
+            v-model="user.firstName"
+            v-validate="'max:50'"
+            type="firstName"
+            class="form-control"
+            placeholder="imie"
+            name="firstName"
+          />
+          <div
+            v-if="submitted && errors.has('username')"
+            class="alert-danger"
+          >{{errors.first('username')}}</div>
+        </div>
+        <div class="form-group">
+          <input
+            v-model="user.lastName"
+            v-validate="'max:50'"
+            type="lastName"
+            class="form-control"
+            placeholder="Nazwisko"
+            name="lastName"
+          />
+          <div
+            v-if="submitted && errors.has('username')"
+            class="alert-danger"
+          >{{errors.first('username')}}</div>
+        </div>
+        <div class="form-group">
+          <input
+            v-model="user.password"
+            v-validate="'required|min:4|max:40'"
+            type="password"
+            class="form-control"
+            name="password"
+            placeholder="Password"
+            autocomplete="on"
+          />
+          <div
+            v-if="submitted && errors.has('password')"
+            class="alert-danger"
+          >{{errors.first('password')}}</div>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary btn-block">Sign Up</button>
+        </div>
+      </div>
+    </form>
+    <div
+      v-if="message"
+      class="alert"
+      :class="successful ? 'alert-success' : 'alert-danger'"
+    >{{message}}</div>
   </div>
 </template>
 
 <script>
-import User from '../models/user';
+import User from "../models/user";
 export default {
-  name: 'Register',
+  name: "Register",
   data() {
     return {
-      user: new User('', ''),
+      user: new User('','','',''),
       submitted: false,
       successful: false,
-      message: ''
+      message: "",
     };
   },
   computed: {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
-    }
+    },
   },
   mounted() {
     if (this.loggedIn) {
-      this.$router.push('/profile');
+      this.$router.push("/account");
     }
   },
   methods: {
     handleRegister() {
-      this.message = '';
+      this.message = "";
       this.submitted = true;
-      this.$validator.validate().then(isValid => {
+      this.$validator.validate().then((isValid) => {
         if (isValid) {
-          this.$store.dispatch('/register', this.user).then(
-            data => {
+          this.$store.dispatch("auth/register", this.user).then(
+            (data) => {
               this.message = data.message;
               this.successful = true;
               console.log(this.message);
             },
-            error => {
+            (error) => {
               this.message =
                 (error.response && error.response.data) ||
                 error.message ||
                 error.toString();
               this.successful = false;
             }
+          ).then(
+            () => {
+              this.$router.push("/login");
+            }
           );
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-
-.col-md-12 {
-    margin-top: 10px;
-    display: block;
-    max-width: 30%;
+.reg {
+  display: block;
+  margin-top: 10px;
 }
 
+.register {
+  max-width: 450px !important;
+  background-color: #f7f7f7;
+  padding: 20px 25px 30px;
+  margin: 0 auto 25px;
+  margin-top: 50px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+}
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-group {
+  margin-top: 10px;
+  width: 100%;
+  display: flex;
+}
+
+input {
+  width: 100%;
+  border-width: 0px 0px 2px 0px;
+  border-radius: 4px;
+}
+input:focus {
+  outline: none;
+}
+
+.error {
+  color: red;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 10px;
+}
 </style>

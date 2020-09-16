@@ -21,7 +21,8 @@
               <em>Użytkownik</em>
             </template>
             <b-dropdown-item href="/account" v-if="this.$store.state.auth.status.loggedIn === true">Dodaj recenzje</b-dropdown-item>
-            <b-dropdown-item href="/account" v-if="this.$store.state.auth.status.loggedIn === true">Konto</b-dropdown-item>
+            <b-dropdown-item href="/Register" v-if="this.$store.state.auth.status.loggedIn === false">Zarejestruj się</b-dropdown-item>
+            <b-dropdown-item href="/account" v-if="this.$store.state.auth.status.loggedIn === true">Ustawienia konta</b-dropdown-item>
             <b-dropdown-item href="/login" v-if="this.$store.state.auth.status.loggedIn === false">Zaloguj się</b-dropdown-item>
             <b-dropdown-item href v-if="this.$store.state.auth.status.loggedIn === true" @click.prevent="logOut">Wyloguj się</b-dropdown-item>
           </b-nav-item-dropdown>

@@ -2,7 +2,7 @@
   <div class="log">
    <form class="login" @submit.prevent="handleLogin">
     <div class="form">
-     <h1>Sign in</h1>
+     <h1>Logowanie</h1>
      <div class="form-group">
         <input required v-model="user.username" name="username" type="text" placeholder="Username">
      </div>
@@ -12,7 +12,7 @@
      <p class="error" v-if="errorMessage != ''"> {{ errorMessage }} </p>
      <hr/>
      <div class="button">
-        <button class="submit" type="submit">Login</button>
+        <button class="btn btn-primary btn-block" type="submit">Login</button>
      </div>
     </div>
    </form>
@@ -92,11 +92,11 @@ export default {
     -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
 }
-.button {
+/*.button {
     display: flex;
     justify-content: center;
     align-items: center;
-}
+}*/
 
 .form-group {
     margin-top:10px;
