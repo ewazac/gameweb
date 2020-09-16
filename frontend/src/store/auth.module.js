@@ -14,12 +14,11 @@ export const auth = {
         user => {
           commit('loginSuccess', user);
           return Promise.resolve(user);
-        },
-        error => {
+        })
+        .catch(error => {
           commit('loginFailure');
           return Promise.reject(error);
-        }
-      );
+        });
     },
     logout({ commit }) {
       AuthService.logout();

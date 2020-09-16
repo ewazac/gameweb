@@ -9,6 +9,7 @@
      <div class="form-group">
         <input required v-model="user.password" name="password" type="password" placeholder="Password" autocomplete="on">
      </div>
+     <p class="error" v-if="errorMessage != ''"> {{ errorMessage }} </p>
      <hr/>
      <div class="button">
         <button class="submit" type="submit">Login</button>
@@ -19,7 +20,6 @@
 </template>
 
 <script>
-
 import User from '../models/user';
 
 export default {
@@ -28,7 +28,8 @@ export default {
     return {
       user: new User('', ''),
       loading: false,
-      message: ''
+      message: '',
+      errorMessage: ''
     };
   },
   computed: {
@@ -53,16 +54,17 @@ export default {
         if (this.user.username && this.user.password) {
           this.$store.dispatch('auth/login',  this.user ).then(
             () => {
-              console.log(this.$store.state.auth.user);
               this.$router.push('/account');
             },
             error => {
+              this.errorMessage = 'Niepoprawne hasło lub login'
               this.loading = false;
               this.message =
                 (error.response && error.response.data) ||
                 error.message ||
                 error.toString();
             }
+
           );
         }
       });
@@ -109,6 +111,10 @@ input {
 }
 input:focus {
     outline: none;
+}
+
+.error{
+  color: red;
 }
 
 h1 {

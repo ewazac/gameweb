@@ -22,6 +22,7 @@
             </template>
             <b-dropdown-item href="/account">Profile</b-dropdown-item>
             <b-dropdown-item href="/login">Sign In</b-dropdown-item>
+            <b-dropdown-item href @click.prevent="logOut">logout</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
@@ -35,7 +36,19 @@
 <script>
 export default {
   name: 'app',
-  
+
+  computed: {
+    currentUser() {
+      console.log(this.$store.state.auth.user)
+      return this.$store.state.auth.user;
+    }
+  },
+  methods: {
+    logOut() {
+      this.$store.dispatch('auth/logout');
+      this.$router.push('/login');
+    }
+  }
 }
 
 </script>
