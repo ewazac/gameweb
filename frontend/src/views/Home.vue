@@ -20,7 +20,7 @@ export default {
 <style lang="scss" scoped>
 .home {
   display: block;
-  
+  text-align: center;
 }
 
 </style>

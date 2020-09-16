@@ -9,20 +9,21 @@
 
       <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav>
-        <router-link to="/Games" class="nav-link">Games</router-link>
+        <router-link to="/Games" class="nav-link">Gry</router-link>
       </b-navbar-nav>
         <b-navbar-nav class="ml-auto">
           <b-nav-form>
             <b-form-input size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
-            <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
+            <b-button size="sm" class="my-2 my-sm-0" type="submit">Wyszukaj</b-button>
           </b-nav-form>
           <b-nav-item-dropdown right>
             <template v-slot:button-content>
-              <em>User</em>
+              <em>Użytkownik</em>
             </template>
-            <b-dropdown-item href="/account">Profile</b-dropdown-item>
-            <b-dropdown-item href="/login">Sign In</b-dropdown-item>
-            <b-dropdown-item href @click.prevent="logOut">logout</b-dropdown-item>
+            <b-dropdown-item href="/account" v-if="this.$store.state.auth.status.loggedIn === true">Dodaj recenzje</b-dropdown-item>
+            <b-dropdown-item href="/account" v-if="this.$store.state.auth.status.loggedIn === true">Konto</b-dropdown-item>
+            <b-dropdown-item href="/login" v-if="this.$store.state.auth.status.loggedIn === false">Zaloguj się</b-dropdown-item>
+            <b-dropdown-item href v-if="this.$store.state.auth.status.loggedIn === true" @click.prevent="logOut">Wyloguj się</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
