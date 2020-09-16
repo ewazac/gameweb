@@ -13,9 +13,13 @@
             name="username"
           />
           <div
+            v-if="occupied"
+            class="alert-danger"
+            >{{ occupied }}</div>
+          <div
             v-if="submitted && errors.has('username')"
             class="alert-danger"
-          >{{errors.first('username')}}</div>
+          >{{ 'Niepoprawny email' }}</div>
         </div>
         <div class="form-group">
           <input
@@ -26,10 +30,6 @@
             placeholder="imie"
             name="firstName"
           />
-          <div
-            v-if="submitted && errors.has('username')"
-            class="alert-danger"
-          >{{errors.first('username')}}</div>
         </div>
         <div class="form-group">
           <input
@@ -40,10 +40,6 @@
             placeholder="Nazwisko"
             name="lastName"
           />
-          <div
-            v-if="submitted && errors.has('username')"
-            class="alert-danger"
-          >{{errors.first('username')}}</div>
         </div>
         <div class="form-group">
           <input
@@ -58,18 +54,13 @@
           <div
             v-if="submitted && errors.has('password')"
             class="alert-danger"
-          >{{errors.first('password')}}</div>
+          >{{ 'Brak hasła' }}</div>
         </div>
         <div class="form-group">
           <button class="btn btn-primary btn-block">Sign Up</button>
         </div>
       </div>
     </form>
-    <div
-      v-if="message"
-      class="alert"
-      :class="successful ? 'alert-success' : 'alert-danger'"
-    >{{message}}</div>
   </div>
 </template>
 
@@ -83,6 +74,7 @@ export default {
       submitted: false,
       successful: false,
       message: "",
+      occupied: '',
     };
   },
   computed: {
@@ -98,7 +90,8 @@ export default {
   methods: {
     handleRegister() {
       this.message = "";
-      this.submitted = true;
+      this.submitted = true;3
+      this.occupied = '';
       this.$validator.validate().then((isValid) => {
         if (isValid) {
           this.$store.dispatch("auth/register", this.user).then(
@@ -106,6 +99,7 @@ export default {
               this.message = data.message;
               this.successful = true;
               console.log(this.message);
+              this.$router.push("/login");
             },
             (error) => {
               this.message =
@@ -113,10 +107,7 @@ export default {
                 error.message ||
                 error.toString();
               this.successful = false;
-            }
-          ).then(
-            () => {
-              this.$router.push("/login");
+              this.occupied = 'Ten email jest zajęty, prosze podać inny';
             }
           );
         }
@@ -154,7 +145,7 @@ export default {
 .form-group {
   margin-top: 10px;
   width: 100%;
-  display: flex;
+  display: block;
 }
 
 input {
