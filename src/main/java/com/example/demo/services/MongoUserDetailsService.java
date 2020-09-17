@@ -1,9 +1,12 @@
 package com.example.demo.services;
 
 
+import com.example.demo.controllers.UserDTO;
 import com.example.demo.model.AppUser;
 import com.example.demo.model.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.BsonBinarySubType;
+import org.bson.types.Binary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -11,6 +14,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 @Component
@@ -18,6 +24,7 @@ import java.util.List;
 public class MongoUserDetailsService implements UserDetailsService{
     @Autowired
     private UserRepository repository;
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         log.info("wchodzę do metody i szukam maila {}", email);
@@ -31,4 +38,7 @@ public class MongoUserDetailsService implements UserDetailsService{
                 .password(appUser.getPassword())
                 .roles(appUser.getRoles().toArray(String[]::new)).build();
     }
+
+
+
 }

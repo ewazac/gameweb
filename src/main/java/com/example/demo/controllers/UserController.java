@@ -2,18 +2,23 @@ package com.example.demo.controllers;
 
 import com.example.demo.model.AppUser;
 import com.example.demo.model.UserRepository;
+import com.example.demo.services.MongoUserDetailsService;
+import com.fasterxml.jackson.databind.ser.Serializers;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.BsonBinarySubType;
+import org.bson.types.Binary;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.io.IOException;
+import java.util.*;
 
 
 @RequestMapping("/users")
@@ -47,10 +52,41 @@ public class UserController {
         return userRepository.findAll();
     }
 
+    @RequestMapping(value = "/{id}/uploadAvatar", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.OK)
+    public void addAvatar(@RequestParam("avatar") MultipartFile multipartFile, @PathVariable String id) throws IOException {
+        AppUser user = userRepository.findUserById(id);
+        if (user != null) {
+            user.setAvatar(new Binary(BsonBinarySubType.BINARY, multipartFile.getBytes()));
+            userRepository.save(user);
+        }
+    }
+
+    @GetMapping(value = "/{id}/getAvatar")
+    public Binary getAvatar(@PathVariable String id) {
+        AppUser appUser = userRepository.findUserById(id);
+            return appUser.getAvatar();
+
+    }
+
+//    @GetMapping(value = "/{id}/avatar")
+//    public Optional<AppUser> getAvatar(@PathVariable String id, Binary file) {
+//        AppUser user = userRepository.findUserById(id);
+//        if(user != null) {
+//
+//        }
+//
+//    }
+
+
+
+
+
     @GetMapping(value = "/{id}")
     public Optional<AppUser> getUser(@PathVariable String id) {
         return userRepository.findById(id);
     }
+
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
