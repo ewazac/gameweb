@@ -11,12 +11,10 @@
       <b-navbar-nav>
         <router-link to="/Games" class="nav-link">Gry</router-link>
       </b-navbar-nav>
-        <b-img center class="bg-active">
-          <img src="assets/bg.jpg"   alt="Tło">
-        </b-img>
+
         <b-navbar-nav center class="navbar-brand"  >
           <img src="assets/logo.png" alt="GameWeb">
-            </b-navbar-nav>
+        </b-navbar-nav>
 
         <b-navbar-nav class="ml-auto">
           <b-nav-form>
@@ -37,6 +35,9 @@
       </b-collapse>
     </b-navbar>
     <div class="rest">
+      <img center class="bg-active">
+        <img src="assets/bg.jpg"   alt="Tło">
+
       <router-view />
     </div>
   </div>
@@ -69,8 +70,7 @@ export default {
 body {
   margin: 0;
   padding: 0;
-  background:  url("assets/bg.jpg") repeat-x fixed center;
-  background-size: 300px 100px;
+  background: repeat fixed center;
 }
 
 </style>
