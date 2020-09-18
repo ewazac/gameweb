@@ -90,7 +90,7 @@ export default {
   methods: {
     handleRegister() {
       this.message = "";
-      this.submitted = true;3
+      this.submitted = true;
       this.occupied = '';
       this.$validator.validate().then((isValid) => {
         if (isValid) {

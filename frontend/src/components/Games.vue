@@ -4,7 +4,12 @@
         <h1 class="H1">Gry</h1>
         <div class="G1" id="v-for-object">
           <div class="games" v-for="(item) in games" v-bind:key="item.id">
-            {{ item.id }} - {{ item.name }}
+            <div class="left">
+              {{ item.name }}
+            </div>
+            <div class="Right" v-if="item.description !== ''">
+              {{ item.description }}
+            </div>
           </div>
         </div>
       </div>
@@ -48,14 +53,16 @@ export default {
 .G1 {
   display: inline-block;
   min-width: 23%;
-  text-align: center;
+  text-align: left;
 }
 
 .games {
+  display: flex;
   margin-left: 2%;
   min-width: 25%;
+  max-width: 95%;
   margin-bottom: 10px;
-  padding: 2px;
+  padding: 5px;
   border: solid darkgray;
   border-width: 0 0 2px 0;
   -moz-border-radius: 2px;
@@ -65,6 +72,12 @@ export default {
     -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
 }
+
+.left {
+  padding: 0 20px 0 20px;
+  min-width: 25%;
+}
+
 
 
 </style>
