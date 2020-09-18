@@ -73,7 +73,4 @@ body {
   background-size: 300px 100px;
 }
 
-
-
-
 </style>
