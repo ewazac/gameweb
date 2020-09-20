@@ -3,6 +3,8 @@ package com.example.demo.controllers;
 
 import com.example.demo.model.Game;
 import com.example.demo.model.GamesRepository;
+import com.example.demo.model.Review;
+import com.example.demo.model.ReviewRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.BsonBinarySubType;
@@ -60,18 +62,18 @@ public class GamesController {
     @GetMapping(value = "/{name}")
     public Game getGame(@PathVariable String name) {
         return gamesRepository.findGameByName(name);
-
     }
 
 
 
-//    @GetMapping(value = "/{id}")
-//    public Optional<AppUser> getUser(@PathVariable String id) {
-//        return userRepository.findById(id);
-//    }
-
     @GetMapping
-    public List<Game> getGames() {return gamesRepository.findAll();} //returns list of all games
+    public List<Game> getGames() {
+        return gamesRepository.findAll();
+    } //returns list of all games
+
+
+
+
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)

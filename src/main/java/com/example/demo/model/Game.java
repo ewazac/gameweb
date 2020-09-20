@@ -4,8 +4,11 @@ import lombok.Builder;
 import lombok.Getter;
 import org.bson.types.Binary;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.util.StringUtils;
+
+import java.util.List;
 
 @Getter
 @Document(collection = "games")
@@ -19,6 +22,8 @@ public class Game {
     private String description;
     private String platform;
     private Binary gameImage;
+    @DBRef
+    private Review reviews;
 
 
 
@@ -29,6 +34,7 @@ public class Game {
         }
     }
 
+
     public void setImage(Binary gameImage) {
         this.gameImage = gameImage;
     }
@@ -36,6 +42,8 @@ public class Game {
     public Binary getImage(Binary gameImage) {
         return gameImage;
     }
+
+
 
     public String getName() {
         return name;

@@ -15,6 +15,7 @@ public class ReviewDTO {
     @NotBlank
     public String description;
     public Float stars;
+    public String game;
 
 
 }

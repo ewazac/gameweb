@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 
+import com.example.demo.model.AppUser;
 import com.example.demo.model.Game;
 import com.example.demo.model.Review;
 import com.example.demo.model.ReviewRepository;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -27,9 +29,25 @@ public class ReviewController {
                 .title(reviewDTO.getTitle())
                 .description(reviewDTO.getDescription())
                 .stars(reviewDTO.getStars())
+                .game(reviewDTO.getGame())
                 .id(UUID.randomUUID().toString()).build();
         reviewRepository.save(review);
     }
+
+    @GetMapping(value = "/{game}")
+    public List<Review> getReviewsByGame(@PathVariable String game)
+    {
+        return reviewRepository.findReviewByGame(game);
+    }
+
+
+
+
+
+
+
+
+
 
     @GetMapping
     public List<Review> getReviews() {return reviewRepository.findAll();}
