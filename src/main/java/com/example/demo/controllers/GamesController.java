@@ -1,7 +1,6 @@
 package com.example.demo.controllers;
 
 
-import com.example.demo.model.AppUser;
 import com.example.demo.model.Game;
 import com.example.demo.model.GamesRepository;
 import lombok.AllArgsConstructor;
@@ -9,15 +8,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.bson.BsonBinarySubType;
 import org.bson.types.Binary;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 // https://www.codementor.io/@gtommee97/rest-api-java-spring-boot-and-mongodb-j7nluip8d
@@ -62,6 +57,18 @@ public class GamesController {
         return game.getGameImage();
     }
 
+    @GetMapping(value = "/{name}")
+    public Game getGame(@PathVariable String name) {
+        return gamesRepository.findGameByName(name);
+
+    }
+
+
+
+//    @GetMapping(value = "/{id}")
+//    public Optional<AppUser> getUser(@PathVariable String id) {
+//        return userRepository.findById(id);
+//    }
 
     @GetMapping
     public List<Game> getGames() {return gamesRepository.findAll();} //returns list of all games
