@@ -46,7 +46,7 @@ public class UserController {
                 .id(UUID.randomUUID().toString()).build();
         userRepository.save(user);
     }
-    
+
     @GetMapping
     public List<AppUser> getUsers() {
         return userRepository.findAll();
@@ -65,7 +65,19 @@ public class UserController {
     @GetMapping(value = "/{id}/getAvatar")
     public Binary getAvatar(@PathVariable String id) {
         AppUser appUser = userRepository.findUserById(id);
-            return appUser.getAvatar();
+        return appUser.getAvatar();
+
+    }
+
+    @PostMapping(value = "/{id}/changePassword")
+    @ResponseStatus(value = HttpStatus.OK)
+    public void changePassword(@RequestParam("newpassword") String newPassword, @RequestParam("oldpassword") String oldPassword, @PathVariable  String id) throws InvalidOldPasswordException {
+        AppUser appUser = userRepository.findUserById(id);
+        if(!passwordEncoder.matches(oldPassword, appUser.getPassword())) {
+            throw new InvalidOldPasswordException();
+        }
+        appUser.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(appUser);
 
     }
 
@@ -77,7 +89,6 @@ public class UserController {
 //        }
 //
 //    }
-
 
 
 

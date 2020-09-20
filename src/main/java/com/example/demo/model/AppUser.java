@@ -32,6 +32,16 @@ public class AppUser {
     public Binary getAvatar() {
         return avatar;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+
 }
 
 

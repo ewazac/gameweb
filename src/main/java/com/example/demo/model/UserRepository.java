@@ -1,7 +1,6 @@
 package com.example.demo.model;
 
 import org.bson.types.Binary;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface UserRepository extends MongoRepository<AppUser, String> {
@@ -11,7 +10,6 @@ public interface UserRepository extends MongoRepository<AppUser, String> {
     AppUser findUserById(String id);
 
     AppUser findByAvatar(Binary avatar);
-
 
 
 

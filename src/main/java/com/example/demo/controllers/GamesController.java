@@ -38,14 +38,13 @@ public class GamesController {
         gamesRepository.save(game);
     }
 
+
     @GetMapping
     public List<Game> getGames() {return gamesRepository.findAll();} //returns list of all games
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public void exceptionHandler(GameFoundException gameFoundException) {log.info("brak gry");}
-
-
 
 
     public Game getGameByName(String name) {
