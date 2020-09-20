@@ -34,10 +34,16 @@ public class ReviewController {
         reviewRepository.save(review);
     }
 
-    @GetMapping(value = "/{game}")
+    @GetMapping(value = "/game/{game}")
     public List<Review> getReviewsByGame(@PathVariable String game)
     {
         return reviewRepository.findReviewByGame(game);
+    }
+
+
+    @GetMapping(value = "/stars/{stars}")
+    public List<Review> getReviewsByStars(@PathVariable Float stars) {
+        return reviewRepository.findReviewByStars(stars);
     }
 
 
