@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 public class MongoUserDetailsService implements UserDetailsService {
 
 
-    //@Qualifier("userRepository")
     @Autowired
     UserRepository repository;
 

@@ -10,6 +10,8 @@ import org.bson.BsonBinarySubType;
 import org.bson.types.Binary;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
@@ -29,6 +31,7 @@ public class UserController {
 
     UserRepository userRepository;
     PasswordEncoder passwordEncoder;
+
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
@@ -52,27 +55,33 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    @RequestMapping(value = "/{id}/uploadAvatar", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value ="/uploadAvatar", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
-    public void addAvatar(@RequestParam("avatar") MultipartFile multipartFile, @PathVariable String id) throws IOException {
-        AppUser user = userRepository.findUserById(id);
+    public void addAvatar(@RequestParam("avatar") MultipartFile multipartFile) throws IOException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUser = authentication.getName();
+        AppUser user = userRepository.findUserByEmail(currentUser);
         if (user != null) {
             user.setAvatar(new Binary(BsonBinarySubType.BINARY, multipartFile.getBytes()));
             userRepository.save(user);
         }
     }
 
-    @GetMapping(value = "/{id}/getAvatar")
-    public Binary getAvatar(@PathVariable String id) {
-        AppUser appUser = userRepository.findUserById(id);
+    @GetMapping(value = "/getAvatar")
+    public Binary getAvatar() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUser = authentication.getName();
+        AppUser appUser = userRepository.findUserByEmail(currentUser);
         return appUser.getAvatar();
 
     }
 
-    @PostMapping(value = "/{id}/changePassword")
+    @PostMapping(value = "/changePassword")
     @ResponseStatus(value = HttpStatus.OK)
-    public void changePassword(@RequestParam("newpassword") String newPassword, @RequestParam("oldpassword") String oldPassword, @PathVariable  String id) throws InvalidOldPasswordException {
-        AppUser appUser = userRepository.findUserById(id);
+    public void changePassword(@RequestParam("newpassword") String newPassword, @RequestParam("oldpassword") String oldPassword) throws InvalidOldPasswordException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUser = authentication.getName();
+        AppUser appUser = userRepository.findUserByEmail(currentUser);
         if(!passwordEncoder.matches(oldPassword, appUser.getPassword())) {
             throw new InvalidOldPasswordException();
         }
@@ -80,15 +89,6 @@ public class UserController {
         userRepository.save(appUser);
 
     }
-
-//    @GetMapping(value = "/{id}/avatar")
-//    public Optional<AppUser> getAvatar(@PathVariable String id, Binary file) {
-//        AppUser user = userRepository.findUserById(id);
-//        if(user != null) {
-//
-//        }
-//
-//    }
 
 
 

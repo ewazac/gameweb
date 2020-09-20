@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import lombok.Builder;
 import lombok.Getter;
+import org.bson.types.Binary;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.util.StringUtils;
@@ -17,35 +18,40 @@ public class Game {
     private String category;
     private String description;
     private String platform;
+    private Binary gameImage;
 
 
 
-//    public Game(String id, String name, String category) {
-//        this.id = id;
-//        this.name = name;
-//        this.category = category;
-//    }
 
+    public void setId(String id) {
+        if (StringUtils.isEmpty(this.id)) {
+            this.id = id;
+        }
+    }
 
-//    public void setId(String id) {
-//        if (StringUtils.isEmpty(this.id)) {
-//            this.id = id;
-//        }
-//    }
-//
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public void setName(String name) {
-//        this.name = name;
-//    }
-//
-//    public String getCategory() {
-//        return category;
-//    }
-//
-//    public void setCategory(String category) {
-//        this.category = category;
+    public void setImage(Binary gameImage) {
+        this.gameImage = gameImage;
+    }
+
+    public Binary getImage(Binary gameImage) {
+        return gameImage;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+
+}
 
 }
