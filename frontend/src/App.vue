@@ -14,40 +14,22 @@
         <b-navbar-nav>
           <router-link to="/NewGame" v-if="currentLoggedIn === true" class="nav-link">Dodaj grę</router-link>
         </b-navbar-nav>
-
+        <!--
         <b-navbar-nav class="ml-auto">
           <b-navbar-brand class="navbar-brand">
               <img class="w-25" src="./assets/logo.png" alt="GameWeb" />
           </b-navbar-brand>
-        </b-navbar-nav>
+        </b-navbar-nav>-->
         <b-navbar-nav class="ml-auto">
-
-          <b-nav-form>
-            <b-form-input size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
-            <b-button size="sm" class="my-2 my-sm-0" type="submit">Wyszukaj</b-button>
-          </b-nav-form>
-          <b-nav-item-dropdown right>
-            <template v-slot:button-content>
-              <em>Użytkownik</em>
-            </template>
-            <b-dropdown-item
-              href="/Register"
-              v-if="currentLoggedIn === false"
-            >Zarejestruj się</b-dropdown-item>
-            <b-dropdown-item
-              href="/account"
-              v-if="currentLoggedIn === true"
-            >Ustawienia konta</b-dropdown-item>
-            <b-dropdown-item
-              href="/login"
-              v-if="currentLoggedIn === false"
-            >Zaloguj się</b-dropdown-item>
-            <b-dropdown-item
-              href
-              v-if=" currentLoggedIn === true"
-              @click.prevent="logOut"
-            >Wyloguj się</b-dropdown-item>
-          </b-nav-item-dropdown>
+          <b-navbar-nav right>
+            <router-link to="/login" v-if="currentLoggedIn === false" class="nav-link">Zaloguj się</router-link>
+          </b-navbar-nav>
+          <b-navbar-nav right>
+            <router-link to="/account" v-if="currentLoggedIn === true" class="nav-link">Ustawienia konta</router-link>
+          </b-navbar-nav>
+          <b-navbar-nav right>
+            <router-link to="/" @click.native.prevent="logOut" v-if="currentLoggedIn === true" class="nav-link">Wyloguj się</router-link>
+          </b-navbar-nav>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
@@ -82,6 +64,5 @@ export default {
 body {
   margin: 0;
   padding: 0;
-  background: repeat fixed center;
 }
 </style>

@@ -24,6 +24,8 @@
         </div>
         <p class="error" v-if="errorMessage != ''">{{ errorMessage }}</p>
         <hr />
+        <b-link href="/Register">Nie masz konta? Zarejestruj się!</b-link>
+        <hr />
         <div class="button">
           <button class="btn btn-primary btn-block" type="submit">Login</button>
         </div>
