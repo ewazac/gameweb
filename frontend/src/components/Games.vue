@@ -207,4 +207,11 @@ export default {
   -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
   box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.3);
 }
+.btn-secondary {
+  background-color: #de1e47;
+}
+.btn-secondary:hover {
+  opacity: 0.9;
+}
+
 </style>

@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <b-form @submit.prevent="handleReview">
-        <h2 style="margin-top:1rem;">Dodaj recenzje</h2>
-        <b-container style="max-width:60%" fluid>
+        <h1 style="margin-top:1rem;">Dodaj recenzję</h1>
+        <b-container style="max-width:60%;" fluid>
             <b-row cols="2">
                 <b-col sm="3">
                     <label>Podaj tytuł gry: </label>
@@ -105,7 +105,6 @@ export default {
           .validate()
           .then((isValid) => {
             if (isValid) {
-                console.log(this.review.title, this.review.description, this.review.game, this.review.stars)
                 AXIOS.post('reviews', {
                     title: this.review.title,
                     description: this.review.description,
@@ -148,7 +147,7 @@ export default {
 
 .container-fluid {
     border: solid gainsboro;
-    border-width: 0 0 2px 1px;
+    border-width: 1px 0 2px 1px;
     -moz-border-radius: 2px;
     -webkit-border-radius: 2px;
     border-radius: 2px;
@@ -165,6 +164,12 @@ export default {
 .col-sm-3, .col-sm-9, .col-sm-4, .col-sm-5, .col-sm-7 {
     text-align: left;
     margin-top: 1rem;
+}
+
+.btn-warning {
+    color: #ffffff;
+    background-color: #cc274b;
+    border-color: #a2222e;
 }
 
 </style>

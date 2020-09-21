@@ -6,9 +6,9 @@
                 <b-img class="gameImage" :src="getImage(game.gameImage)" :alt='game.name'> </b-img>
             </b-row>
             <b-row>
-                <b-col sm='3'></b-col>
-                <b-col sm='6'> <p class="description"> {{ game.description }} </p> </b-col>
-                <b-col sm='3'></b-col>
+                <b-col sm='1'></b-col>
+                <b-col sm='9'> <p class="description"> {{ game.description }} </p> </b-col>
+                <b-col sm='2'></b-col>
             </b-row>
         </b-container>
         <h2> Recenzje </h2>
@@ -16,7 +16,7 @@
         <b-container v-if="success">
             <b-row cols='1' v-for="review in reviews" :key="review.id">
                 <b-col> <h3>{{ review.title.toUpperCase() }}</h3> </b-col>
-                <b-col> 
+                <b-col>
                     <b-form-rating id="rating" :value="review.stars" inline disabled></b-form-rating>
                 </b-col>
                 <b-col> <p class="description">{{ review.description }}</p> </b-col>
@@ -27,7 +27,7 @@
 
 <script>
 import {AXIOS} from '../http-commons'
-import Game from "../models/game";
+import Game from "../models/game"
 import Review from '../models/review'
 
 export default {
@@ -78,14 +78,16 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-    background-color: snow;
+    background-color: #d6d6d6;
 }
 .gameDetails {
+    padding: 1rem;
     min-height: 30rem;
 }
 .disabled {
     background-color: white;
     color: indianred;
+    border-color: indianred;
 }
 .gameImage {
     min-width: 150px;
@@ -93,12 +95,14 @@ export default {
     max-width: 250px;
     max-height: 250px;
 }
-
+h1 {
+    color: #d62b4c;
+}
 .description {
     padding: 1rem;
     font-size: 1.2rem;
     font-weight: 350;
     line-height: 1.6;
-    text-align: center;
+    text-align: left;
 }
 </style>

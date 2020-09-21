@@ -2,38 +2,33 @@
   <div class="wrapper">
     <b-navbar toggleable="lg" type="dark" variant="dark">
       <b-collapse id="nav-collapse" is-nav>
-        <b-navbar-nav>
-          <router-link to="/Games" class="nav-link">
-          <b-icon icon="house-door-fill" class="border rounded"></b-icon>Gry</router-link>
-        </b-navbar-nav>
-        <b-navbar-nav>
-          <router-link to="/Review" v-if="currentLoggedIn === true" class="nav-link">
-          <b-icon icon="filter-square" aria-hidden="review"></b-icon>Dodaj recenzje</router-link>
-        </b-navbar-nav>
-        <b-navbar-nav>
-          <router-link to="/NewGame" v-if="currentLoggedIn === true" class="nav-link">
-          <b-icon icon="controller" aria-hidden="game"></b-icon>Dodaj grę</router-link>
-        </b-navbar-nav>
-        <!--
-        <b-navbar-nav class="ml-auto">
-          <b-navbar-brand class="navbar-brand">
-              <img class="w-25" src="./assets/logo.png" alt="GameWeb" />
-          </b-navbar-brand>
-        </b-navbar-nav>-->
-        <b-navbar-nav class="ml-auto">
-          <b-navbar-nav right>
-            <router-link to="/login" v-if="currentLoggedIn === false" class="nav-link">
-            <b-icon icon="person" aria-hidden="login"></b-icon>Zaloguj się</router-link>
-          </b-navbar-nav>
-          <b-navbar-nav right>
-            <router-link to="/account" v-if="currentLoggedIn === true" class="nav-link">
-            <b-icon icon="gear-fill" aria-hidden="settings"></b-icon>Ustawienia konta</router-link>
-          </b-navbar-nav>
-          <b-navbar-nav right>
-            <router-link to="/" @click.native.prevent="logOut" v-if="currentLoggedIn === true" class="nav-link">
-            <b-icon icon="power" aria-hidden="true"></b-icon>Wyloguj się</router-link>
-          </b-navbar-nav>
-        </b-navbar-nav>
+            <b-navbar-nav left>
+              <router-link to="/Games" class="nav-link">
+              <b-icon icon="house-door-fill"></b-icon>Gry</router-link>
+            </b-navbar-nav>
+            <b-navbar-nav left> 
+              <router-link to="/Review" v-if="currentLoggedIn === true" class="nav-link">
+              <b-icon icon="filter-square" aria-hidden="review"></b-icon>Dodaj recenzję</router-link>
+            </b-navbar-nav>
+            <b-navbar-nav left>
+              <router-link to="/NewGame" v-if="currentLoggedIn === true" class="nav-link">
+              <b-icon icon="controller" aria-hidden="game"></b-icon>Dodaj grę</router-link>
+            </b-navbar-nav>
+            <b-navbar-nav class="m-auto" center>
+                <img class="GameWeb" src="./assets/logo.png" alt="GameWeb" />
+            </b-navbar-nav>
+              <b-navbar-nav right>
+                <router-link to="/login" v-if="currentLoggedIn === false" class="nav-link">
+                <b-icon icon="person" aria-hidden="login"></b-icon>Zaloguj się</router-link>
+              </b-navbar-nav>
+              <b-navbar-nav right>
+                <router-link to="/account" v-if="currentLoggedIn === true" class="nav-link">
+                <b-icon icon="gear-fill" aria-hidden="settings"></b-icon>Ustawienia konta</router-link>
+              </b-navbar-nav>
+              <b-navbar-nav right>
+                <router-link to="/" @click.native.prevent="logOut" v-if="currentLoggedIn === true" class="nav-link">
+                <b-icon icon="power" aria-hidden="true"></b-icon>Wyloguj się</router-link>
+              </b-navbar-nav>
       </b-collapse>
     </b-navbar>
     <div class="rest">
@@ -58,6 +53,7 @@ export default {
     logOut() {
       this.$store.dispatch("auth/logout");
       this.$router.push("/login");
+
     },
   },
 };
@@ -68,4 +64,16 @@ body {
   margin: 0;
   padding: 0;
 }
+.GameWeb {
+  height: 100%;
+  width: 150px;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  color: #de1e47;
+  font-weight: 550;
+  font-size: 1.3rem;
+}
+
+
 </style>
