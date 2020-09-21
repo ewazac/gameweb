@@ -35,7 +35,7 @@
           <textarea
             rows="5"
             v-model="game.description"
-            v-validate="'required|min:50|max:1000'"
+            v-validate="'required|min:50'"
             type="description"
             class="form-control"
             placeholder="Krótki opis"

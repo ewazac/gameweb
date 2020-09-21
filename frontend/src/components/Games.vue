@@ -41,7 +41,8 @@
               :img-src="getImage(item.gameImage)"
               img-top
             >
-              <b-card-text v-if="item.description">{{ item.description.slice(0,150) }}</b-card-text>
+              <b-card-text v-if="item.description">{{ item.description.slice(0,150) }}...</b-card-text>
+              <b-button class="mt-auto btn-primary btn-block" @click="handleDetails(item.name)"> Zobacz więcej </b-button>
             </b-card>
           </b-card-group>
         </div>
@@ -103,6 +104,10 @@ export default {
     },
   },
   methods: {
+    handleDetails(item) {
+      console.log(item)
+      this.$router.push({path:'/game', params:{game:item}, query:{game: item}});
+    },
     getImage(image) {
       if (image === null) {
         return "https://media.sproutsocial.com/uploads/2017/02/10x-featured-social-media-image-size.png";
@@ -183,6 +188,12 @@ export default {
 .card-img-top {
   width: 100%;
   height: 35%;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
 }
 
 .card {

@@ -1,17 +1,17 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+//import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 
 Vue.use(VueRouter)
 
-const routes = [
+const routes = [/*
   {
     path: '/',
     name: 'Home',
     component: Home
-  },
+  },*/
   {
     path: '/games',
     name: 'Games',
@@ -19,7 +19,7 @@ const routes = [
   },
   {
     path: '/game',
-    name: 'Game',
+    name: 'game-detail',
     component: () => import('../components/Game.vue')
   },
   {
@@ -33,6 +33,11 @@ const routes = [
     component: () => import('../components/Account.vue')
   },
   {
+    path: '/review',
+    name: 'Review',
+    component: () => import('../components/Review.vue')
+  },
+  {
     path: '/login',
     name: 'Login',
     component: Login,
@@ -44,7 +49,7 @@ const routes = [
   },
   { 
     path: '*',
-    redirect: '/',
+    redirect: '/games',
   },
 ]
 
