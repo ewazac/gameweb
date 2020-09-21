@@ -11,4 +11,6 @@ public interface ReviewRepository extends MongoRepository<Review, String> {
     List<Review> findReviewByGame(String game);
 
     List<Review> findReviewByStars(Float stars);
+
+    Review findReviewByDescription(String description);
 }
