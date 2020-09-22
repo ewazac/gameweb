@@ -57,7 +57,7 @@
           >{{ 'Brak hasła' }}</div>
         </div>
         <div class="form-group">
-          <b-button variant="info" style="width:100%;">Zarejestruj się</b-button>
+          <b-button variant="info" style="width:100%;" type="submit">Zarejestruj się</b-button>
         </div>
       </div>
     </form>
@@ -94,6 +94,7 @@ export default {
       this.occupied = '';
       this.$validator.validate().then((isValid) => {
         if (isValid) {
+          console.log(this.user)
           this.$store.dispatch("auth/register", this.user).then(
             (data) => {
               this.message = data.message;
