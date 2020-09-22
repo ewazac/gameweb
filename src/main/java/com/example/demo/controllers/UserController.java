@@ -53,39 +53,32 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    @RequestMapping(value ="/uploadAvatar", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value ="/{id}/uploadAvatar", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
-    public void addAvatar(@RequestParam("avatar") MultipartFile multipartFile) throws IOException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentUser = authentication.getName();
-        AppUser user = userRepository.findUserByEmail(currentUser);
+    public void addAvatar(@RequestParam("avatar") MultipartFile multipartFile, @PathVariable String id) throws IOException {
+        AppUser user = userRepository.findUserById(id);
         if (user != null) {
             user.setAvatar(new Binary(BsonBinarySubType.BINARY, multipartFile.getBytes()));
             userRepository.save(user);
         }
     }
 
-    @GetMapping(value = "/getAvatar")
-    public Binary getAvatar() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentUser = authentication.getName();
-        AppUser appUser = userRepository.findUserByEmail(currentUser);
+    @GetMapping(value = "/{id}/getAvatar")
+    public Binary getAvatar(@PathVariable String id) {
+        AppUser appUser = userRepository.findUserById(id);
         return appUser.getAvatar();
 
     }
 
-    @PostMapping(value = "/changePassword")
+    @PutMapping(value = "/{id}/changePassword")
     @ResponseStatus(value = HttpStatus.OK)
-    public void changePassword(@RequestParam("newpassword") String newPassword, @RequestParam("oldpassword") String oldPassword) throws InvalidOldPasswordException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentUser = authentication.getName();
-        AppUser appUser = userRepository.findUserByEmail(currentUser);
+    public void changePassword(@RequestParam("newpassword") String newPassword, @RequestParam("oldpassword") String oldPassword, @PathVariable String id) throws InvalidOldPasswordException {
+        AppUser appUser = userRepository.findUserById(id);
         if(!passwordEncoder.matches(oldPassword, appUser.getPassword())) {
             throw new InvalidOldPasswordException();
         }
         appUser.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(appUser);
-
     }
 
 

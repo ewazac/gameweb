@@ -1,31 +1,54 @@
 <template>
-  <div class="block">
-    <div class="container">
-      <div class="avatar">
-        <img class="picture" alt="avatar" :src="avatar" />
-      </div>
-      <div class="data">
-        <input class="inputPic" type="file" @change="changeImage" />
-        <p class="profileData">id: {{ currentUser.id }}</p>
-        <p class="profileData">email: {{ currentUser.email }}</p>
-        <p class="profileData">password(tymczasowo): {{ currentUser.password }}</p>
-      </div>
-      <div class="button">
-        <button @click="handleChange">Zmień</button>
-      </div>
-    </div>
+  <div class="container">
+    <b-container fluid>
+      <h1 style="text-align:center;">Zmień ustawienia konta</h1>
+      <b-row cols="2">
+        <b-col style="display:grid;">
+          <h4 class="left">Twój avatar:</h4>
+          <img class="left" alt="avatar" :src="avatar" />
+          <input class="left" type="file" @change="changeImage" />
+          <b-button class="button" @click="handleChange">Zmień avatar</b-button>
+        </b-col>
+        <b-col>
+          <h4 class="left">Twój obecny mail: {{ currentUser.email }}</h4>
+          <h5 class="left">Zmień hasło:</h5>
+          <form name='form' @submit.prevent='handleChangePass'>
+            <div class="left" style="display:inline-flex;">
+              <h6 style="min-width:10rem;">Podaj stare hasło:</h6>
+              <b-form-input name="oldPassword" class="input" type="password" v-model="oldPassword" required/>
+            </div>
+            <div class="left" style="display:inline-flex;">
+              <h6 style="min-width:10rem;">Podaj nowe hasło:</h6>
+              <b-form-input name="newPassword" class="input" type="password" v-model="newPassword" required/>
+            </div>
+            <b-button class="button" type="submit">Zmień hasło</b-button>
+            <b-alert class="left text-center" v-if="dispatched === true" show variant="success" >Hasło zostało zmienione</b-alert>
+            <b-alert class="left text-center" v-if="exist === true" show variant="danger" >Nieprawidłowe hasło</b-alert>
+          </form>
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 
+//const API_URL = 'https://gameweb21.herokuapp.com/'
+const API_URL = 'http://localhost:8086/'
+
+
 export default {
   name: "Account",
   data() {
     return {
-      avatar: '',
+      avatar: "",
+      dispatched: false,
+      exist: false,
       selectedFile: null,
+      email: "",
+      oldPassword: "",
+      newPassword: "",
     };
   },
   computed: {
@@ -34,35 +57,68 @@ export default {
     },
   },
   methods: {
+    handleChangePass() {
+      const fd = new FormData();
+      fd.append('id',this.currentUser.id)
+      fd.append('newpassword',this.newPassword)
+      fd.append('oldpassword',this.oldPassword)
+      axios.put(
+        API_URL + "users/" + this.currentUser.id + "/changePassword", fd, {withCredentials: true}
+      ).then((response)=>{
+        this.dispatched = true
+        console.log(response)
+      }).catch((error)=>{
+        console.log(error)
+        this.exist = true
+      });
+    },
     changeImage(event) {
       console.log(event);
       this.selectedFile = event.target.files[0];
     },
     handleChange() {
-      const fd = new FormData();
-      fd.append('avatar', this.selectedFile)
-      fd.append('id', this.currentUser.id)
-      axios.put('http://localhost:8086/users/' + this.currentUser.id + '/uploadAvatar', fd, {
-        withCredentials: true,
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+      if (this.selectedFile === null) {
+        this.$router.go();
       }
-      ).then(response => {
-        console.log(response);
-        this.$router.go()
-      })
-      .catch(error => {
-        console.log(error);
-      })
-    }
+      const fd = new FormData();
+      fd.append("avatar", this.selectedFile);
+      fd.append("id", this.currentUser.id);
+      axios
+        .put(
+          API_URL + "users/" +
+            this.currentUser.id +
+            "/uploadAvatar",
+          fd,
+          {
+            withCredentials: true,
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response);
+          this.$router.go();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
   mounted() {
     if (!this.currentUser) {
       this.$router.push("Login");
     }
-    console.log(this.currentUser.id)
-    axios.get("users/" + this.currentUser.id + "/getAvatar")
+    axios
+      .get(
+        API_URL + "users/" + this.currentUser.id + "/getAvatar",
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
       .then((response) => {
         let base64 = response.data.data;
         let buffer = Uint8Array.from(atob(base64), (c) => c.charCodeAt(0));
@@ -71,32 +127,35 @@ export default {
       })
       .catch((error) => {
         console.log(error);
-      })
+      });
   },
 };
 </script>
 
 
 <style lang="scss" scoped>
-
-.block {
-  margin-top: 1%;
+h5 h6 {
+  margin-top: auto;
 }
-
-.container {
-  display: grid;
-  text-align: left;
-  max-width: 70%;
+.left {
+  margin: 1rem;
 }
-.avatar {
-  display: grid;
-  justify-content: center;
+img.left {
+  height: 8rem;
+  width: 8rem;
+}
+.btn {
+  width: 5rem;
+}
+.input {
+  margin-left: 1rem;
+  max-width: 15rem;
+}
+.col {
+  padding: 1rem;
 }
 .button {
-  text-align: center;
-  margin-top: 10px;
-}
-.profileData {
-  margin-top: 10px;
+  margin: 1rem;
+  width: 15rem;
 }
 </style>

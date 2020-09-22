@@ -1,10 +1,10 @@
 <template>
   <div class="reg">
     <form class="register" name="form" @submit.prevent="handleRegister">
-      <h1>Rejestracja</h1>
+      <h1 style="margin-bottom:1rem;">Rejestracja</h1>
       <div v-if="!successful">
         <div class="form-group">
-          <input
+          <b-form-input
             v-model="user.username"
             v-validate="'required|email|max:50'"
             type="username"
@@ -22,17 +22,17 @@
           >{{ 'Niepoprawny email' }}</div>
         </div>
         <div class="form-group">
-          <input
+          <b-form-input
             v-model="user.firstName"
             v-validate="'max:50'"
             type="firstName"
             class="form-control"
-            placeholder="imie"
+            placeholder="Imię"
             name="firstName"
           />
         </div>
         <div class="form-group">
-          <input
+          <b-form-input
             v-model="user.lastName"
             v-validate="'max:50'"
             type="lastName"
@@ -42,13 +42,13 @@
           />
         </div>
         <div class="form-group">
-          <input
+          <b-form-input
             v-model="user.password"
             v-validate="'required|min:4|max:40'"
             type="password"
             class="form-control"
             name="password"
-            placeholder="Password"
+            placeholder="Hasło"
             autocomplete="on"
           />
           <div
@@ -57,7 +57,7 @@
           >{{ 'Brak hasła' }}</div>
         </div>
         <div class="form-group">
-          <button class="btn btn-primary btn-block">Sign Up</button>
+          <b-button variant="info" style="width:100%;" type="submit">Zarejestruj się</b-button>
         </div>
       </div>
     </form>
@@ -94,6 +94,7 @@ export default {
       this.occupied = '';
       this.$validator.validate().then((isValid) => {
         if (isValid) {
+          console.log(this.user)
           this.$store.dispatch("auth/register", this.user).then(
             (data) => {
               this.message = data.message;
@@ -124,7 +125,7 @@ export default {
 }
 
 .register {
-  max-width: 450px !important;
+  width: 30%;
   background-color: #f7f7f7;
   padding: 20px 25px 30px;
   margin: 0 auto 25px;
@@ -135,11 +136,6 @@ export default {
   -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
   -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-}
-.button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .form-group {

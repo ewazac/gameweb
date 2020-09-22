@@ -2,9 +2,9 @@
   <div class="log">
     <form class="login" @submit.prevent="handleLogin">
       <div class="form">
-        <h1>Logowanie</h1>
+        <h1 style="margin-bottom:1rem;">Logowanie</h1>
         <div class="form-group">
-          <input
+          <b-form-input
             required
             v-model="user.username"
             name="username"
@@ -13,7 +13,7 @@
           />
         </div>
         <div class="form-group">
-          <input
+          <b-form-input
             required
             v-model="user.password"
             name="password"
@@ -27,7 +27,7 @@
         <b-link href="/Register">Nie masz konta? Zarejestruj się!</b-link>
         <hr />
         <div class="button">
-          <button class="btn btn-primary btn-block" type="submit">Login</button>
+          <b-button style="width:100%" variant="info" type="submit">Login</b-button>
         </div>
       </div>
     </form>
@@ -69,7 +69,7 @@ export default {
         if (this.user.username && this.user.password) {
           this.$store.dispatch("auth/login", this.user).then(
             () => {
-              this.$router.push("/account");
+              this.$router.push("/games");
             },
             (error) => {
               this.errorMessage = "Niepoprawne hasło lub login";
@@ -94,7 +94,7 @@ export default {
 }
 
 .login {
-  max-width: 450px !important;
+  width: 30%;
   background-color: #f7f7f7;
   padding: 20px 25px 30px;
   margin: 0 auto 25px;

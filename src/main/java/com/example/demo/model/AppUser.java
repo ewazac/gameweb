@@ -41,6 +41,8 @@ public class AppUser {
         this.password = password;
     }
 
+    public List<String> getRole() { return roles;}
+
 
 }
 

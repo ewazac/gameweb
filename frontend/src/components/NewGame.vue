@@ -1,7 +1,7 @@
 <template>
   <div class="newgame">
     <div class="form">
-      <h1 class="h1">Dodaj gre</h1>
+      <h1 class="h1">Dodaj grę</h1>
       <form class="game" @submit.prevent="handleGame">
         <div class="form-group">
           <label>Podaj nazwę gry</label>
@@ -134,12 +134,30 @@ export default {
 <style lang="scss" scoped>
 .h1 {
   text-align: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 .newgame {
   display: grid;
   justify-content: center;
 }
 .form {
-  width: 400px;
+  width: 450px;
+}
+.game {
+  padding: 1rem;
+  border: solid gainsboro;
+    border-width: 1px 0 2px 1px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.3);
+}
+.btn-primary {
+    color: #ffffff;
+    background-color: #cc274b;
+    border-color: #a2222e;
 }
 </style>
