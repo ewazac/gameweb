@@ -34,8 +34,8 @@
 <script>
 import axios from "axios";
 
-const API_URL = 'https://gameweb21.herokuapp.com/'
-//const API_URL = 'http://localhost:8086/'
+//const API_URL = 'https://gameweb21.herokuapp.com/'
+const API_URL = 'http://localhost:8086/'
 
 
 export default {
