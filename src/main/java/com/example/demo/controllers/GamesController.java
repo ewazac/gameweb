@@ -72,9 +72,6 @@ public class GamesController {
     } //returns list of all games
 
 
-
-
-
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public void exceptionHandler(GameFoundException gameFoundException) {log.info("brak gry");}

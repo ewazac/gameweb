@@ -1,5 +1,5 @@
 module.exports = {
    devServer: {
-    proxy: 'http://localhost:8086',
+    proxy: 'https://gameweb21.herokuapp.com/',
    },
 }
