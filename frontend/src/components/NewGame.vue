@@ -52,7 +52,7 @@
         <div class="form-group">
           <button class="btn btn-primary btn-block" @click="handleAdding">Dodaj gre</button>
         </div>
-        <b-alert v-if="dispatched === true" show variant="success" class="text-center">Gra została dodana pomyslnie</b-alert>
+        <b-alert v-if="dispatched === true" show variant="success" class="text-center">Gra została dodana pomyślnie</b-alert>
         <b-alert v-if="exist === true" show variant="danger" class="text-center">Ta gra została już dodana</b-alert>
       </form>
     </div>
@@ -72,7 +72,7 @@ export default {
       message: "",
       exist: false,
       dispatched: false,
-      options: ["Zręcznościowa", "Wyścigowa", "Strategiczna", 'Akcja','Sportowa','Przygodowa','Karciana'],
+      options: ["Zręcznościowa", "Wyścigowa", "Strategiczna", 'Akcja','Sportowa','Przygodowa','Karciana','Łamigłówka'],
       game: {
         name: "",
         category: "",
