@@ -34,6 +34,10 @@
 <script>
 import axios from "axios";
 
+//const API_URL = 'https://gameweb21.herokuapp.com/'
+const API_URL = 'http://localhost:8086/'
+
+
 export default {
   name: "Account",
   data() {
@@ -54,13 +58,12 @@ export default {
   },
   methods: {
     handleChangePass() {
-      axios.post(
-        "http://localhost:8086/users/" + this.currentUser.id + "/changePassword",
-        {
-          id: this.currentUser.id,
-          newpassword: this.newPassword,
-          oldPassword: this.oldPassword,
-        }
+      const fd = new FormData();
+      fd.append('id',this.currentUser.id)
+      fd.append('newpassword',this.newPassword)
+      fd.append('oldpassword',this.oldPassword)
+      axios.put(
+        API_URL + "users/" + this.currentUser.id + "/changePassword", fd, {withCredentials: true}
       ).then((response)=>{
         this.dispatched = true
         console.log(response)
@@ -82,7 +85,7 @@ export default {
       fd.append("id", this.currentUser.id);
       axios
         .put(
-          "http://localhost:8086/users/" +
+          API_URL + "users/" +
             this.currentUser.id +
             "/uploadAvatar",
           fd,
@@ -108,7 +111,7 @@ export default {
     }
     axios
       .get(
-        "http://localhost:8086/users/" + this.currentUser.id + "/getAvatar",
+        API_URL + "users/" + this.currentUser.id + "/getAvatar",
         {
           withCredentials: true,
           headers: {
