@@ -46,10 +46,10 @@ public class UserController {
         userRepository.save(user);
     }
 
-    @GetMapping
-    public List<AppUser> getUsers() {
-        return userRepository.findAll();
-    }
+//    @GetMapping
+//    public List<AppUser> getUsers() {
+//        return userRepository.findAll();
+//    }
 
     @RequestMapping(value ="/uploadAvatar", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
@@ -89,14 +89,12 @@ public class UserController {
     }
 
 
-    @GetMapping(value = "/profile")
+    @GetMapping
     public AppUser getUser() {
-
         UserDetails userDetails =
                 (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();  //getting user from session
         userDetails.getUsername();
         return userRepository.findUserByEmail(userDetails.getUsername());
-
     }
 
 
