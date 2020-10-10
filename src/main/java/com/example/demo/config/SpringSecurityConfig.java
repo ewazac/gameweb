@@ -3,6 +3,7 @@ package com.example.demo.config;
 import com.example.demo.services.MongoUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,22 +23,23 @@ import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
+
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    // Secure the endpoins with HTTP Basic authentication
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable();
 
         http
-        //HTTP Basic authentication
                 .httpBasic()
                 .and()
                 .authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/users").permitAll()
+                .antMatchers(HttpMethod.POST, "/users/**").hasRole("USER")
                 .antMatchers(HttpMethod.GET, "/users/**").hasRole("USER")
                 .antMatchers(HttpMethod.PUT, "/users/**").hasRole("USER")
-                .antMatchers(HttpMethod.POST, "/users").permitAll()
+                .anyRequest().authenticated()
                 .and()
-                .csrf().disable()
                 .formLogin().disable();
     }
 

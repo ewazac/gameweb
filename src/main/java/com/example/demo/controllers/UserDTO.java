@@ -15,7 +15,6 @@ public class UserDTO {  //data transport object
     @Email
     @NotBlank
     public String email;
-    public String username;
     public String password;
 
 }

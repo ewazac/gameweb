@@ -19,9 +19,10 @@ import java.io.IOException;
 import java.util.*;
 
 
-@RequestMapping("/users")
+
 @AllArgsConstructor
 @CorsRestController
+@RequestMapping("/users")
 @Slf4j
 public class UserController {
 
@@ -29,7 +30,7 @@ public class UserController {
     PasswordEncoder passwordEncoder;
 
 
-    @PostMapping
+    @PostMapping()
     @ResponseStatus(value = HttpStatus.CREATED)
     public void createUser(@Valid @RequestBody UserDTO userDTO) throws UserFoundException {
         AppUser appUser = userRepository.findUserByEmail(userDTO.getEmail());
@@ -89,7 +90,7 @@ public class UserController {
     }
 
 
-    @GetMapping
+    @GetMapping()
     public AppUser getUser() {
         UserDetails userDetails =
                 (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();  //getting user from session
