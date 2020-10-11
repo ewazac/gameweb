@@ -16,13 +16,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @Component
-@Service
 @Slf4j
 public class MongoUserDetailsService implements UserDetailsService {
 
 
     @Autowired
-    UserRepository repository;
+    private UserRepository repository;
 
 
     @Override

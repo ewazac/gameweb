@@ -8,6 +8,7 @@ import org.bson.BsonBinarySubType;
 import org.bson.types.Binary;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,8 +27,8 @@ import java.util.*;
 @Slf4j
 public class UserController {
 
-    UserRepository userRepository;
-    PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
 
     @PostMapping()
@@ -46,11 +47,6 @@ public class UserController {
                 .id(UUID.randomUUID().toString()).build();
         userRepository.save(user);
     }
-
-//    @GetMapping
-//    public List<AppUser> getUsers() {
-//        return userRepository.findAll();
-//    }
 
     @RequestMapping(value ="/uploadAvatar", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
@@ -94,7 +90,6 @@ public class UserController {
     public AppUser getUser() {
         UserDetails userDetails =
                 (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();  //getting user from session
-        userDetails.getUsername();
         return userRepository.findUserByEmail(userDetails.getUsername());
     }
 

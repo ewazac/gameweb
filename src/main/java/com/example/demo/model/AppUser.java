@@ -43,6 +43,10 @@ public class AppUser {
 
     public List<String> getRole() { return roles;}
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
 
 }
 

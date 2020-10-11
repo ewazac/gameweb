@@ -1,12 +1,16 @@
 package com.example.demo.config;
 
 import com.example.demo.services.MongoUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
@@ -22,26 +26,28 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import java.util.Arrays;
 
 @Configuration
-@EnableWebSecurity
-
+@EnableWebSecurity()
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
+
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
+    protected void configure(final HttpSecurity http) throws Exception {
 
         http
-                .httpBasic()
-                .and()
+                .csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/users").permitAll()
-                .antMatchers(HttpMethod.POST, "/users/**").hasRole("USER")
-                .antMatchers(HttpMethod.GET, "/users/**").hasRole("USER")
-                .antMatchers(HttpMethod.PUT, "/users/**").hasRole("USER")
-                //.anyRequest().authenticated()
+                .antMatchers( "/users/**").hasRole("USER")
+                .and()
+                .httpBasic()
                 .and()
                 .formLogin().disable();
     }
+
+    @Override
+    public void configure(WebSecurity webSecurity) throws Exception {
+        webSecurity.ignoring().antMatchers(HttpMethod.POST, "/users");
+    }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
