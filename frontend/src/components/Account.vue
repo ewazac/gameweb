@@ -42,6 +42,7 @@ export default {
   name: "Account",
   data() {
     return {
+      currentUser: JSON.parse(localStorage.getItem('user')),
       avatar: "",
       dispatched: false,
       exist: false,
@@ -50,12 +51,12 @@ export default {
       oldPassword: "",
       newPassword: "",
     };
-  },
+  },/*
   computed: {
     currentUser() {
       return this.$store.state.auth.user;
     },
-  },
+  },*/
   methods: {
     handleChangePass() {
       const fd = new FormData();
@@ -63,7 +64,7 @@ export default {
       fd.append('newpassword',this.newPassword)
       fd.append('oldpassword',this.oldPassword)
       axios.put(
-        API_URL + "users/" + this.currentUser.id + "/changePassword", fd, {withCredentials: true}
+        API_URL + "users/changePassword", fd, {withCredentials: true}
       ).then((response)=>{
         this.dispatched = true
         console.log(response)
@@ -85,9 +86,7 @@ export default {
       fd.append("id", this.currentUser.id);
       axios
         .put(
-          API_URL + "users/" +
-            this.currentUser.id +
-            "/uploadAvatar",
+          API_URL + "users/uploadAvatar",
           fd,
           {
             withCredentials: true,
@@ -109,9 +108,8 @@ export default {
     if (!this.currentUser) {
       this.$router.push("Login");
     }
-    axios
-      .get(
-        API_URL + "users/" + this.currentUser.id + "/getAvatar",
+    axios.get(
+        API_URL + "users/getAvatar",
         {
           withCredentials: true,
           headers: {

@@ -40,7 +40,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .httpBasic()
                 .and()
-                .formLogin().disable();
+                .formLogin().disable()
+                .cors();
     }
 
     @Override

@@ -6,25 +6,17 @@ const API_URL = 'http://localhost:8086/users';
 class AuthService {
   login(user) {
     return axios.get(API_URL, {
-        withCredentials: false,
+        withCredentials: true,
         auth: {
           username: user.username,
           password: user.password
         }
       })
       .then(response => {
-        var data;
-        for (let i=0; i<response.data.length ; ++i) {
-          let value = response.data[i]
-          if (value.email == user.username) {
-            data = value
-            break;
-          }
+        if (response) {
+          localStorage.setItem('user', JSON.stringify(response.data));
         }
-        if (data) {
-          localStorage.setItem('user', JSON.stringify(data));
-        }
-        return data;
+        return response;
       })
   }
 
