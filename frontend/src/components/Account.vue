@@ -1,9 +1,9 @@
 <template>
   <div class="container">
     <b-container fluid>
-      <h1 style="text-align:center;">Zmień ustawienia konta</h1>
+      <h1 style="text-align: center">Zmień ustawienia konta</h1>
       <b-row cols="2">
-        <b-col style="display:grid;">
+        <b-col style="display: grid">
           <h4 class="left">Twój avatar:</h4>
           <img class="left" alt="avatar" :src="avatar" />
           <input class="left" type="file" @change="changeImage" />
@@ -12,18 +12,42 @@
         <b-col>
           <h4 class="left">Twój obecny mail: {{ currentUser.email }}</h4>
           <h5 class="left">Zmień hasło:</h5>
-          <form name='form' @submit.prevent='handleChangePass'>
-            <div class="left" style="display:inline-flex;">
-              <h6 style="min-width:10rem;">Podaj stare hasło:</h6>
-              <b-form-input name="oldPassword" class="input" type="password" v-model="oldPassword" required/>
+          <form name="form" @submit.prevent="handleChangePass">
+            <div class="left" style="display: inline-flex">
+              <h6 style="min-width: 10rem">Podaj stare hasło:</h6>
+              <b-form-input
+                name="oldPassword"
+                class="input"
+                type="password"
+                v-model="oldPassword"
+                required
+              />
             </div>
-            <div class="left" style="display:inline-flex;">
-              <h6 style="min-width:10rem;">Podaj nowe hasło:</h6>
-              <b-form-input name="newPassword" class="input" type="password" v-model="newPassword" required/>
+            <div class="left" style="display: inline-flex">
+              <h6 style="min-width: 10rem">Podaj nowe hasło:</h6>
+              <b-form-input
+                name="newPassword"
+                class="input"
+                type="password"
+                v-model="newPassword"
+                required
+              />
             </div>
             <b-button class="button" type="submit">Zmień hasło</b-button>
-            <b-alert class="left text-center" v-if="dispatched === true" show variant="success" >Hasło zostało zmienione</b-alert>
-            <b-alert class="left text-center" v-if="exist === true" show variant="danger" >Nieprawidłowe hasło</b-alert>
+            <b-alert
+              class="left text-center"
+              v-if="dispatched === true"
+              show
+              variant="success"
+              >Hasło zostało zmienione</b-alert
+            >
+            <b-alert
+              class="left text-center"
+              v-if="exist === true"
+              show
+              variant="danger"
+              >Nieprawidłowe hasło</b-alert
+            >
           </form>
         </b-col>
       </b-row>
@@ -34,15 +58,14 @@
 <script>
 import axios from "axios";
 
-const API_URL = 'https://gameweb21.herokuapp.com/'
-//const API_URL = 'http://localhost:8086/'
-
+const API_URL = "https://gameweb21.herokuapp.com/";
+//const API_URL = "http://localhost:8086/";
 
 export default {
   name: "Account",
   data() {
     return {
-      currentUser: JSON.parse(localStorage.getItem('user')),
+      currentUser: JSON.parse(localStorage.getItem("user")),
       avatar: "",
       dispatched: false,
       exist: false,
@@ -51,27 +74,28 @@ export default {
       oldPassword: "",
       newPassword: "",
     };
-  },/*
+  } /*
   computed: {
     currentUser() {
       return this.$store.state.auth.user;
     },
-  },*/
+  },*/,
   methods: {
     handleChangePass() {
       const fd = new FormData();
-      fd.append('id',this.currentUser.id)
-      fd.append('newpassword',this.newPassword)
-      fd.append('oldpassword',this.oldPassword)
-      axios.put(
-        API_URL + "users/changePassword", fd, {withCredentials: true}
-      ).then((response)=>{
-        this.dispatched = true
-        console.log(response)
-      }).catch((error)=>{
-        console.log(error)
-        this.exist = true
-      });
+      fd.append("id", this.currentUser.id);
+      fd.append("newpassword", this.newPassword);
+      fd.append("oldpassword", this.oldPassword);
+      axios
+        .put(API_URL + "users/changePassword", fd, { withCredentials: true })
+        .then((response) => {
+          this.dispatched = true;
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+          this.exist = true;
+        });
     },
     changeImage(event) {
       console.log(event);
@@ -85,16 +109,12 @@ export default {
       fd.append("avatar", this.selectedFile);
       fd.append("id", this.currentUser.id);
       axios
-        .put(
-          API_URL + "users/uploadAvatar",
-          fd,
-          {
-            withCredentials: true,
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        )
+        .put(API_URL + "users/uploadAvatar", fd, {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
         .then((response) => {
           console.log(response);
           this.$router.go();
@@ -108,15 +128,13 @@ export default {
     if (!this.currentUser) {
       this.$router.push("Login");
     }
-    axios.get(
-        API_URL + "users/getAvatar",
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      )
+    axios
+      .get(API_URL + "users/getAvatar", {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then((response) => {
         let base64 = response.data.data;
         let buffer = Uint8Array.from(atob(base64), (c) => c.charCodeAt(0));

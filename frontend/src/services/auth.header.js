@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 //const API_URL = 'http://localhost:8086/users';
-const API_URL = 'https://gameweb21.herokuapp.com/'
+const API_URL = 'https://gameweb21.herokuapp.com/users'
 
 class AuthService {
   login(user) {
