@@ -65,11 +65,10 @@ export default {
           this.loading = false;
           return;
         }
-
         if (this.user.username && this.user.password) {
           this.$store.dispatch("auth/login", this.user).then(
             () => {
-              this.$router.push("/games");
+              this.$router.push("/account");
             },
             (error) => {
               this.errorMessage = "Niepoprawne hasło lub login";
