@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
     @Target({ElementType.TYPE})
     @Retention(RetentionPolicy.RUNTIME)
     @RestController
-    @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
+    @CrossOrigin()
     public @interface CorsRestController {
 
         String value() default "";

@@ -34,14 +34,14 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final HttpSecurity http) throws Exception {
 
         http
+                .cors().and()
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers( "/users/**").hasRole("USER")
                 .and()
                 .httpBasic()
                 .and()
-                .formLogin().disable()
-                .cors();
+                .formLogin().disable();
     }
 
     @Override

@@ -13,7 +13,7 @@
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint",
     "postinstall": "npm run build",
-    "start": "node server.js"
+    "start": "http-server dist/ -d false -g"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.30",
@@ -24,6 +24,7 @@
     "bootstrap-vue": "^2.17.1",
     "core-js": "^3.6.5",
     "express": "^4.17.1",
+    "http-server": "^0.12.3",
     "jquery": "^3.5.1",
     "popper.js": "^1.16.1",
     "vee-validate": "^2.2.15",
