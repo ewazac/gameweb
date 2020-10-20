@@ -121,7 +121,7 @@ export default {
       AXIOS.post('games/uploadGameImage', fd
       ).then(response => {
         console.log(response);
-        this.$router.go()
+        //this.$router.go()
       })
       .catch(error => {
         console.log(error);
