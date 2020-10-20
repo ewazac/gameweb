@@ -2,8 +2,10 @@ package com.example.demo.controllers;
 
 import com.example.demo.model.Review;
 import com.example.demo.model.ReviewRepository;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.*;
 import org.springframework.http.HttpStatus;
@@ -54,7 +56,8 @@ public class ReviewController {
     public List<Review> getRanking() {
 
 
-        Aggregation aggregation = newAggregation(group("game").avg("stars").as("stars"), project("stars").and("game").previousOperation());
+
+        Aggregation aggregation = newAggregation(group("game").avg("stars").as("stars"), project("stars").and("game").previousOperation(), sort(Sort.Direction.DESC, "stars"));
         AggregationResults<Review> results = mongoTemplate.aggregate(aggregation, "reviews", Review.class);
         List<Review> finalResult = results.getMappedResults();
         return finalResult;
@@ -63,24 +66,6 @@ public class ReviewController {
 
 
 //Arrays.asList(group("$game", avg("avg", "$stars")))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
