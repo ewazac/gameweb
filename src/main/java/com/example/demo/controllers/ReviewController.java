@@ -1,19 +1,20 @@
 package com.example.demo.controllers;
 
-
-import com.example.demo.model.AppUser;
-import com.example.demo.model.Game;
 import com.example.demo.model.Review;
 import com.example.demo.model.ReviewRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.*;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
+
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
+
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
+
 
 @RestController
 @AllArgsConstructor
@@ -21,6 +22,8 @@ import java.util.UUID;
 public class ReviewController {
 
     ReviewRepository reviewRepository;
+    @Autowired
+    MongoTemplate mongoTemplate;
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
@@ -45,6 +48,34 @@ public class ReviewController {
     public List<Review> getReviewsByStars(@PathVariable Float stars) {
         return reviewRepository.findReviewByStars(stars);
     }
+
+    @GetMapping(value = "/ranking")
+    public List<Review> getRanking() {
+
+
+        Aggregation aggregation = newAggregation(group("game").avg("stars").as("stars"), project("stars").and("game").previousOperation());
+        AggregationResults<Review> results = mongoTemplate.aggregate(aggregation, "reviews", Review.class);
+        List<Review> finalResult = results.getMappedResults();
+        return finalResult;
+
+    }
+
+
+//Arrays.asList(group("$game", avg("avg", "$stars")))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

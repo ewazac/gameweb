@@ -1,8 +1,11 @@
 package com.example.demo.model;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 
 import java.util.List;
+
+import static com.mongodb.client.model.Filters.where;
 
 public interface ReviewRepository extends MongoRepository<Review, String> {
 
@@ -13,4 +16,11 @@ public interface ReviewRepository extends MongoRepository<Review, String> {
     List<Review> findReviewByStars(Float stars);
 
     Review findReviewByDescription(String description);
+
+    List findByGameOrderByStarsDesc(String game);
+
+
+
+
+
 }
