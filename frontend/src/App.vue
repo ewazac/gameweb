@@ -64,16 +64,25 @@ body {
   margin: 0;
   padding: 0;
 }
+
+.navbar {
+    height: 108px;
+    background-color: #b42230 !important;
+}
+
 .GameWeb {
   height: 100%;
   width: 150px;
 }
 
 .navbar-dark .navbar-nav .nav-link {
-  color: #de1e47;
+  color: #fff;
   font-weight: 550;
   font-size: 1.3rem;
+
+  &:hover{
+      color: #fff;
+      opacity: 0.9;
+  }
 }
-
-
 </style>
