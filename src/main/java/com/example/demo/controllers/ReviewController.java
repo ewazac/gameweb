@@ -2,36 +2,26 @@ package com.example.demo.controllers;
 
 import com.example.demo.model.Review;
 import com.example.demo.model.ReviewRepository;
-import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.model.Accumulators;
-import com.mongodb.client.model.Aggregates;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
-import org.apache.catalina.valves.rewrite.RewriteCond;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.*;
-import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import javax.management.Query;
-import javax.swing.text.Document;
 import javax.validation.Valid;
-import java.lang.reflect.Array;
-import java.util.Arrays;
+
 import java.util.List;
 import java.util.UUID;
 
-import static com.mongodb.client.model.Accumulators.avg;
-import static java.util.Collections.sort;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
-import static org.springframework.data.mongodb.core.query.Criteria.where;
+
 
 @RestController
 @AllArgsConstructor
 @RequestMapping("/reviews")
+@CrossOrigin(origins = {"https://gameweb2.herokuapp.com","http://localhost:4200"}, allowCredentials = "true")
 public class ReviewController {
 
     ReviewRepository reviewRepository;
@@ -66,34 +56,16 @@ public class ReviewController {
     public List<Review> getRanking() {
 
 
-        Aggregation aggregation = newAggregation(group("game").avg("stars").as("average"), project("average").and("game").previousOperation());
+
+        Aggregation aggregation = newAggregation(group("game").avg("stars").as("stars"), project("stars").and("game").previousOperation(), sort(Sort.Direction.DESC, "stars"));
         AggregationResults<Review> results = mongoTemplate.aggregate(aggregation, "reviews", Review.class);
         List<Review> finalResult = results.getMappedResults();
         return finalResult;
 
     }
-      /*
-
-Arrays.asList(group("$game", avg("avg", "$stars")))
- */
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//Arrays.asList(group("$game", avg("avg", "$stars")))
 
 
 

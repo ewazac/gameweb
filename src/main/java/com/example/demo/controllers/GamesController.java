@@ -23,6 +23,7 @@ import java.util.List;
 @RequestMapping("/games")
 @AllArgsConstructor
 @Slf4j
+@CrossOrigin(origins = {"https://gameweb2.herokuapp.com","http://localhost:4200"}, allowCredentials = "true")
 public class GamesController {
 
     GamesRepository gamesRepository;
