@@ -1,5 +1,5 @@
 <template>
-  <div class="reg">
+  <div class="container reg">
     <form class="register" name="form" @submit.prevent="handleRegister">
       <h1 style="margin-bottom:1rem;">Rejestracja</h1>
       <div v-if="!successful">

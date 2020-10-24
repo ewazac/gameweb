@@ -198,11 +198,6 @@ input {
     border: 1px solid #111;
     color: #fa0b0b;
   }
-
-
-}
-input:focus {
-  outline: none;
 }
 
 .error {
