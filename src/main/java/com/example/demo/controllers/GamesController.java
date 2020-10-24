@@ -9,6 +9,11 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.BsonBinarySubType;
 import org.bson.types.Binary;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,6 +21,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
+
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.sort;
 
 // https://www.codementor.io/@gtommee97/rest-api-java-spring-boot-and-mongodb-j7nluip8d
 
@@ -27,6 +35,8 @@ import java.util.List;
 public class GamesController {
 
     GamesRepository gamesRepository;
+    @Autowired
+    MongoTemplate mongoTemplate;
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
@@ -71,6 +81,8 @@ public class GamesController {
     public List<Game> getGames() {
         return gamesRepository.findAll();
     } //returns list of all games
+
+
 
 
     @ExceptionHandler

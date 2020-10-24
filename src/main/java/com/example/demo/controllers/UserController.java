@@ -1,11 +1,19 @@
 package com.example.demo.controllers;
 
 import com.example.demo.model.AppUser;
+import com.example.demo.model.Game;
+import com.example.demo.model.Review;
 import com.example.demo.model.UserRepository;
+import com.mongodb.client.model.Aggregates;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.BsonBinarySubType;
 import org.bson.types.Binary;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,6 +27,8 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.util.*;
 
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.sort;
 
 
 @AllArgsConstructor
@@ -30,6 +40,8 @@ public class UserController {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    @Autowired
+    MongoTemplate mongoTemplate;
 
 
     @PostMapping()
@@ -92,6 +104,20 @@ public class UserController {
         UserDetails userDetails =
                 (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();  //getting user from session
         return userRepository.findUserByEmail(userDetails.getUsername());
+    }
+
+    @PostMapping(value = "/favCategories")
+    public void addFavouritiesCategories() {
+
+    }
+
+    @GetMapping(value = "/categories")
+    public List<Game> getAllCategories() {
+        Aggregation aggregation = newAggregation(group("category"), project("category"));
+        AggregationResults<Game> results = mongoTemplate.aggregate(aggregation, "games", Game.class);
+        List<Game> finalResult = results.getMappedResults();
+        return finalResult;
+
     }
 
 

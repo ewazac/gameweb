@@ -22,8 +22,8 @@ public class AppUser {
     private String lastName;
     private String email;
     private Binary avatar;
-
     private List<String> roles;
+    private List<String> fav;  //list of favourities categories
 
     public void setAvatar(Binary avatar) {
         this.avatar = avatar;
@@ -42,6 +42,8 @@ public class AppUser {
     }
 
     public List<String> getRole() { return roles;}
+
+    public String getEmail() { return email;}
 
     public void setId(String id) {
         this.id = id;
