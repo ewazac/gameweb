@@ -1,8 +1,8 @@
 <template>
-  <div class="log">
-    <form class="container login" @submit.prevent="handleLogin">
+  <div class="container log">
+    <form class="login" @submit.prevent="handleLogin">
       <div class="form">
-        <h1 class="login__header" style="...">Logowanie</h1>
+        <h1 class="login__header" style="margin-bottom: 1rem">Logowanie</h1>
         <div class="form-group">
           <b-form-input
             required
@@ -57,6 +57,9 @@ export default {
       this.$router.push("/account");
     }
   },
+  beforeCreate: function () {
+    document.body.className = "app__body-login";
+  },
   methods: {
     handleLogin() {
       this.loading = true;
@@ -94,16 +97,22 @@ export default {
 
 .login {
     width: 50%;
-    background-color: #f7f7f7;
+    background-color: rgba(247, 247, 247, 0.9);
     padding: 20px 25px 30px;
     margin: 0 auto 25px;
     margin-top: 50px;
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
-    border-radius: 2px;
-    -moz-box-shadow: 2px 2px 13px rgba(0, 0, 0, 0.3);
-    -webkit-box-shadow: 2px 2px 13px rgba(0, 0, 0, 0.3);
-    box-shadow: 2px 2px 13px rgba(0, 0, 0, 0.3);
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    transition: 0.2s;
+    /*-moz-box-shadow: 2px 2px 13px rgba(0, 0, 0, 0.3);
+    //-webkit-box-shadow: 2px 2px 13px rgba(0, 0, 0, 0.3);
+    //box-shadow: 2px 2px 13px rgba(0, 0, 0, 0.3);*/
+  &:hover {
+    -moz-box-shadow: 2px 2px 13px rgba(255, 255, 255, 0.5);
+    -webkit-box-shadow: 2px 2px 13px rgba(255, 255, 255, 0.5);
+    box-shadow: 2px 2px 13px rgba(255, 255, 255, 0.5);
+  }
 }
 
  /* -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
@@ -117,7 +126,7 @@ export default {
     align-items: center;
 }*/
 .login__button {
-    background-color: #b42230;
+    background-color: #fa0b0b;
     width: 100%;
     border: none;
     border-radius: 0;
@@ -128,27 +137,27 @@ export default {
     transition: 0.2s;
 
     &:active {
-        background-color: #b42230 !important;
+        background-color: #fa0b0b !important;
         outline: none !important;
         border: none !important;
         box-shadow: none;
     }
 
     &:focus {
-        background-color: #b42230 !important;
+        background-color: #fa0b0b!important;
         outline: none !important;
         border: none !important;
         box-shadow: none !important;
     }
 
     &:hover {
-        background-color: #b42230;
+        background-color: #fa0b0b;
         opacity: 0.9;
     }
 }
 
 .login__link {
-    color: #b42230;
+    color: #fa0b0b;
     text-decoration: underline;
     display: inline-block;
     width: 100%;
@@ -157,7 +166,7 @@ export default {
 
 .login__header {
     margin-bottom: 1rem;
-    color: #b42230;
+    color: #fa0b0b;
     text-transform: uppercase;
     font-size: 30px;
     font-weight: bold;
@@ -173,6 +182,24 @@ input {
   width: 100%;
   border-width: 0px 0px 2px 0px;
   border-radius: 4px;
+  border: 1px solid #111;
+  color: #fa0b0b;
+
+  &:active {
+    outline: none;
+    box-shadow: none;
+    border: 1px solid #111;
+    color: #fa0b0b;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+    border: 1px solid #111;
+    color: #fa0b0b;
+  }
+
+
 }
 input:focus {
   outline: none;
