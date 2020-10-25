@@ -23,7 +23,7 @@ public class AppUser {
     private String email;
     private Binary avatar;
     private List<String> roles;
-    private List<String> fav;  //list of favourities categories
+    private Boolean newsletter;
 
     public void setAvatar(Binary avatar) {
         this.avatar = avatar;
@@ -44,6 +44,8 @@ public class AppUser {
     public List<String> getRole() { return roles;}
 
     public String getEmail() { return email;}
+
+    public void setNewsletter(Boolean newsletter) { this.newsletter = newsletter;}
 
     public void setId(String id) {
         this.id = id;

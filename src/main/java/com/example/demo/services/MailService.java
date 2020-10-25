@@ -25,7 +25,7 @@ public class MailService {
         SimpleMailMessage mail = new SimpleMailMessage();
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); //getting email from session
         mail.setTo(userDetails.getUsername());
-        mail.setSubject("testing mail");
+        mail.setSubject("Potwierdzenie zapisania do newslettera");
         mail.setText("wooho!");
         javaMailSender.send(mail);
     }

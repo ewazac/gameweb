@@ -112,21 +112,12 @@ public class UserController {
         return userRepository.findUserByEmail(userDetails.getUsername());
     }
 
-    @PostMapping(value = "/favCategories")
-    public void addFavouritiesCategories() {
-
-    }
 
     @GetMapping(value = "/categories")
     public List<String> getAllCategories() {
-//        Aggregation aggregation = newAggregation(group("category"), project("category"));
-//        AggregationResults<Game> results = mongoTemplate.aggregate(aggregation, "games", Game.class);
-//        List<Game> finalResult = results.getMappedResults();
-//        return finalResult;
         Aggregation aggregation = newAggregation(group("category"), project("category"));
         List<String> single = mongoOperations.aggregate(aggregation, "games", BasicDBObject.class).getMappedResults().stream().map(item -> item.getString("_id")).collect(Collectors.toList());
         return single;
-
     }
 
 
