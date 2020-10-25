@@ -53,7 +53,6 @@ export default {
     logOut() {
       this.$store.dispatch("auth/logout");
       this.$router.push("/login");
-
     },
   },
 };
@@ -64,10 +63,9 @@ body {
   margin: 0;
   padding: 0;
 }
-
 .navbar {
     height: 108px;
-    background-color: #b42230 !important;
+    background-color: #fa0b0b !important;
 }
 
 .GameWeb {

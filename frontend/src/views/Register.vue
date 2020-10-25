@@ -1,7 +1,7 @@
 <template>
-  <div class="reg">
+  <div class="container reg">
     <form class="register" name="form" @submit.prevent="handleRegister">
-      <h1 style="margin-bottom:1rem;">Rejestracja</h1>
+      <h1 class="register__header">Rejestracja</h1>
       <div v-if="!successful">
         <div class="form-group">
           <b-form-input
@@ -56,8 +56,12 @@
             class="alert-danger"
           >{{ 'Brak hasła' }}</div>
         </div>
+        <hr />
+        <b-link class="register__link" href="/Login"
+        >Posiadasz już konto? Zaloguj się!</b-link>
+        <hr />
         <div class="form-group">
-          <b-button variant="info" style="width:100%;" type="submit">Zarejestruj się</b-button>
+          <b-button variant="info" class="register__button" type="submit">Zarejestruj się</b-button>
         </div>
       </div>
     </form>
@@ -87,6 +91,9 @@ export default {
       this.$router.push("/account");
     }
   },
+  beforeCreate: function () {
+    document.body.className = "app__body-login";
+  },
   methods: {
     handleRegister() {
       this.message = "";
@@ -94,11 +101,12 @@ export default {
       this.occupied = '';
       this.$validator.validate().then((isValid) => {
         if (isValid) {
+          console.log(this.user);
           this.$store.dispatch("auth/register", this.user).then(
             (data) => {
               this.message = data.message;
               this.successful = true;
-              console.log(data)
+              console.log(this.message)
               this.$router.push("/login");
             },
             (error) => {
@@ -124,17 +132,68 @@ export default {
 }
 
 .register {
-  width: 30%;
-  background-color: #f7f7f7;
+  width: 50%;
+  background-color: rgba(247, 247, 247, 0.9);
   padding: 20px 25px 30px;
   margin: 0 auto 25px;
   margin-top: 50px;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-  border-radius: 2px;
-  -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  transition: 0.2s;
+
+  &:hover {
+    -moz-box-shadow: 2px 2px 13px rgba(255, 255, 255, 0.5);
+    -webkit-box-shadow: 2px 2px 13px rgba(255, 255, 255, 0.5);
+    box-shadow: 2px 2px 13px rgba(255, 255, 255, 0.5);
+  }
+ /* -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
   -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);*/
+}
+.register__header {
+  margin-bottom: 1rem;
+  color: #fa0b0b;
+  text-transform: uppercase;
+  font-size: 30px;
+  font-weight: bold;
+}
+.register__link {
+  color: #fa0b0b;
+  text-decoration: underline;
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+}
+.register__button {
+  background-color: #fa0b0b;
+  width: 100%;
+  border: none;
+  border-radius: 0;
+  padding: 10px 20px;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 1px;
+  transition: 0.2s;
+
+  &:active {
+    background-color: #fa0b0b !important;
+    outline: none !important;
+    border: none !important;
+    box-shadow: none;
+  }
+
+  &:focus {
+    background-color: #fa0b0b !important;
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  &:hover {
+    background-color: #fa0b0b;
+    opacity: 0.9;
+  }
 }
 
 .form-group {
@@ -147,9 +206,22 @@ input {
   width: 100%;
   border-width: 0px 0px 2px 0px;
   border-radius: 4px;
-}
-input:focus {
-  outline: none;
+  border: 1px solid #111;
+  color: #fa0b0b;
+
+  &:active {
+    outline: none;
+    box-shadow: none;
+    border: 1px solid #111;
+    color: #fa0b0b;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+    border: 1px solid #111;
+    color: #fa0b0b;
+  }
 }
 
 .error {
@@ -159,5 +231,17 @@ input:focus {
 h1 {
   text-align: center;
   margin-bottom: 10px;
+}
+
+@media (max-width: 991px) {
+  .register {
+    width: 75%;
+  }
+}
+
+@media (max-width: 767px) {
+  .register {
+    width: 100%;
+  }
 }
 </style>
