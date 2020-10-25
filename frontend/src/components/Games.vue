@@ -208,7 +208,7 @@ export default {
   box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.3);
 }
 .btn-secondary {
-  background-color: #de1e47;
+  background-color: #fa0b0b;
 }
 .btn-secondary:hover {
   opacity: 0.9;
