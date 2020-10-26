@@ -42,7 +42,7 @@
               img-top
             >
               <b-card-text v-if="item.description">{{ item.description.slice(0,150) }}...</b-card-text>
-              <b-button class="mt-auto btn-primary btn-block" @click="handleDetails(item.name)"> Zobacz więcej </b-button>
+              <b-button class="games__button" @click="handleDetails(item.name)"> Zobacz więcej </b-button>
             </b-card>
           </b-card-group>
         </div>
@@ -57,6 +57,9 @@ import Game from "../models/game";
 
 export default {
   name: "games-list",
+  beforeCreate: function () {
+    document.body.className = "app__body";
+  },
   data() {
     return {
       readMoreActivated: false,
@@ -141,18 +144,21 @@ export default {
   margin: 0 auto;
 }
 
-@media screen and (max-width: 900px) {
-  .search {
-    display: grid;
+@media screen and (max-width: 1199px) {
+  .card-deck .card {
+    flex: 1 0 33%;
   }
 }
 
-@media screen and (min-width: 1200px) {
-  .card {
-    max-width: 20%;
+@media screen and (max-width: 991px) {
+  .card-deck .card {
+    flex: 1 0 30%;
   }
-  .container {
-    max-width: 1200px;
+}
+
+@media screen and (max-width: 991px) {
+  .card-deck .card {
+    flex: 1 0 30%;
   }
 }
 
@@ -196,6 +202,16 @@ export default {
   padding: 10px;
 }
 
+.card-body > .card-title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.card-body > .card-text {
+  text-align: justify;
+  padding: 0 10px;
+}
+
 .card {
   min-height: 30rem;
   border: solid darkgray;
@@ -207,11 +223,35 @@ export default {
   -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
   box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.3);
 }
+/*.card {
+  min-height: 30rem;
+  border: solid darkgray;
+  border-width: 0 0 2px 0;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.3);
+}*/
+.games__button {
+  background-color: #fa0b0b !important;
+  margin-top: auto;
+  border: none;
+
+  &:focus {
+    outline: none;
+    border: none;
+    box-shadow: none !important;
+  }
+}
 .btn-secondary {
   background-color: #fa0b0b;
 }
 .btn-secondary:hover {
   opacity: 0.9;
 }
-
+label {
+  color: white;
+}
 </style>

@@ -209,14 +209,14 @@ h1 {
 }
 
 @media (max-width: 991px) {
-    .login {
-        width: 75%;
-    }
+  .login {
+    width: 75%;
+  }
 }
 
 @media (max-width: 767px) {
-    .login {
-        width: 100%;
-    }
+  .login {
+    width: 100%;
+  }
 }
 </style>
