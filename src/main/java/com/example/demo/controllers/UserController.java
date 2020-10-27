@@ -38,7 +38,7 @@ import static org.springframework.data.mongodb.core.aggregation.Aggregation.sort
 @CorsRestController
 @RequestMapping("/users")
 @Slf4j
-@CrossOrigin(origins = {"https://gameweb2.herokuapp.com","https://localhost:4200"}, allowCredentials = "true")
+@CrossOrigin(origins = "https://gameweb2.herokuapp.com", allowCredentials = "true")
 public class UserController {
 
     private final UserRepository userRepository;
