@@ -63,6 +63,9 @@ const API_URL = "https://gameweb21.herokuapp.com/";
 
 export default {
   name: "Account",
+  beforeCreate: function () {
+    document.body.className = "app__body";
+  },
   data() {
     return {
       currentUser: JSON.parse(localStorage.getItem("user")),
