@@ -31,7 +31,7 @@ import static org.springframework.data.mongodb.core.aggregation.Aggregation.sort
 @RequestMapping("/games")
 @AllArgsConstructor
 @Slf4j
-@CrossOrigin(origins = "https://gameweb2.herokuapp.com", allowCredentials = "true")
+@CrossOrigin(origins = {"http://localhost:4200/Games","https://gameweb2.herokuapp.com"}, allowCredentials = "true")
 public class GamesController {
 
     GamesRepository gamesRepository;
