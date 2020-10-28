@@ -53,6 +53,7 @@ export default {
     logOut() {
       this.$store.dispatch("auth/logout");
       this.$router.push("/login");
+
     },
   },
 };
@@ -63,6 +64,7 @@ body {
   margin: 0;
   padding: 0;
 }
+
 .navbar {
     height: 108px;
     background-color: #fa0b0b !important;
@@ -74,13 +76,14 @@ body {
 }
 
 .navbar-dark .navbar-nav .nav-link {
-  color: #fff;
-  font-weight: 550;
-  font-size: 1.3rem;
+    color: #fff;
+    font-weight: 550;
+    font-size: 1.3rem;
 
-  &:hover{
-      color: #fff;
-      opacity: 0.9;
-  }
+    &:hover{
+        color: #fff;
+        opacity: 0.9;
+    }
 }
+
 </style>

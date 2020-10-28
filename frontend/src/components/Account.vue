@@ -83,11 +83,12 @@ export default {
   methods: {
     handleChangePass() {
       const fd = new FormData();
-      fd.append("id", this.currentUser.id);
       fd.append("newpassword", this.newPassword);
       fd.append("oldpassword", this.oldPassword);
       axios
-        .put(API_URL + "users/changePassword", fd, { withCredentials: true })
+        .put(API_URL + "users/changePassword", fd, { 
+          withCredentials: true
+        })
         .then((response) => {
           this.dispatched = true;
           console.log(response);
@@ -107,7 +108,6 @@ export default {
       }
       const fd = new FormData();
       fd.append("avatar", this.selectedFile);
-      fd.append("id", this.currentUser.id);
       axios
         .put(API_URL + "users/uploadAvatar", fd, {
           withCredentials: true,
