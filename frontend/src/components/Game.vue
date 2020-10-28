@@ -32,6 +32,9 @@ import Review from '../models/review'
 
 export default {
     name: "game-detail",
+    beforeCreate: function () {
+        document.body.className = "app__body";
+    },
     data() {
         return {
             success: false,

@@ -64,6 +64,9 @@ import { AXIOS } from "../http-commons";
 
 export default {
   name: "AddGame",
+  beforeCreate: function () {
+    document.body.className = "app__body";
+  },
   data() {
     return {
       error: [],
@@ -157,7 +160,7 @@ export default {
 }
 .btn-primary {
     color: #ffffff;
-    background-color: #cc274b;
-    border-color: #a2222e;
+    background-color: #fa0b0b;
+    border-color: #fa0b0b;
 }
 </style>
