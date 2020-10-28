@@ -2,7 +2,7 @@
   <div class="container log">
     <form class="login" @submit.prevent="handleLogin">
       <div class="form">
-        <h1 class="login__header" style="margin-bottom: 1rem">Logowanie</h1>
+        <h1 class="login__header" style="margin-bottom:1rem;">Logowanie</h1>
         <div class="form-group">
           <b-form-input
             required
@@ -96,18 +96,16 @@ export default {
 }
 
 .login {
-    width: 50%;
-    background-color: rgba(247, 247, 247, 0.9);
-    padding: 20px 25px 30px;
-    margin: 0 auto 25px;
-    margin-top: 50px;
-    -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;
-    border-radius: 10px;
-    transition: 0.2s;
-    /*-moz-box-shadow: 2px 2px 13px rgba(0, 0, 0, 0.3);
-    //-webkit-box-shadow: 2px 2px 13px rgba(0, 0, 0, 0.3);
-    //box-shadow: 2px 2px 13px rgba(0, 0, 0, 0.3);*/
+  width: 50%;
+  background-color: rgba(247, 247, 247, 0.9);
+  padding: 20px 25px 30px;
+  margin: 0 auto 25px;
+  margin-top: 50px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  transition: 0.2s;
+
   &:hover {
     -moz-box-shadow: 2px 2px 13px rgba(255, 255, 255, 0.5);
     -webkit-box-shadow: 2px 2px 13px rgba(255, 255, 255, 0.5);
@@ -115,61 +113,51 @@ export default {
   }
 }
 
- /* -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-
-  */
-/*.button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}*/
 .login__button {
+  background-color: #fa0b0b;
+  width: 100%;
+  border: none;
+  border-radius: 0;
+  padding: 10px 20px;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 1px;
+  transition: 0.2s;
+
+  &:active {
+    background-color: #fa0b0b !important;
+    outline: none !important;
+    border: none !important;
+    box-shadow: none;
+  }
+
+  &:focus {
+    background-color: #fa0b0b!important;
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  &:hover {
     background-color: #fa0b0b;
-    width: 100%;
-    border: none;
-    border-radius: 0;
-    padding: 10px 20px;
-    text-transform: uppercase;
-    font-weight: bold;
-    letter-spacing: 1px;
-    transition: 0.2s;
-
-    &:active {
-        background-color: #fa0b0b !important;
-        outline: none !important;
-        border: none !important;
-        box-shadow: none;
-    }
-
-    &:focus {
-        background-color: #fa0b0b!important;
-        outline: none !important;
-        border: none !important;
-        box-shadow: none !important;
-    }
-
-    &:hover {
-        background-color: #fa0b0b;
-        opacity: 0.9;
-    }
+    opacity: 0.9;
+  }
 }
 
 .login__link {
-    color: #fa0b0b;
-    text-decoration: underline;
-    display: inline-block;
-    width: 100%;
-    text-align: center;
+  color: #fa0b0b;
+  text-decoration: underline;
+  display: inline-block;
+  width: 100%;
+  text-align: center;
 }
 
 .login__header {
-    margin-bottom: 1rem;
-    color: #fa0b0b;
-    text-transform: uppercase;
-    font-size: 30px;
-    font-weight: bold;
+  margin-bottom: 1rem;
+  color: #fa0b0b;
+  text-transform: uppercase;
+  font-size: 30px;
+  font-weight: bold;
 }
 
 .form-group {

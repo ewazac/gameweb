@@ -63,6 +63,9 @@ const API_URL = "https://gameweb21.herokuapp.com/";
 
 export default {
   name: "Account",
+  beforeCreate: function () {
+    document.body.className = "app__body";
+  },
   data() {
     return {
       currentUser: JSON.parse(localStorage.getItem("user")),
@@ -83,11 +86,12 @@ export default {
   methods: {
     handleChangePass() {
       const fd = new FormData();
-      fd.append("id", this.currentUser.id);
       fd.append("newpassword", this.newPassword);
       fd.append("oldpassword", this.oldPassword);
       axios
-        .put(API_URL + "users/changePassword", fd, { withCredentials: true })
+        .put(API_URL + "users/changePassword", fd, { 
+          withCredentials: true
+        })
         .then((response) => {
           this.dispatched = true;
           console.log(response);
@@ -107,7 +111,6 @@ export default {
       }
       const fd = new FormData();
       fd.append("avatar", this.selectedFile);
-      fd.append("id", this.currentUser.id);
       axios
         .put(API_URL + "users/uploadAvatar", fd, {
           withCredentials: true,

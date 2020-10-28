@@ -38,11 +38,12 @@
               v-for="item in sortedGames.slice((i-1)*4, (i-1)*4 +  4)"
               :key="item.id"
               :title="item.name"
+              :sub-title="'Ocena '+item.stars"
               :img-src="getImage(item.gameImage)"
               img-top
             >
               <b-card-text v-if="item.description">{{ item.description.slice(0,150) }}...</b-card-text>
-              <b-button class="games__button" @click="handleDetails(item.name)"> Zobacz więcej </b-button>
+              <b-button class="mt-auto btn-primary btn-block" @click="handleDetails(item.name)"> Zobacz więcej </b-button>
             </b-card>
           </b-card-group>
         </div>
@@ -65,11 +66,11 @@ export default {
       readMoreActivated: false,
       search: "",
       error: [],
-      sort: "alfabetycznie",
-      options: ["alfabetycznie", "od Z do A", "Najwyżej oceniane"],
+      sort: "Najlepiej oceniane",
+      options: ["Najlepiej oceniane", "alfabetycznie", "od Z do A"],
       category: "wszystkie",
       categories: ["wszystkie"],
-      games: new Game("", "", ""),
+      games: new Game("", "", "", ""),
       sorting: -1,
     };
   },
@@ -102,7 +103,9 @@ export default {
           .slice(0)
           .sort((a, b) => (a.name < b.name ? -this.sorting : this.sorting));
       } else {
-        return this.filteredCategory;
+        return this.filteredCategory
+          .slice(0)
+          .sort((a, b) => (a.stars < b.stars ? -this.sorting : this.sorting));
       }
     },
   },
@@ -128,7 +131,24 @@ export default {
     AXIOS.get("games")
       .then((response) => {
         this.games = response.data;
-        console.log(response.data);
+        AXIOS.get('reviews/ranking')
+        .then((response) => {
+          let ranking = response.data
+          for (const obj of this.games) {
+            let R = ranking.filter((rank) => {
+              if (rank.game == null) {
+                rank.game = '';
+              }
+              return rank.game.includes(obj.name);
+            })
+            if (R[0] != undefined) {
+              this.$set(obj, 'stars', R[0].stars)
+            }
+            else {
+              this.$set(obj, 'stars', (Math.random() * (5.00 - 1.00 + 1.00)).toFixed(2))
+            }
+          }
+        })
       })
       .catch((error) => {
         console.log(error);
@@ -143,7 +163,6 @@ export default {
   text-align: left;
   margin: 0 auto;
 }
-
 @media screen and (max-width: 1199px) {
   .card-deck .card {
     flex: 1 0 33%;
@@ -202,9 +221,9 @@ export default {
   padding: 10px;
 }
 
-.card-body > .card-title {
+.card-body > .card-title, .card-body > .card-subtitle {
   text-align: center;
-  margin-bottom: 20px;
+  color: #171a1d;
 }
 
 .card-body > .card-text {
@@ -214,6 +233,7 @@ export default {
 
 .card {
   min-height: 30rem;
+  max-width: 15.5rem;
   border: solid darkgray;
   border-width: 0 0 2px 0;
   -moz-border-radius: 2px;
@@ -223,17 +243,6 @@ export default {
   -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
   box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.3);
 }
-/*.card {
-  min-height: 30rem;
-  border: solid darkgray;
-  border-width: 0 0 2px 0;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-  border-radius: 2px;
-  -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.3);
-}*/
 .games__button {
   background-color: #fa0b0b !important;
   margin-top: auto;
@@ -248,6 +257,7 @@ export default {
 .btn-secondary {
   background-color: #fa0b0b;
 }
+
 .btn-secondary:hover {
   opacity: 0.9;
 }

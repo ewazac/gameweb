@@ -85,6 +85,9 @@ import { AXIOS } from "../http-commons";
 
 export default {
   name: "NewReview",
+    beforeCreate: function () {
+        document.body.className = "app__body";
+    },
   data() {
     return {
       success: false,
@@ -168,8 +171,8 @@ export default {
 
 .btn-warning {
     color: #ffffff;
-    background-color: #cc274b;
-    border-color: #a2222e;
+    background-color: #fa0b0b;
+    border-color: #fa0b0b;
 }
 
 </style>

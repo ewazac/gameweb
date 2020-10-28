@@ -12,7 +12,7 @@
             </b-row>
         </b-container>
         <h2> Recenzje </h2>
-        <h5> Średnia ocena tej gry to ...</h5>
+        <h5> Średnia ocena tej gry to {{ stars }}</h5>
         <b-container v-if="success">
             <b-row cols='1' v-for="review in reviews" :key="review.id">
                 <b-col> <h3>{{ review.title.toUpperCase() }}</h3> </b-col>
@@ -32,11 +32,15 @@ import Review from '../models/review'
 
 export default {
     name: "game-detail",
+    beforeCreate: function () {
+        document.body.className = "app__body";
+    },
     data() {
         return {
             success: false,
             game: new Game('','',''),
             reviews: new Review('','','',null),
+            stars: null,
         }
     },
     methods: {
@@ -72,6 +76,20 @@ export default {
         .catch((error) => {
             console.log(error);
         });
+        AXIOS.get('reviews/ranking')
+        .then((response) => {
+            var name = this.$router.history.current.query.game
+            for (const object of response.data) {
+                if (object.game == name) {
+                    this.stars = object.stars;
+                    break;
+                }
+            }
+            console.log(response.data, this.stars);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
     }
 }
 </script>
@@ -96,7 +114,7 @@ export default {
     max-height: 250px;
 }
 h1 {
-    color: #d62b4c;
+    color: #fa0b0b;
 }
 .description {
     padding: 1rem;

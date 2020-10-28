@@ -54,7 +54,7 @@
           <div
             v-if="submitted && errors.has('password')"
             class="alert-danger"
-          >{{ 'Brak hasła' }}</div>
+          >{{ 'Hasło musi mieć minimum 4 znaki' }}</div>
         </div>
         <hr />
         <b-link class="register__link" href="/Login"
@@ -101,12 +101,13 @@ export default {
       this.occupied = '';
       this.$validator.validate().then((isValid) => {
         if (isValid) {
-          console.log(this.user);
+          /*console.log(this.user); // dodane */
           this.$store.dispatch("auth/register", this.user).then(
             (data) => {
               this.message = data.message;
               this.successful = true;
-              console.log(this.message)
+              /*console.log(this.message) // dodane */
+              console.log(data) // wczesniejsze
               this.$router.push("/login");
             },
             (error) => {
@@ -147,9 +148,6 @@ export default {
     -webkit-box-shadow: 2px 2px 13px rgba(255, 255, 255, 0.5);
     box-shadow: 2px 2px 13px rgba(255, 255, 255, 0.5);
   }
- /* -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);*/
 }
 .register__header {
   margin-bottom: 1rem;
