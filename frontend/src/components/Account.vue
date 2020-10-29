@@ -1,58 +1,83 @@
 <template>
   <div class="container">
-    <b-container fluid>
-      <h1 style="text-align: center">Zmień ustawienia konta</h1>
-      <b-row cols="2">
-        <b-col style="display: grid">
-          <h4 class="left">Twój avatar:</h4>
-          <img class="left" alt="avatar" :src="avatar" />
+    <div class="account">
+      <h1 class="account__header">Zmień ustawienia konta</h1>
+      <b-row class="mt-5">
+        <b-col cols="12" md="6">
+          <h4 class="account__header account__header-sm text-left">Twój avatar:</h4>
+          <img class="left account__avatar" alt="avatar" :src="avatar" />
           <input class="left" type="file" @change="changeImage" />
-          <b-button class="button" @click="handleChange">Zmień avatar</b-button>
+          <b-button class="account__button" @click="handleChange">Zmień avatar</b-button>
         </b-col>
-        <b-col>
-          <h4 class="left">Twój obecny mail: {{ currentUser.email }}</h4>
-          <h5 class="left">Zmień hasło:</h5>
+        <b-col cols="12" md="6">
+          <h4 class="account__header account__header-sm text-left mt-4 mt-md-0">
+            Twój obecny mail:
+          </h4>
+          <div>{{ currentUser.email }}</div>
+          <h5 class="account__header account__header-sm text-left mt-4">
+            Zmień hasło:
+          </h5>
           <form name="form" @submit.prevent="handleChangePass">
-            <div class="left" style="display: inline-flex">
-              <h6 style="min-width: 10rem">Podaj stare hasło:</h6>
+            <div>
+              <h6>Podaj stare hasło:</h6>
               <b-form-input
                 name="oldPassword"
-                class="input"
+                class="account__text-input"
                 type="password"
                 v-model="oldPassword"
                 required
               />
             </div>
-            <div class="left" style="display: inline-flex">
-              <h6 style="min-width: 10rem">Podaj nowe hasło:</h6>
+            <div class="mt-2">
+              <h6>Podaj nowe hasło:</h6>
               <b-form-input
                 name="newPassword"
-                class="input"
+                class="account__text-input"
                 type="password"
                 v-model="newPassword"
                 required
               />
             </div>
-            <b-button class="button" type="submit">Zmień hasło</b-button>
+            <b-button class="account__button mt-3 w-100" type="submit">
+              Zmień hasło
+            </b-button>
             <b-alert
               class="left text-center"
               v-if="dispatched === true"
               show
               variant="success"
-              >Hasło zostało zmienione</b-alert
-            >
+              >Hasło zostało zmienione
+            </b-alert>
             <b-alert
               class="left text-center"
               v-if="exist === true"
               show
               variant="danger"
-              >Nieprawidłowe hasło</b-alert
-            >
+              >Nieprawidłowe hasło
+            </b-alert>
           </form>
         </b-col>
       </b-row>
-    </b-container>
   </div>
+  <div class="account">
+    <h1 class="account__header">Newsletter</h1>
+    <p class="text-center mt-4">
+      Aby być na bieżąco, zapisz się do naszego newslettera:
+    </p>
+    <div class="row text-center">
+      <div class="col-10 offset-1 col-sm-6 offset-sm-3">
+        <form name="form-newsletter" @submit.prevent="subscribeToNewsletter">
+          <input
+                    class="account__text-input"
+                    type="text"
+                    placeholder="Adres e-mail"
+          />
+          <button class="btn account__button mt-3" type="submit">Zapisz się</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 </template>
 
 <script>
@@ -100,6 +125,9 @@ export default {
           console.log(error);
           this.exist = true;
         });
+    },
+    subscribeToNewsletter() {
+      alert("DZIĘKUJEMY !");
     },
     changeImage(event) {
       console.log(event);
@@ -153,28 +181,113 @@ export default {
 
 
 <style lang="scss" scoped>
-h5 h6 {
-  margin-top: auto;
-}
-.left {
-  margin: 1rem;
-}
+
 img.left {
   height: 8rem;
   width: 8rem;
 }
-.btn {
-  width: 5rem;
+.account {
+  width: 70%;
+  background-color: rgba(247, 247, 247, 0.9);
+  padding: 20px 30px 30px;
+  margin: 0 auto 25px;
+  margin-top: 50px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  transition: 0.2s;
+
+  &:hover {
+    -moz-box-shadow: 2px 2px 13px rgba(255, 255, 255, 0.5);
+    -webkit-box-shadow: 2px 2px 13px rgba(255, 255, 255, 0.5);
+    box-shadow: 2px 2px 13px rgba(255, 255, 255, 0.5);
+  }
 }
-.input {
-  margin-left: 1rem;
-  max-width: 15rem;
+.account__header {
+  color: #fa0b0b;
+  text-transform: uppercase;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+
+  &-sm {
+    font-size: 22px;
+  }
 }
-.col {
-  padding: 1rem;
+input[type="file"] {
+  border: none !important;
+  cursor: pointer;
+
+  width: 100%;
+  border-width: 0px 0px 2px 0px;
+  border-radius: 4px;
+  border: 1px solid #111;
+  color: #fa0b0b;
+  margin-top: 20px;
+  margin-bottom: 20px;
+
+  &:active {
+    outline: none;
+    box-shadow: none;
+    border: 1px solid #111;
+    color: #fa0b0b;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+    border: 1px solid #111;
+    color: #fa0b0b;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
 }
-.button {
-  margin: 1rem;
-  width: 15rem;
+
+.account__text-input {
+  width: 100%;
+  border-width: 0px 0px 2px 0px;
+  border-radius: 4px;
+  border: 1px solid #111;
+  color: #fa0b0b;
+  display: block !important;
+
+  &:active {
+    outline: none;
+    box-shadow: none;
+    border: 1px solid #111;
+    color: #fa0b0b;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+    border: 1px solid #111;
+    color: #fa0b0b;
+  }
+}
+
+.account__avatar {
+  box-shadow: #8e8c8c 0px 0px 13px 0px;
+}
+
+.account__button {
+  background-color: #fa0b0b !important;
+  margin-top: auto;
+  border: none;
+  color: #fff;
+
+  &:focus {
+    outline: none;
+    border: none;
+    box-shadow: none !important;
+  }
+}
+
+@media (max-width: 991px) {
+  .account {
+    width: 100%;
+  }
 }
 </style>

@@ -1,13 +1,12 @@
 <template>
   <div class="container">
-    <b-form @submit.prevent="handleReview">
-        <h1 style="margin-top:1rem;">Dodaj recenzję</h1>
-        <b-container style="max-width:60%;" fluid>
-            <b-row cols="2">
-                <b-col sm="3">
-                    <label>Podaj tytuł gry: </label>
+    <b-form @submit.prevent="handleReview" class="review__form">
+        <h1 class="review__header">Dodaj recenzję</h1>
+        <b-row cols="12" class="mt-4">
+            <b-col cols="2">
+                <label>Podaj tytuł gry: </label>
                 </b-col>
-                <b-col sm="9">
+                <b-col cols="12">
                     <b-form-input 
                     v-model="review.game"
                     list="game-list"
@@ -20,10 +19,10 @@
                         <option v-for="game in games" :key="game.id" > {{ game.name }}  </option>
                     </datalist>
                 </b-col>
-                <b-col sm="3">
-                    <label>Podaj tytuł: </label>
+                <b-col cols="12" class="mt-3">
+                    <label>Podaj tytuł recenzji: </label>
                 </b-col>
-                <b-col sm="9">
+                <b-col cols="12">
                     <b-form-input 
                     v-model="review.title"
                     v-validate="'required|max:50'"
@@ -32,7 +31,7 @@
                     name="title"
                     ></b-form-input>
                 </b-col>
-                <b-col sm="4">
+                <b-col cols="12" class="mt-3">
                     <label>Opisz swoje wrażenia: </label>
                 </b-col>
             </b-row>
@@ -48,9 +47,9 @@
                     ></b-form-textarea>
                 </b-col>
             </b-row>
-            <b-row cols="2">
+            <b-row cols="2" class="mt-3">
                 <b-col sm="5">
-                    <label>Zaznacz końcową ocene: </label>
+                    <label>Zaznacz ocenę końcową: </label>
                 </b-col>
                 <b-col sm="7">
                     <b-form-rating 
@@ -69,13 +68,12 @@
             <b-row>
                 <b-col sm="3"></b-col>
                 <b-col sm="6">
-                    <b-button class="w-100" variant="warning" @click="handleReview">Dodaj recenzje</b-button>
+                    <b-button class="review__button mt-3" @click="handleReview">Dodaj recenzję</b-button>
                 </b-col>
                 <b-col sm="3"></b-col>
             </b-row>
             <b-alert v-if="dispatched === true" show variant="success" class="text-center">Recenzja została dodana pomyslnie</b-alert>
             <b-alert v-if="exist === true" show variant="danger" class="text-center">Ta recenzja została już dodana</b-alert>
-        </b-container>
     </b-form>
   </div>
 </template>
@@ -144,35 +142,96 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container {
+.review__form {
+  width: 60%;
+  background-color: rgba(247, 247, 247, 0.9);
+  padding: 20px 50px 30px;
+  margin: 0 auto 25px;
+  margin-top: 50px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  transition: 0.2s;
+
+    &:hover {
+        -moz-box-shadow: 2px 2px 13px rgba(255, 255, 255, 0.5);
+        -webkit-box-shadow: 2px 2px 13px rgba(255, 255, 255, 0.5);
+        box-shadow: 2px 2px 13px rgba(255, 255, 255, 0.5);
+    }
+}
+
+.review__header {
+    color: #fa0b0b;
+    text-transform: uppercase;
+    font-size: 30px;
+    font-weight: bold;
     text-align: center;
 }
 
-.container-fluid {
-    border: solid gainsboro;
-    border-width: 1px 0 2px 1px;
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
-    border-radius: 2px;
-    -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-    -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-    box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.3);
+input,
+textarea {
+    width: 100%;
+    border-width: 0px 0px 2px 0px;
+    border-radius: 4px;
+    border: 1px solid #111;
+    color: #fa0b0b;
+
+    &:active {
+        outline: none;
+        box-shadow: none;
+        border: 1px solid #111;
+        color: #fa0b0b;
+    }
+
+    &:focus {
+        outline: none;
+        box-shadow: none;
+        border: 1px solid #111;
+        color: #fa0b0b;
+    }
 }
 
-.col-sm-6 {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-}
-
-.col-sm-3, .col-sm-9, .col-sm-4, .col-sm-5, .col-sm-7 {
-    text-align: left;
-    margin-top: 1rem;
-}
-
-.btn-warning {
-    color: #ffffff;
+.review__button {
     background-color: #fa0b0b;
-    border-color: #fa0b0b;
+    width: 100%;
+    border: none;
+    border-radius: 0;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: 0.2s;
+
+    &:active {
+        background-color: #fa0b0b !important;
+        outline: none !important;
+        border: none !important;
+        box-shadow: none;
+    }
+
+    &:focus {
+        background-color: #fa0b0b !important;
+        outline: none !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    &:hover {
+        background-color: #fa0b0b;
+        opacity: 0.9;
+    }
+}
+
+@media (max-width: 991px) {
+    .review__form {
+        width: 75%;
+    }
+}
+
+@media (max-width: 767px) {
+    .review__form {
+        width: 100%;
+    }
 }
 
 </style>

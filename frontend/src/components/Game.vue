@@ -1,28 +1,59 @@
 <template>
-    <div class="container">
-        <b-container class="gameDetails">
-            <b-row class="game" align-h="around" align-v="center">
-                <h1> {{ game.name }} </h1>
-                <b-img class="gameImage" :src="getImage(game.gameImage)" :alt='game.name'> </b-img>
-            </b-row>
-            <b-row>
-                <b-col sm='1'></b-col>
-                <b-col sm='9'> <p class="description"> {{ game.description }} </p> </b-col>
-                <b-col sm='2'></b-col>
-            </b-row>
-        </b-container>
-        <h2> Recenzje </h2>
-        <h5> Średnia ocena tej gry to {{ stars }}</h5>
-        <b-container v-if="success">
-            <b-row cols='1' v-for="review in reviews" :key="review.id">
-                <b-col> <h3>{{ review.title.toUpperCase() }}</h3> </b-col>
-                <b-col>
-                    <b-form-rating id="rating" :value="review.stars" inline disabled></b-form-rating>
-                </b-col>
-                <b-col> <p class="description">{{ review.description }}</p> </b-col>
-            </b-row>
-        </b-container>
+  <div class="container">
+     <b-row class="game" align-h="around" align-v="center">
+       <div class="col-6 text-center">
+         <b-img
+           class="game__image"
+           :src="getImage(game.gameImage)"
+           :alt='game.name'>
+         </b-img>
+       </div>
+       <div class="col-6 text-center">
+         <h1>Tytuł gry: {{ game.name }}</h1>
+       </div>
+     </b-row>
+     <b-row class="mt-4">
+       <b-col sm="8" offset-sm="2">
+         <p class="game__description">{{ game.description }}</p>
+       </b-col>
+     </b-row>
+
+     <hr class="mt-4" style="border-color: #b42230" />
+
+     <b-row class="mt-5">
+       <b-col sm="8" offset-sm="2">
+          <h2>Recenzje</h2>
+          <p>Średnia ocena tej gry to ...{{ stars }}</p>
+     </b-col>
+     </b-row>
+     <div class="mt-4" v-if="success">
+       <b-row v-for="review in reviews" :key="review.id">
+         <b-col sm="8" offset-sm="2">
+           <b-row>
+             <b-col cols="12">
+               <h5>{{ review.title.toUpperCase() }}</h5>
+             </b-col>
+           </b-row>
+           <b-row>
+             <b-col cols="12">
+                <b-form-rating
+                  id="rating"
+                  :value="review.stars"
+                  inline
+                  disabled>
+
+                </b-form-rating>
+             </b-col>
+           </b-row>
+           <b-row>
+             <b-col cols="12">
+               <p class="game__review">{{ review.description }}</p>
+             </b-col>
+           </b-row>
+        </b-col>
+       </b-row>
     </div>
+  </div>
 </template>
 
 <script>
@@ -96,30 +127,45 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-    background-color: #d6d6d6;
+    background-color: #fff;
 }
-.gameDetails {
-    padding: 1rem;
-    min-height: 30rem;
+.game {
+    margin-top: 40px;
+    background-color: #fa0b0b;
+    padding-bottom: 20px;
+    padding-top: 20px;
 }
+
 .disabled {
     background-color: white;
     color: indianred;
     border-color: indianred;
 }
-.gameImage {
-    min-width: 150px;
-    min-height: 150px;
+
+.game__image {
+    min-width: 200px;
+    min-height: 200px;
     max-width: 250px;
     max-height: 250px;
+    background-color: white;
+    border: 1px solid black;
 }
+
 h1 {
-    color: #fa0b0b;
+    color: #fff;
 }
-.description {
+.game__description {
     padding: 1rem;
     font-size: 1.2rem;
     font-weight: 350;
+    line-height: 1.6;
+    text-align: left;
+}
+
+.game__review {
+    padding: 1rem 0;
+    font-size: 1.2rem;
+    font-weight: 300;
     line-height: 1.6;
     text-align: left;
 }

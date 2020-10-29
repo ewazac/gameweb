@@ -12,14 +12,8 @@
             placeholder="Email"
             name="username"
           />
-          <div
-            v-if="occupied"
-            class="alert-danger"
-            >{{ occupied }}</div>
-          <div
-            v-if="submitted && errors.has('username')"
-            class="alert-danger"
-          >{{ 'Niepoprawny email' }}</div>
+          <div v-if="occupied" class="alert-danger">{{ occupied }}</div>
+          <div v-if="submitted && errors.has('username')" class="alert-danger">{{ 'Niepoprawny email' }}</div>
         </div>
         <div class="form-group">
           <b-form-input
@@ -51,10 +45,7 @@
             placeholder="Hasło"
             autocomplete="on"
           />
-          <div
-            v-if="submitted && errors.has('password')"
-            class="alert-danger"
-          >{{ 'Hasło musi mieć minimum 4 znaki' }}</div>
+          <div v-if="submitted && errors.has('password')" class="alert-danger">{{ 'Hasło musi zawierać conajmniej 4 znaki' }}</div>
         </div>
         <hr />
         <b-link class="register__link" href="/Login"
@@ -107,7 +98,7 @@ export default {
               this.message = data.message;
               this.successful = true;
               /*console.log(this.message) // dodane */
-              console.log(data) // wczesniejsze
+              console.log(data) // before
               this.$router.push("/login");
             },
             (error) => {
@@ -116,7 +107,7 @@ export default {
                 error.message ||
                 error.toString();
               this.successful = false;
-              this.occupied = 'Ten email jest zajęty, prosze podać inny';
+              this.occupied = 'Ten email jest zajęty, proszę podać inny';
             }
           );
         }
@@ -223,7 +214,7 @@ input {
 }
 
 .error {
-  color: red;
+  color: #ff0000;
 }
 
 h1 {
