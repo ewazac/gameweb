@@ -3,13 +3,13 @@
     <div class="demo">
       <div id="v-for-object">
         <div class="container">
-          <div class="search">
+          <div class="row search">
             <div class="search-wrapper">
               <label class="label">Wyszukaj tytuł:</label>
               <b-form-input type="text" v-model="search" placeholder="Wyszukaj tytuł.."></b-form-input>
             </div>
-            <div class="search-advance">
-              <label class="label">Wybierz kategorie:</label>
+            <div class="search-advance mt-3 mt-md-0">
+              <label class="label">Wybierz kategorię:</label>
               <b-form-select
                 v-model="category"
                 :options="categories"
@@ -43,7 +43,7 @@
               img-top
             >
               <b-card-text v-if="item.description">{{ item.description.slice(0,150) }}...</b-card-text>
-              <b-button class="mt-auto btn-primary btn-block" @click="handleDetails(item.name)"> Zobacz więcej </b-button>
+              <b-button class="games__button" @click="handleDetails(item.name)"> Zobacz więcej </b-button>
             </b-card>
           </b-card-group>
         </div>
@@ -220,10 +220,10 @@ export default {
   flex-direction: column;
   padding: 10px;
 }
-
-.card-body > .card-title, .card-body > .card-subtitle {
+/* .card-body > .card-subtitle*/
+.card-body > .card-title {
   text-align: center;
-  color: #171a1d;
+  margin-bottom: 20px;
 }
 
 .card-body > .card-text {
@@ -233,7 +233,6 @@ export default {
 
 .card {
   min-height: 30rem;
-  max-width: 15.5rem;
   border: solid darkgray;
   border-width: 0 0 2px 0;
   -moz-border-radius: 2px;
@@ -254,6 +253,49 @@ export default {
     box-shadow: none !important;
   }
 }
+
+select {
+  border: 1px solid #111 !important;
+  cursor: pointer;
+  color: #fa0b0b;
+
+  &:active {
+    outline: none;
+    box-shadow: none;
+    border: 1px solid #111;
+    color: #fa0b0b;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+    border: 1px solid #111;
+    color: #fa0b0b;
+  }
+}
+
+input {
+  width: 100%;
+  border-width: 0px 0px 2px 0px;
+  border-radius: 4px;
+  border: 1px solid #111;
+  color: #fa0b0b;
+
+  &:active {
+    outline: none;
+    box-shadow: none;
+    border: 1px solid #111;
+    color: #fa0b0b;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+    border: 1px solid #111;
+    color: #fa0b0b;
+  }
+}
+
 .btn-secondary {
   background-color: #fa0b0b;
 }

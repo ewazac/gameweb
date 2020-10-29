@@ -23,7 +23,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors().and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers( "/users/**").hasRole("USER")
+                .antMatchers( "/users").hasRole("USER")
                 .and()
                 .httpBasic()
                 .and()
@@ -40,5 +40,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 
 }

@@ -24,6 +24,7 @@ public class AppUser {
     private Binary avatar;
     private List<String> roles;
     private Boolean newsletter;
+    private List<String> categories;
 
     public void setAvatar(Binary avatar) {
         this.avatar = avatar;
@@ -41,6 +42,8 @@ public class AppUser {
         this.password = password;
     }
 
+    public void setCategories(List<String> categories) {this.categories = categories;}
+
     public List<String> getRole() { return roles;}
 
     public String getEmail() { return email;}
@@ -50,6 +53,7 @@ public class AppUser {
     public void setId(String id) {
         this.id = id;
     }
+
 
 
 }

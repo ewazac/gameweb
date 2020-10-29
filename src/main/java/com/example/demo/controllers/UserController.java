@@ -1,38 +1,21 @@
 package com.example.demo.controllers;
 
 import com.example.demo.model.AppUser;
-import com.example.demo.model.Game;
-import com.example.demo.model.Review;
 import com.example.demo.model.UserRepository;
-import com.mongodb.BasicDBObject;
-import com.mongodb.client.model.Aggregates;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.BsonBinarySubType;
 import org.bson.types.Binary;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.aggregation.Aggregation;
-import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
-
-import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
-import static org.springframework.data.mongodb.core.aggregation.Aggregation.sort;
-
 
 @AllArgsConstructor
 @CorsRestController
@@ -41,13 +24,10 @@ import static org.springframework.data.mongodb.core.aggregation.Aggregation.sort
 @CrossOrigin(origins = "https://gameweb2.herokuapp.com", allowCredentials = "true")
 public class UserController {
 
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    @Autowired
-    MongoTemplate mongoTemplate;
 
-    @Autowired
-    MongoOperations mongoOperations;
 
 
     @PostMapping()
@@ -83,11 +63,9 @@ public class UserController {
     @GetMapping(value = "/getAvatar")
     public Binary getAvatar() {
         UserDetails userDetails =
-                (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();  //getting user from session
-        userDetails.getUsername();
+                (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AppUser appUser = userRepository.findUserByEmail(userDetails.getUsername());
         return appUser.getAvatar();
-
     }
 
     @PutMapping(value = "/changePassword")
@@ -113,12 +91,6 @@ public class UserController {
     }
 
 
-    @GetMapping(value = "/categories")
-    public List<String> getAllCategories() {
-        Aggregation aggregation = newAggregation(group("category"), project("category"));
-        List<String> single = mongoOperations.aggregate(aggregation, "games", BasicDBObject.class).getMappedResults().stream().map(item -> item.getString("_id")).collect(Collectors.toList());
-        return single;
-    }
 
 
     @ExceptionHandler
