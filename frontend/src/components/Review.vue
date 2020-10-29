@@ -1,58 +1,58 @@
 <template>
   <div class="container">
     <b-form @submit.prevent="handleReview" class="review__form">
-        <h1 class="review__header">Dodaj recenzję</h1>
-        <b-row cols="12" class="mt-4">
-            <b-col cols="2">
-                <label>Podaj tytuł gry: </label>
-                </b-col>
-                <b-col cols="12">
-                    <b-form-input 
-                    v-model="review.game"
-                    list="game-list"
-                    v-validate="'required|max:50'"
-                    type="text"
-                    placeholder="Nazwa gry"
-                    name="title"
-                    ></b-form-input>
-                    <datalist id="game-list">
-                        <option v-for="game in games" :key="game.id" > {{ game.name }}  </option>
-                    </datalist>
-                </b-col>
-                <b-col cols="12" class="mt-3">
-                    <label>Podaj tytuł recenzji: </label>
-                </b-col>
-                <b-col cols="12">
-                    <b-form-input 
-                    v-model="review.title"
-                    v-validate="'required|max:50'"
-                    type="text"
-                    placeholder="Tytuł recenzji"
-                    name="title"
-                    ></b-form-input>
-                </b-col>
-                <b-col cols="12" class="mt-3">
-                    <label>Opisz swoje wrażenia: </label>
-                </b-col>
-            </b-row>
-            <b-row cols="1">
-                <b-col>
-                    <b-form-textarea 
+      <h1 class="review__header">Dodaj recenzję</h1>
+      <b-row cols="12" class="mt-4">
+         <b-col cols="2">
+             <label>Podaj tytuł gry: </label>
+         </b-col>
+         <b-col cols="12">
+              <b-form-input
+                v-model="review.game"
+                list="game-list"
+                v-validate="'required|max:50'"
+                type="text"
+                placeholder="Nazwa gry"
+                name="title"
+              ></b-form-input>
+              <datalist id="game-list">
+                  <option v-for="game in games" :key="game.id" > {{ game.name }}  </option>
+              </datalist>
+         </b-col>
+         <b-col cols="12" class="mt-3">
+             <label>Podaj tytuł recenzji: </label>
+         </b-col>
+         <b-col cols="12">
+             <b-form-input
+                 v-model="review.title"
+                 v-validate="'required|max:50'"
+                 type="text"
+                 placeholder="Tytuł recenzji"
+                 name="title"
+             ></b-form-input>
+         </b-col>
+         <b-col cols="12" class="mt-3">
+            <label>Opisz swoje wrażenia: </label>
+         </b-col>
+      </b-row>
+      <b-row cols="1">
+         <b-col>
+              <b-form-textarea
                     v-model="review.description"
                     v-validate="'required|min:10'"
                     type="text"
                     placeholder="Opisz swoje wrażenia z grą"
                     name="title"
                     rows="5"
-                    ></b-form-textarea>
-                </b-col>
-            </b-row>
-            <b-row cols="2" class="mt-3">
-                <b-col sm="5">
-                    <label>Zaznacz ocenę końcową: </label>
-                </b-col>
-                <b-col sm="7">
-                    <b-form-rating 
+              ></b-form-textarea>
+         </b-col>
+      </b-row>
+      <b-row cols="2" class="mt-3">
+         <b-col sm="5">
+             <label>Zaznacz ocenę końcową: </label>
+         </b-col>
+         <b-col sm="7">
+               <b-form-rating
                     v-model="review.stars"
                     v-validate="'required'"
                     name="start"
@@ -62,19 +62,19 @@
                     icon-clear="slash-circle"
                     show-clear
                     variant="danger"
-                    ></b-form-rating>
-                </b-col>
-            </b-row>
-            <b-row>
-                <b-col sm="3"></b-col>
-                <b-col sm="6">
-                    <b-button class="review__button mt-3" @click="handleReview">Dodaj recenzję</b-button>
-                </b-col>
-                <b-col sm="3"></b-col>
-            </b-row>
-            <b-alert v-if="dispatched === true" show variant="success" class="text-center">Recenzja została dodana pomyslnie</b-alert>
-            <b-alert v-if="exist === true" show variant="danger" class="text-center">Ta recenzja została już dodana</b-alert>
-    </b-form>
+               ></b-form-rating>
+         </b-col>
+      </b-row>
+      <b-row>
+         <b-col sm="3"></b-col>
+         <b-col sm="6">
+             <b-button class="review__button mt-3" @click="handleReview">Dodaj recenzję</b-button>
+         </b-col>
+         <b-col sm="3"></b-col>
+      </b-row>
+      <b-alert v-if="dispatched === true" show variant="success" class="text-center">Recenzja została dodana pomyslnie</b-alert>
+      <b-alert v-if="exist === true" show variant="danger" class="text-center">Ta recenzja została już dodana</b-alert>
+    </b-form>>
   </div>
 </template>
 
@@ -143,15 +143,15 @@ export default {
 
 <style lang="scss" scoped>
 .review__form {
-  width: 60%;
-  background-color: rgba(247, 247, 247, 0.9);
-  padding: 20px 50px 30px;
-  margin: 0 auto 25px;
-  margin-top: 50px;
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
-  transition: 0.2s;
+   width: 60%;
+   background-color: rgba(247, 247, 247, 0.9);
+   padding: 20px 50px 30px;
+   margin: 0 auto 25px;
+   margin-top: 50px;
+   -moz-border-radius: 10px;
+   -webkit-border-radius: 10px;
+   border-radius: 10px;
+   transition: 0.2s;
 
     &:hover {
         -moz-box-shadow: 2px 2px 13px rgba(255, 255, 255, 0.5);

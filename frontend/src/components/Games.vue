@@ -220,10 +220,10 @@ export default {
   flex-direction: column;
   padding: 10px;
 }
-/* .card-body > .card-subtitle*/
+
 .card-body > .card-title {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 20px;;
 }
 
 .card-body > .card-text {

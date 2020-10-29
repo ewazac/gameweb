@@ -1,60 +1,59 @@
 <template>
   <div class="container">
-     <b-row class="game" align-h="around" align-v="center">
-       <div class="col-6 text-center">
+    <b-row class="game" align-h="around" align-v="center">
+      <div class="col-6 text-center">
          <b-img
-           class="game__image"
-           :src="getImage(game.gameImage)"
-           :alt='game.name'>
+             class="gameImage"
+             :src="getImage(game.gameImage)"
+             :alt='game.name'>
          </b-img>
-       </div>
-       <div class="col-6 text-center">
-         <h1>Tytuł gry: {{ game.name }}</h1>
-       </div>
-     </b-row>
-     <b-row class="mt-4">
+      </div>
+      <div class="col-6 text-center">
+         <h1>Tytuł gr: {{ game.name }} </h1>
+      </div>
+    </b-row>
+    <b-row class="mt-4">
        <b-col sm="8" offset-sm="2">
-         <p class="game__description">{{ game.description }}</p>
+           <p class="game__description">{{ game.description }}</p>
        </b-col>
-     </b-row>
+    </b-row>
 
-     <hr class="mt-4" style="border-color: #b42230" />
+      <hr class="mt-4" style="border-color: #fa0b0b" />
 
-     <b-row class="mt-5">
-       <b-col sm="8" offset-sm="2">
-          <h2>Recenzje</h2>
-          <p>Średnia ocena tej gry to ...{{ stars }}</p>
-     </b-col>
-     </b-row>
-     <div class="mt-4" v-if="success">
-       <b-row v-for="review in reviews" :key="review.id">
-         <b-col sm="8" offset-sm="2">
-           <b-row>
-             <b-col cols="12">
-               <h5>{{ review.title.toUpperCase() }}</h5>
-             </b-col>
-           </b-row>
-           <b-row>
-             <b-col cols="12">
-                <b-form-rating
-                  id="rating"
-                  :value="review.stars"
-                  inline
-                  disabled>
-
-                </b-form-rating>
-             </b-col>
-           </b-row>
-           <b-row>
-             <b-col cols="12">
-               <p class="game__review">{{ review.description }}</p>
-             </b-col>
-           </b-row>
+    <b-row class="mt-5">
+        <b-col sm="8" offset-sm="2">
+            <h2> Recenzje </h2>
+            <p>Średnia ocena tej gry to {{ stars }}</p>
         </b-col>
-       </b-row>
+    </b-row>
+    <div class="mt-4" v-if="success">
+        <b-row v-for="review in reviews" :key="review.id">
+            <b-col sm="8" offset-sm="2">
+                <b-row>
+                    <b-col cols="12">
+                        <h5>{{ review.title.toUpperCase() }}</h5>
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <b-col cols="12">
+                        <b-form-rating
+                                id="rating"
+                                :value="review.stars"
+                                inline
+                                disabled>
+                        </b-form-rating>
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <b-col cols="12">
+                        <p class="game__review">{{ review.description }}</p>
+                    </b-col>
+                </b-row>
+            </b-col>
+        </b-row>
     </div>
   </div>
-</template>
+</template>>
 
 <script>
 import {AXIOS} from '../http-commons'
@@ -127,8 +126,9 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-    background-color: #fff;
+   background-color: #fff;
 }
+
 .game {
     margin-top: 40px;
     background-color: #fa0b0b;
@@ -169,4 +169,5 @@ h1 {
     line-height: 1.6;
     text-align: left;
 }
+
 </style>

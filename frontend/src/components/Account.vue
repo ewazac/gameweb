@@ -4,10 +4,14 @@
       <h1 class="account__header">Zmień ustawienia konta</h1>
       <b-row class="mt-5">
         <b-col cols="12" md="6">
-          <h4 class="account__header account__header-sm text-left">Twój avatar:</h4>
+          <h4 class="account__header account__header-sm text-left">
+            Twój avatar:
+          </h4>
           <img class="left account__avatar" alt="avatar" :src="avatar" />
           <input class="left" type="file" @change="changeImage" />
-          <b-button class="account__button" @click="handleChange">Zmień avatar</b-button>
+          <b-button class="account__button" @click="handleChange"
+            >Zmień avatar</b-button
+          >
         </b-col>
         <b-col cols="12" md="6">
           <h4 class="account__header account__header-sm text-left mt-4 mt-md-0">
@@ -22,9 +26,10 @@
               <h6>Podaj stare hasło:</h6>
               <b-form-input
                 name="oldPassword"
-                class="account__text-input"
+                class="input"
                 type="password"
                 v-model="oldPassword"
+                autocomplete="on"
                 required
               />
             </div>
@@ -35,10 +40,11 @@
                 class="account__text-input"
                 type="password"
                 v-model="newPassword"
+                autocomplete="on"
                 required
               />
             </div>
-            <b-button class="account__button mt-3 w-100" type="submit">
+            <b-button class="account__button mt-3" type="submit">
               Zmień hasło
             </b-button>
             <b-alert
@@ -58,33 +64,54 @@
           </form>
         </b-col>
       </b-row>
-  </div>
-  <div class="account">
-    <h1 class="account__header">Newsletter</h1>
-    <p class="text-center mt-4">
-      Aby być na bieżąco, zapisz się do naszego newslettera:
-    </p>
-    <div class="row text-center">
-      <div class="col-10 offset-1 col-sm-6 offset-sm-3">
-        <form name="form-newsletter" @submit.prevent="subscribeToNewsletter">
-          <input
-                    class="account__text-input"
-                    type="text"
-                    placeholder="Adres e-mail"
-          />
-          <button class="btn account__button mt-3" type="submit">Zapisz się</button>
-        </form>
+    </div>
+    <div class="account">
+      <h1 class="account__header">Newsletter</h1>
+      <p class="text-center mt-4">
+        Chcesz być na bieżąco, zapisz się do naszego newslettera:
+      </p>
+      <div class="row text-center">
+        <div class="col-10 offset-1 col-sm-6 offset-sm-3">
+          <b-form-group
+            name="form-newsletter"
+            @submit.prevent="subscribeToNewsletter"
+          >
+            <template #label>
+              <b>Wybierz kategorię gier:</b><br />
+              <b-form-checkbox
+                v-model="allSelected"
+                :indeterminate="indeterminate"
+                aria-describedby="Categories"
+                aria-controls="Categories"
+                @change="toggleAll"
+              >
+                {{ allSelected ? "Odznacz wszystkie" : "Wybierz wszystkie" }}
+              </b-form-checkbox>
+            </template>
+
+            <b-form-checkbox-group
+              id="Categories"
+              v-model="selected"
+              :options="categories"
+              name="Categories"
+              class="ml-4"
+              aria-label="Individual Categories"
+              stacked
+            ></b-form-checkbox-group>
+            <button class="btn account__button mt-3" type="submit">
+              Zapisz się
+            </button>
+          </b-form-group>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>
 import axios from "axios";
 
 const API_URL = "https://gameweb21.herokuapp.com/";
-//const API_URL = "http://localhost:8086/";
 
 export default {
   name: "Account",
@@ -101,21 +128,20 @@ export default {
       email: "",
       oldPassword: "",
       newPassword: "",
+      categories: null,
+      selected: [],
+      indeterminate: false,
+      allSelected: false
     };
-  } /*
-  computed: {
-    currentUser() {
-      return this.$store.state.auth.user;
-    },
-  },*/,
+  },
   methods: {
     handleChangePass() {
       const fd = new FormData();
       fd.append("newpassword", this.newPassword);
       fd.append("oldpassword", this.oldPassword);
       axios
-        .put(API_URL + "users/changePassword", fd, { 
-          withCredentials: true
+        .put(API_URL + "users/changePassword", fd, {
+          withCredentials: true,
         })
         .then((response) => {
           this.dispatched = true;
@@ -154,6 +180,23 @@ export default {
           console.log(error);
         });
     },
+    toggleAll(checked) {
+      this.selected = checked ? this.flavours.slice() : []
+    }
+  },
+  watch: {
+    selected(newVal) {
+      if (newVal.length === 0) {
+        this.indeterminate = false;
+        this.allSelected = false;
+      } else if (newVal.length === this.categories.length) {
+        this.indeterminate = false;
+        this.allSelected = true;
+      } else {
+        this.indeterminate = true;
+        this.allSelected = false;
+      }
+    },
   },
   mounted() {
     if (!this.currentUser) {
@@ -175,17 +218,28 @@ export default {
       .catch((error) => {
         console.log(error);
       });
+    axios
+      .get(API_URL + "getAllCategories", {
+        withCredentials: true
+      })
+      .then((response) => {
+        this.categories = response.data;
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   },
 };
 </script>
 
 
 <style lang="scss" scoped>
-
 img.left {
   height: 8rem;
   width: 8rem;
 }
+
 .account {
   width: 70%;
   background-color: rgba(247, 247, 247, 0.9);
@@ -203,6 +257,7 @@ img.left {
     box-shadow: 2px 2px 13px rgba(255, 255, 255, 0.5);
   }
 }
+
 .account__header {
   color: #fa0b0b;
   text-transform: uppercase;
@@ -214,6 +269,7 @@ img.left {
     font-size: 22px;
   }
 }
+
 input[type="file"] {
   border: none !important;
   cursor: pointer;

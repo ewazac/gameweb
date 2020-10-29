@@ -71,7 +71,7 @@ export default {
         if (this.user.username && this.user.password) {
           this.$store.dispatch("auth/login", this.user).then(
             () => {
-              this.$router.push("/account"); // before this.$router.push("/games");
+              this.$router.push("/account");
             },
             (error) => {
               this.errorMessage = "Niepoprawne hasło lub login";

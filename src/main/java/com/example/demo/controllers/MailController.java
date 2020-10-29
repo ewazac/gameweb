@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
 
 @RestController
-@CrossOrigin(origins = {"https://gameweb2.herokuapp.com/getAllCategories","https://localhost:4200"}, allowCredentials = "true")
+@CrossOrigin(origins = {"https://gameweb2.herokuapp.com/","https://localhost:4200"}, allowCredentials = "true")
 public class MailController {
 
     private final MailService mailService;
@@ -41,7 +41,7 @@ public class MailController {
     @Autowired
     MongoOperations mongoOperations;
 
-    @GetMapping()
+    @GetMapping(value = "/getAllCategories")
     public List<String> getAllCategories() {
         Aggregation aggregation = newAggregation(group("category"), project("category"));
         List<String> single = mongoOperations.aggregate(aggregation, "games", BasicDBObject.class).getMappedResults().stream().map(item -> item.getString("_id")).collect(Collectors.toList());

@@ -2,9 +2,9 @@
   <div class="wrapper">
     <b-navbar toggleable="lg" type="dark" variant="dark">
       <b-navbar-toggle class="app__toggle-menu ml-auto" target="nav-collapse"></b-navbar-toggle>
-        <b-collapse id="nav-collapse" is-nav>
-          <b-navbar-nav left>
-            <router-link to="/Games" class="nav-link">
+       <b-collapse id="nav-collapse" is-nav>
+            <b-navbar-nav left>
+              <router-link to="/Games" class="nav-link">
               <b-icon icon="house-door-fill"></b-icon>Gry</router-link>
             </b-navbar-nav>
             <b-navbar-nav left> 
@@ -30,7 +30,7 @@
                 <router-link to="/" @click.native.prevent="logOut" v-if="currentLoggedIn === true" class="nav-link">
                 <b-icon icon="power" aria-hidden="true"></b-icon>Wyloguj się</router-link>
               </b-navbar-nav>
-      </b-collapse>
+       </b-collapse>
     </b-navbar>
     <div class="rest">
       <router-view />
@@ -94,20 +94,20 @@ body {
 
 @media (max-width: 991px) {
 .navbar-collapse {
-  text-align: center;
-    background-color: #fa0b0b;
-    position: absolute;
-    width: 100%;
-    left: 0;
-    top: 108px;
-    z-index: 10;
-    padding-bottom: 14px;
-    box-shadow: #111 0px 18px 24px -19px;
-    border-top: 1px solid #fff;
-    }
+   text-align: center;
+   background-color: #fa0b0b;
+   position: absolute;
+   width: 100%;
+   left: 0;
+   top: 108px;
+   z-index: 10;
+   padding-bottom: 14px;
+   box-shadow: #111 0px 18px 24px -19px;
+   border-top: 1px solid #fff;
+}
 
 .GameWeb {
-  display: none;
+   display: none;
 }
 }
 </style>
