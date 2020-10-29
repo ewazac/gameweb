@@ -19,12 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static java.lang.Boolean.TRUE;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
 
 @RestController
-@CrossOrigin(origins = {"https://gameweb2.herokuapp.com","https://localhost:4200"}, allowCredentials = "true")
+@CrossOrigin(origins = {"https://gameweb2.herokuapp.com/getAllCategories","https://localhost:4200"}, allowCredentials = "true")
 public class MailController {
 
     private final MailService mailService;
