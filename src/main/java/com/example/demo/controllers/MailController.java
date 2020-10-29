@@ -12,11 +12,7 @@ import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.mail.MailException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
@@ -48,7 +44,7 @@ public class MailController {
         return single;
     }
 
-    @GetMapping(value = "/newsletter")
+    @PostMapping(value = "/newsletter")
     public String sendMail(@RequestBody List<String> categories) throws MailException {
         try {
             if(categories != null) {
