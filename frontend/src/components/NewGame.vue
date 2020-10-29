@@ -1,7 +1,7 @@
 <template>
   <div class="newgame">
-    <div class="form">
-      <h1 class="h1">Dodaj grę</h1>
+    <div class="container new-game__form">
+      <h1 class="new-game__header">Dodaj grę</h1>
       <form class="game" @submit.prevent="handleGame">
         <div class="form-group">
           <label>Podaj nazwę gry</label>
@@ -13,10 +13,12 @@
             placeholder="Nazwa gry"
             name="name"
           />
-          <div v-if="submitted && errors.has('name')" class="alert-danger">{{ 'Brak nazwy' }}</div>
+          <div v-if="submitted && errors.has('name')" class="alert-danger">
+            {{ 'Brak nazwy' }}
+          </div>
         </div>
         <div class="form-group">
-          <label>Wybierz kategorie</label>
+          <label>Wybierz kategorię</label>
           <b-form-select
             v-validate="'required'"
             v-model="game.category"
@@ -25,10 +27,9 @@
             class="mt-3"
             name="category"
           ></b-form-select>
-          <div
-            v-if="submitted && errors.has('category')"
-            class="alert-danger"
-          >{{ 'Brak kategorii' }}</div>
+          <div v-if="submitted && errors.has('category')" class="alert-danger">
+            {{ 'Brak kategorii' }}
+          </div>
         </div>
         <div class="form-group">
           <label>Podaj opis gry</label>
@@ -50,7 +51,9 @@
           <input class="inputPic" type="file" @change="addImage" />
         </div>
         <div class="form-group">
-          <button class="btn btn-primary btn-block" @click="handleAdding">Dodaj gre</button>
+          <button class="new-game__button" @click="handleAdding">
+            Dodaj grę
+          </button>
         </div>
         <b-alert v-if="dispatched === true" show variant="success" class="text-center">Gra została dodana pomyślnie</b-alert>
         <b-alert v-if="exist === true" show variant="danger" class="text-center">Ta gra została już dodana</b-alert>
@@ -135,32 +138,126 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.h1 {
+
+.new-game__form {
+  width: 60%;
+  background-color: rgba(247, 247, 247, 0.9);
+  padding: 20px 50px 30px;
+  margin: 0 auto 25px;
+  margin-top: 50px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  transition: 0.2s;
+
+  &:hover {
+    -moz-box-shadow: 2px 2px 13px rgba(255, 255, 255, 0.5);
+    -webkit-box-shadow: 2px 2px 13px rgba(255, 255, 255, 0.5);
+    box-shadow: 2px 2px 13px rgba(255, 255, 255, 0.5);
+  }
+}
+
+.new-game__header {
+  color: #fa0b0b;
+  text-transform: uppercase;
+  font-size: 30px;
+  font-weight: bold;
   text-align: center;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
 }
-.newgame {
-  display: grid;
-  justify-content: center;
+
+input[type="file"] {
+  border: none !important;
+  cursor: pointer;
+
+  &:hover {
+    cursor: pointer;
+  }
 }
-.form {
-  width: 450px;
+
+select {
+  border: 1px solid #111 !important;
+  cursor: pointer;
+  color: #fa0b0b;
+
+  &:active {
+    outline: none;
+    box-shadow: none;
+    border: 1px solid #111;
+    color: #fa0b0b;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+    border: 1px solid #111;
+    color: #fa0b0b;
+  }
 }
-.game {
-  padding: 1rem;
-  border: solid gainsboro;
-    border-width: 1px 0 2px 1px;
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
-    border-radius: 2px;
-    -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-    -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-    box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.3);
+
+input,
+textarea {
+  width: 100%;
+  border-width: 0px 0px 2px 0px;
+  border-radius: 4px;
+  border: 1px solid #111;
+  color: #fa0b0b;
+
+  &:active {
+    outline: none;
+    box-shadow: none;
+    border: 1px solid #111;
+    color: #fa0b0b;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+    border: 1px solid #111;
+    color: #fa0b0b;
+  }
 }
-.btn-primary {
-    color: #ffffff;
+
+.new-game__button {
+  background-color: #fa0b0b;
+  width: 100%;
+  border: none;
+  border-radius: 0;
+  padding: 10px 20px;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #fff;
+  transition: 0.2s;
+
+  &:active {
+    background-color: #fa0b0b !important;
+    outline: none !important;
+    border: none !important;
+    box-shadow: none;
+  }
+
+  &:focus {
+    background-color: #fa0b0b !important;
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  &:hover {
     background-color: #fa0b0b;
-    border-color: #fa0b0b;
+    opacity: 0.9;
+  }
+}
+
+@media (max-width: 991px) {
+  .new-game__form {
+    width: 75%;
+  }
+}
+
+@media (max-width: 767px) {
+  .new-game__form {
+    width: 100%;
+  }
 }
 </style>
