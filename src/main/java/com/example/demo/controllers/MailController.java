@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
 
 @RestController
-@CrossOrigin(origins = {"https://gameweb2.herokuapp.com/","https://localhost:4200"}, allowCredentials = "true")
+@CrossOrigin(origins = {"https://gameweb2.herokuapp.com","https://localhost:4200"}, allowCredentials = "true")
 public class MailController {
 
     private final MailService mailService;
