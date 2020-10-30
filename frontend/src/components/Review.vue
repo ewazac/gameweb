@@ -3,7 +3,7 @@
     <b-form @submit.prevent="handleReview" class="review__form">
       <h1 class="review__header">Dodaj recenzję</h1>
       <b-row cols="12" class="mt-4">
-         <b-col cols="2">
+         <b-col cols="12">
              <label>Podaj tytuł gry: </label>
          </b-col>
          <b-col cols="12">

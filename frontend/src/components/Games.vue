@@ -69,17 +69,17 @@ export default {
       sort: "Najlepiej oceniane",
       options: ["Najlepiej oceniane", "alfabetycznie", "od Z do A"],
       category: "wszystkie",
-      categories: ["wszystkie"],
+      categories: [],
       games: new Game("", "", "", ""),
       sorting: -1,
     };
   },
   computed: {
     filteredList() {
-      return this.games.filter((game) => {
+      return this.games.filter((game) => {/*
         if (!this.categories.includes(game.category)) {
           this.categories.push(game.category);
-        }
+        }*/
         return game.name.toLowerCase().includes(this.search.toLowerCase());
       });
     },
@@ -143,16 +143,26 @@ export default {
             })
             if (R[0] != undefined) {
               this.$set(obj, 'stars', R[0].stars)
-            }
+            }/*
             else {
               this.$set(obj, 'stars', (Math.random() * (5.00 - 1.00 + 1.00)).toFixed(2))
-            }
+            }*/
+
           }
         })
       })
       .catch((error) => {
         console.log(error);
       });
+      AXIOS.get('getAllCategories')
+      .then(response => {
+        this.categories = response.data;
+        this.categories.push(this.category);
+        console.log(this.categories, response.data)
+      })
+      .catch(error => {
+        console.log(error)
+      })
   },
 };
 </script>

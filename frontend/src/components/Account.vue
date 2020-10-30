@@ -33,7 +33,7 @@
                 required
               />
             </div>
-            <div class="mt-2">
+            <div>
               <h6>Podaj nowe hasło:</h6>
               <b-form-input
                 name="newPassword"
@@ -70,38 +70,44 @@
       <p class="text-center mt-4">
         Chcesz być na bieżąco, zapisz się do naszego newslettera:
       </p>
-      <div class="row text-center">
+      <div class="row text-left">
         <div class="col-10 offset-1 col-sm-6 offset-sm-3">
-          <b-form-group
-            name="form-newsletter"
-            @submit.prevent="subscribeToNewsletter"
-          >
-            <template #label>
-              <b>Wybierz kategorię gier:</b><br />
-              <b-form-checkbox
-                v-model="allSelected"
-                :indeterminate="indeterminate"
-                aria-describedby="Categories"
-                aria-controls="Categories"
-                @change="toggleAll"
-              >
-                {{ allSelected ? "Odznacz wszystkie" : "Wybierz wszystkie" }}
-              </b-form-checkbox>
-            </template>
+          <form name="form-newsletter" @submit.prevent="subscribeToNewsletter">
+            <b-form-group>
+              <template #label>
+                <b>Wybierz kategorię gier, które ciebie interesują:</b><br />
+                <b-form-checkbox
+                  v-model="allSelected"
+                  :indeterminate="indeterminate"
+                  aria-describedby="Categories"
+                  aria-controls="Categories"
+                  @change="toggleAll"
+                >
+                  {{ allSelected ? "Odznacz wszystkie" : "Wybierz wszystkie" }}
+                </b-form-checkbox>
+              </template>
 
-            <b-form-checkbox-group
-              id="Categories"
-              v-model="selected"
-              :options="categories"
-              name="Categories"
-              class="ml-4"
-              aria-label="Individual Categories"
-              stacked
-            ></b-form-checkbox-group>
-            <button class="btn account__button mt-3" type="submit">
+              <b-form-checkbox-group
+                id="Categories"
+                v-model="selected"
+                :options="categories"
+                name="Categories"
+                class="ml-4"
+                aria-label="Individual Categories"
+                stacked
+              ></b-form-checkbox-group>
+            </b-form-group>
+            <b-button class="btn account__button mt-3" type="submit">
               Zapisz się
-            </button>
-          </b-form-group>
+            </b-button>
+          </form>
+          <b-alert
+            class="left text-center"
+            v-if="newsletter === true"
+            show
+            variant="success"
+            >Zostałeś zapisany do Newslettera
+          </b-alert>
         </div>
       </div>
     </div>
@@ -128,10 +134,11 @@ export default {
       email: "",
       oldPassword: "",
       newPassword: "",
-      categories: null,
+      categories: [],
       selected: [],
       indeterminate: false,
-      allSelected: false
+      allSelected: false,
+      newsletter: false
     };
   },
   methods: {
@@ -153,7 +160,21 @@ export default {
         });
     },
     subscribeToNewsletter() {
-      alert("DZIĘKUJEMY !");
+      console.log(this.categories, this.selected);
+      axios
+        .post(API_URL + "newsletter", this.selected, {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((response) => {
+          this.newsletter = true
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     changeImage(event) {
       console.log(event);
@@ -181,8 +202,8 @@ export default {
         });
     },
     toggleAll(checked) {
-      this.selected = checked ? this.flavours.slice() : []
-    }
+      this.selected = checked ? this.categories.slice() : [];
+    },
   },
   watch: {
     selected(newVal) {
@@ -220,11 +241,10 @@ export default {
       });
     axios
       .get(API_URL + "getAllCategories", {
-        withCredentials: true
+        withCredentials: true,
       })
       .then((response) => {
         this.categories = response.data;
-        console.log(response);
       })
       .catch((error) => {
         console.log(error);

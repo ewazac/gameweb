@@ -9,7 +9,7 @@
          </b-img>
       </div>
       <div class="col-6 text-center">
-         <h1>Tytuł gr: {{ game.name }} </h1>
+         <h1>{{ game.name }} </h1>
       </div>
     </b-row>
     <b-row class="mt-4">

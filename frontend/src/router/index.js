@@ -59,9 +59,10 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const publicPages = ['/login', '/Register', '/Games', '/Games/*'];
+  const publicPages = ['/login', '/Register', '/games', '/game/*'];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem('user');
+  console.log(to.matched.some(route => route.meta.requiresSession))
 
   if (authRequired && !loggedIn) {
     next('/login');
