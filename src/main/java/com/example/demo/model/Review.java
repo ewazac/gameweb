@@ -15,11 +15,11 @@ import java.util.List;
 public class Review {
 
     @Id
-    private String id;
-    private String title;
-    private String description;
-    private Float stars;
-    private String game;
+    private final String id;
+    private final String title;
+    private final String description;
+    private final Float stars;
+    private final String game;
 
 
 }

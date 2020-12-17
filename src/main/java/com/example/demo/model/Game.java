@@ -19,11 +19,11 @@ public class Game {
     public String id;
     private String name;
     private String category;
-    private String description;
-    private String platform;
+    private final String description;
+    private final String platform;
     private Binary gameImage;
     @DBRef
-    private Review reviews;
+    private final Review reviews;
 
 
 
