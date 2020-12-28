@@ -55,8 +55,6 @@ public class ReviewController {
     @GetMapping(value = "/ranking")
     public List<Review> getRanking() {
 
-
-
         Aggregation aggregation = newAggregation(group("game").avg("stars").as("stars"), project("stars").and("game").previousOperation(), sort(Sort.Direction.DESC, "stars"));
         AggregationResults<Review> results = mongoTemplate.aggregate(aggregation, "reviews", Review.class);
         List<Review> finalResult = results.getMappedResults();

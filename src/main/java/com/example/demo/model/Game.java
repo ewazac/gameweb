@@ -34,7 +34,6 @@ public class Game {
         }
     }
 
-
     public void setImage(Binary gameImage) {
         this.gameImage = gameImage;
     }
