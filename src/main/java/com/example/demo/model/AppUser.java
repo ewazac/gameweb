@@ -48,6 +48,10 @@ public class AppUser {
 
     public String getEmail() { return email;}
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public void setNewsletter(Boolean newsletter) { this.newsletter = newsletter;}
 
     public void setId(String id) {

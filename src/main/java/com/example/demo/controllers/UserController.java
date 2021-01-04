@@ -82,6 +82,20 @@ public class UserController {
         userRepository.save(appUser);
     }
 
+    @PutMapping(value = "/changeLogin")
+    @ResponseStatus(value = HttpStatus.OK)
+    public void changeLogin(@RequestParam("newlogin") String newLogin, @RequestParam("oldlogin") String oldLogin) {
+        UserDetails userDetails =
+                (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();  //getting user from session
+        userDetails.getUsername();
+        AppUser appUser = userRepository.findUserByEmail(userDetails.getUsername());
+        if(newLogin.equals(oldLogin)) {
+            System.out.println("Same login!");
+        }
+        appUser.setEmail(newLogin);
+        userRepository.save(appUser);
+    }
+
 
     @GetMapping()
     public AppUser getUser() {
@@ -89,8 +103,6 @@ public class UserController {
                 (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();  //getting user from session
         return userRepository.findUserByEmail(userDetails.getUsername());
     }
-
-
 
 
     @ExceptionHandler

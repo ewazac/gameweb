@@ -2,7 +2,6 @@ package com.example.demo.controllers;
 
 import com.example.demo.model.Review;
 import com.example.demo.model.ReviewRepository;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -61,13 +60,6 @@ public class ReviewController {
         return finalResult;
 
     }
-
-
-//Arrays.asList(group("$game", avg("avg", "$stars")))
-
-
-
-
 
 
     @GetMapping
