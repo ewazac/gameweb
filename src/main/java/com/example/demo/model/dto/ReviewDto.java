@@ -1,17 +1,21 @@
-package com.example.demo.controllers;
+package com.example.demo.model.dto;
+
 
 import lombok.Builder;
 import lombok.Getter;
+
 import javax.validation.constraints.NotBlank;
 
 @Builder
 @Getter
-public class GamesDTO {
+public class ReviewDto {
 
     @NotBlank
-    public String name;
-    public String category;
+    public String title;
+    @NotBlank
     public String description;
-    public String platform;
+    public Float stars;
+    public String game;
+
 
 }

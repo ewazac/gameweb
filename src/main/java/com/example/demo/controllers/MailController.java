@@ -1,8 +1,8 @@
 package com.example.demo.controllers;
 
-import com.example.demo.model.AppUser;
+import com.example.demo.model.dao.AppUser;
 
-import com.example.demo.model.UserRepository;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.services.MailService;
 import com.mongodb.BasicDBObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,23 +46,23 @@ public class MailController {
         return single;
     }
 
-    @PostMapping(value = "/newsletter")
-    public String sendMail(@RequestBody List<String> categories) throws MailException {
-        try {
-            if(categories != null) {
-                UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-                AppUser user = userRepository.findUserByEmail(userDetails.getUsername());
-                user.setCategories(categories);
-                userRepository.save(user);
-                mailService.sendEmail(categories);
-
-            }
-        } catch (MailException | MessagingException mailException) {
-            System.out.println(mailException);
-        }
-
-        return "Zapisano do newslettera.";
-    }
+//    @PostMapping(value = "/newsletter")
+//    public String sendMail(@RequestBody List<String> categories) throws MailException {
+//        try {
+//            if(categories != null) {
+//                UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//                AppUser user =
+//                user.setCategories(categories);
+//                userRepository.save(user);
+//                mailService.sendEmail(categories);
+//
+//            }
+//        } catch (MailException | MessagingException mailException) {
+//            System.out.println(mailException);
+//        }
+//
+//        return "Zapisano do newslettera.";
+//    }
 
 
 }

@@ -1,7 +1,9 @@
-package com.example.demo.model;
+package com.example.demo.model.dao;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.List;
 
 @Document("quiz")
 public class Quiz {
@@ -11,6 +13,6 @@ public class Quiz {
     public String id;
     public String name;
     public String description;
-    public String correctAnswer;
+    public List<Question> answers;
 
 }
