@@ -1,7 +1,5 @@
 package com.example.demo.controllers;
 
-import com.example.demo.model.dao.AppUser;
-
 import com.example.demo.repository.UserRepository;
 import com.example.demo.services.MailService;
 import com.mongodb.BasicDBObject;
@@ -9,12 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
-import org.springframework.mail.MailException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import javax.mail.MessagingException;
 import java.util.List;
 import java.util.stream.Collectors;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
@@ -51,7 +45,7 @@ public class MailController {
 //        try {
 //            if(categories != null) {
 //                UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//                AppUser user =
+//                User user =
 //                user.setCategories(categories);
 //                userRepository.save(user);
 //                mailService.sendEmail(categories);

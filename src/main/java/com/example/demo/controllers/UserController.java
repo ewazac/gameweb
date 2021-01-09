@@ -1,25 +1,21 @@
 package com.example.demo.controllers;
 
-
 import com.example.demo.exeption.EntityNotFoundException;
-import com.example.demo.model.dao.AppUser;
+import com.example.demo.mapper.UserMapper;
+import com.example.demo.model.dao.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.model.dto.UserDto;
 import com.example.demo.services.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.BsonBinarySubType;
 import org.bson.types.Binary;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.*;
+
 
 @AllArgsConstructor
 @CorsRestController
@@ -31,75 +27,68 @@ public class UserController {
 
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
     private final UserService userService;
+    private final UserMapper userMapper;
 
-
-
-    @PostMapping()
-    @ResponseStatus(value = HttpStatus.CREATED)
-    public void createUser(@Valid @RequestBody UserDto userDTO) throws UserFoundException {
-        AppUser appUser = userRepository.findByEmail(userDTO.getEmail()).orElseThrow(()-> new EntityNotFoundException(userDTO.email));
-        if(appUser != null) {
-            throw new UserFoundException();
-        }
-        AppUser user = AppUser.builder()
-                .firstName(userDTO.getFirstName())
-                .lastName(userDTO.getLastName())
-                .email(userDTO.getEmail())
-                .password(passwordEncoder.encode(userDTO.getPassword()))
-                .roles(Arrays.asList("USER"))
-                .id(UUID.randomUUID().toString()).build();
-        userRepository.save(user);
+    @GetMapping()
+    public User getUser() {
+        return userService.getCurrentUser();
     }
 
-    @PutMapping ("/uploadAvatar")
-    public void addAvatar(@RequestParam("avatar") MultipartFile multipartFile) throws IOException {
-        AppUser user = userService.getCurrentUser();
-        if (user != null) {
-            user.setAvatar(new Binary(BsonBinarySubType.BINARY, multipartFile.getBytes()));
-            userRepository.save(user);
+    @PostMapping
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public UserDto createUser(@Valid @RequestBody UserDto userDto) throws UserFoundException {
+        User user = userRepository.findByEmail(userDto.getEmail()).orElseThrow(()-> new EntityNotFoundException(userDto.email));
+        if(user != null) {
+            throw new UserFoundException();
         }
+        return userMapper.toDto(userService.save(userMapper.toDao(userDto)));
+    }
+
+//    @PostMapping()
+//    @ResponseStatus(value = HttpStatus.CREATED)
+//    public void createUser(@Valid @RequestBody UserDto userDTO) throws UserFoundException {
+//        User appUser = userRepository.findByEmail(userDTO.getEmail()).orElseThrow(()-> new EntityNotFoundException(userDTO.email));
+//        if(appUser != null) {
+//            throw new UserFoundException();
+//        }
+//        User user = User.builder()
+//                .firstName(userDTO.getFirstName())
+//                .lastName(userDTO.getLastName())
+//                .email(userDTO.getEmail())
+//                .password(passwordEncoder.encode(userDTO.getPassword()))
+//                .roles(Arrays.asList("USER"))
+//                .id(UUID.randomUUID().toString()).build();
+//        userRepository.save(user);
+//    }
+
+    @PutMapping ("/uploadAvatar")
+    @PreAuthorize("isAuthenticated()")
+    public void addAvatar(@RequestParam("avatar") MultipartFile multipartFile) throws IOException {
+        userService.uploadAvatar(multipartFile);
     }
 
     @GetMapping(value = "/getAvatar")
     public Binary getAvatar() {
-        AppUser user = userService.getCurrentUser();
+        User user = userService.getCurrentUser();
         return user.getAvatar();
     }
 
     @PutMapping(value = "/changePassword")
     public void changePassword(@RequestParam("newpassword") String newPassword, @RequestParam("oldpassword") String oldPassword) throws InvalidOldPasswordException {
-        AppUser user = userService.getCurrentUser();
-        if(!passwordEncoder.matches(oldPassword, user.getPassword())) {
-            throw new InvalidOldPasswordException();
-        }
-        user.setPassword(passwordEncoder.encode(newPassword));
-        userRepository.save(user);
+        userService.changePassword(newPassword, oldPassword);
     }
 
     @PutMapping(value = "/changeLogin")
-    @ResponseStatus(value = HttpStatus.OK)
+    @PreAuthorize("isAuthenticated()")
     public void changeLogin(@RequestParam("newlogin") String newLogin, @RequestParam("oldlogin") String oldLogin) {
-        AppUser user = userService.getCurrentUser();
-        if(newLogin.equals(oldLogin)) {
-            System.out.println("Same login!");
-        }
-        user.setEmail(newLogin);
-        userRepository.save(user);
+        userService.changeLogin(newLogin, oldLogin);
     }
-
-
-    @GetMapping()
-    public AppUser getUser() {
-        return userService.getCurrentUser();
-    }
-
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public void exceptionHandler(UserFoundException userFoundException) {
-        log.info("brak uzytkownika");
+        log.info("No user found");
     }
 
 

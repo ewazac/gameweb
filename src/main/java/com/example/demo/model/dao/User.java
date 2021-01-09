@@ -2,7 +2,6 @@ package com.example.demo.model.dao;
 
 import lombok.*;
 import org.bson.types.Binary;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -13,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @Document(collection = "user")
 @Builder
-public class AppUser {
+public class User {
 
     @Id
     public String id;

@@ -1,50 +1,57 @@
 package com.example.demo.mapper;
 
-import com.example.demo.model.dao.AppUser;
-import com.example.demo.model.dao.Forum;
-import com.example.demo.model.dto.ForumDto;
+import com.example.demo.model.dao.User;
 import com.example.demo.model.dto.UserDto;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import java.util.Arrays;
+import java.util.UUID;
 
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class UserMapper {
 
-    public AppUser toDao(UserDto userDto) {
-        return AppUser.builder()
+    private final PasswordEncoder passwordEncoder;
+
+    public UserMapper(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
+
+
+    public User toDao(UserDto userDto) {
+
+        return User.builder()
                 .categories(userDto.getCategories())
-                .id(userDto.getId())
+                .id(UUID.randomUUID().toString())
                 .avatar(userDto.getAvatar())
                 .email(userDto.getEmail())
                 .newsletter(userDto.getNewsletter())
                 .firstName(userDto.getFirstName())
                 .lastName(userDto.getLastName())
-                .password(userDto.getPassword())
-                .roles(userDto.getRoles())
+                .password(passwordEncoder.encode(userDto.getPassword()))
+                .roles(Arrays.asList("USER"))
                 .build();
     }
 
-    public UserDto toDto(AppUser appUser) {
+    public UserDto toDto(User user) {
         return UserDto.builder()
-                .categories(appUser.getCategories())
-                .id(appUser.getId())
-                .avatar(appUser.getAvatar())
-                .email(appUser.getEmail())
-                .firstName(appUser.getFirstName())
-                .lastName(appUser.getLastName())
-                .newsletter(appUser.getNewsletter())
-                .password(appUser.getPassword())
-                .roles(appUser.getRoles())
+                .categories(user.getCategories())
+                .id(user.getId())
+                .avatar(user.getAvatar())
+                .email(user.getEmail())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .newsletter(user.getNewsletter())
+                .password(user.getPassword())
+                .roles(user.getRoles())
                 .build();
     }
 
-    public List<UserDto> toListDto(List<AppUser> userList) {
-        return userList.stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
-    }
+//    public List<UserDto> toListDto(List<User> userList) {
+//        return userList.stream()
+//                .map(this::toDto)
+//                .collect(Collectors.toList());
+//    }
 
 
 
