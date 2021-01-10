@@ -1,6 +1,5 @@
 package com.example.demo.services;
 
-import com.example.demo.model.dao.Forum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
