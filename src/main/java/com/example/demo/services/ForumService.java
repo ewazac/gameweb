@@ -27,9 +27,9 @@ public class ForumService {
 
 
     public Forum update(Forum forum, String id) {
-        Forum forumDB = getById(id);
-        forumDB.setName(forum.getName());
-        return save(forumDB);
+        Forum forumDb = getById(id);
+        forumDb.setName(forum.getName());
+        return save(forumDb);
     }
 
     public void deleteById(String id) {
