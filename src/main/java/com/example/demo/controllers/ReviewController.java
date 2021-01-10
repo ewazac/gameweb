@@ -1,7 +1,8 @@
 package com.example.demo.controllers;
 
-import com.example.demo.model.Review;
-import com.example.demo.model.ReviewRepository;
+import com.example.demo.model.dao.Review;
+import com.example.demo.repository.ReviewRepository;
+import com.example.demo.model.dto.ReviewDto;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -29,7 +30,7 @@ public class ReviewController {
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
-    public void createReview(@Valid @RequestBody ReviewDTO reviewDTO) {
+    public void createReview(@Valid @RequestBody ReviewDto reviewDTO) {
         Review review = Review.builder()
                 .title(reviewDTO.getTitle())
                 .description(reviewDTO.getDescription())

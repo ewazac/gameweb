@@ -1,22 +1,21 @@
-package com.example.demo.model;
+package com.example.demo.model.dao;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 import org.bson.types.Binary;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
-@Getter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Document(collection = "user")
 @Builder
-public class AppUser {
+public class User {
 
     @Id
     public String id;
-
     public String password;
     private String firstName;
     private String lastName;

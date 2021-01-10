@@ -1,15 +1,12 @@
 package com.example.demo.controllers;
 
 
-import com.example.demo.model.AppUser;
-import com.example.demo.model.News;
-import com.example.demo.model.NewsRepository;
-import com.example.demo.model.UserRepository;
+import com.example.demo.model.dao.News;
+import com.example.demo.repository.NewsRepository;
+import com.example.demo.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import org.apache.catalina.realm.UserDatabaseRealm;
 import org.bson.BsonBinarySubType;
 import org.bson.types.Binary;
-import org.springframework.data.mongodb.core.aggregation.ComparisonOperators;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

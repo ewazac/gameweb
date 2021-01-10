@@ -1,11 +1,9 @@
-package com.example.demo.model;
+package com.example.demo.repository;
 
+import com.example.demo.model.dao.Review;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.Query;
 
 import java.util.List;
-
-import static com.mongodb.client.model.Filters.where;
 
 public interface ReviewRepository extends MongoRepository<Review, String> {
 

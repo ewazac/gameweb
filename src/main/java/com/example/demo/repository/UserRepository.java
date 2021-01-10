@@ -1,15 +1,18 @@
-package com.example.demo.model;
+package com.example.demo.repository;
 
+import com.example.demo.model.dao.User;
 import org.bson.types.Binary;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface UserRepository extends MongoRepository<AppUser, String> {
+import java.util.Optional;
 
-    AppUser findUserByEmail(String email);
+public interface UserRepository extends MongoRepository<User, String> {
 
-    AppUser findUserById(String id);
+    Optional<User> findByEmail(String email);
 
-    AppUser findByAvatar(Binary avatar);
+    User findByAvatar(Binary avatar);
+
+
 
 
 

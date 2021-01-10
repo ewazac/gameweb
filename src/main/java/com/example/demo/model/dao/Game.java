@@ -1,4 +1,4 @@
-package com.example.demo.model;
+package com.example.demo.model.dao;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -7,8 +7,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.util.StringUtils;
-
-import java.util.List;
 
 @Getter
 @Document(collection = "games")

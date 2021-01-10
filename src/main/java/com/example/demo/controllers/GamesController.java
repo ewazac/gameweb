@@ -1,19 +1,15 @@
 package com.example.demo.controllers;
 
 
-import com.example.demo.model.Game;
-import com.example.demo.model.GamesRepository;
-import com.example.demo.model.Review;
-import com.example.demo.model.ReviewRepository;
+import com.example.demo.model.dao.Game;
+import com.example.demo.repository.GamesRepository;
+import com.example.demo.model.dto.GamesDto;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.BsonBinarySubType;
 import org.bson.types.Binary;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.aggregation.Aggregation;
-import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,7 +18,6 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
-import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.sort;
 
 // https://www.codementor.io/@gtommee97/rest-api-java-spring-boot-and-mongodb-j7nluip8d
@@ -40,7 +35,7 @@ public class GamesController {
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
-    public void createGame(@Valid @RequestBody GamesDTO gamesDTO) throws GameFoundException {
+    public void createGame(@Valid @RequestBody GamesDto gamesDTO) throws GameFoundException {
         Game games = gamesRepository.findGameByName(gamesDTO.getName());
         if(games != null) {
             throw new GameFoundException();
