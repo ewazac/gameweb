@@ -23,7 +23,6 @@ public class QuizController {
     @PreAuthorize("hasRole('ADMIN')")
     public QuizDto saveQuiz(@RequestBody QuizDto quizDto) {
         return quizMapper.toDto(quizService.save(quizMapper.toDao(quizDto)));
-
     }
 
     @GetMapping()
