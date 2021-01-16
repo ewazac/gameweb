@@ -1,79 +1,83 @@
 <template>
-  <div class="wrapper">
-    <b-navbar toggleable="lg" type="dark" variant="dark">
-      <b-navbar-toggle class="app__toggle-menu ml-auto" target="nav-collapse"></b-navbar-toggle>
-       <b-collapse id="nav-collapse" is-nav>
-            <b-navbar-nav left>
-              <router-link to="/Games" class="nav-link">
-              <b-icon icon="house-door-fill"></b-icon>Gry</router-link>
-            </b-navbar-nav>
-            <b-navbar-nav left> 
-              <router-link to="/Review" v-if="currentLoggedIn === true" class="nav-link">
-              <b-icon icon="filter-square" aria-hidden="review"></b-icon>Dodaj recenzję</router-link>
-            </b-navbar-nav>
-            <b-navbar-nav left>
-              <router-link to="/NewGame" v-if="currentLoggedIn === true" class="nav-link">
-              <b-icon icon="controller" aria-hidden="game"></b-icon>Dodaj grę</router-link>
-            </b-navbar-nav>
-            <b-navbar-nav class="m-auto" center>
-                <img class="GameWeb" src="./assets/logo.png" alt="GameWeb" />
-            </b-navbar-nav>
-              <b-navbar-nav right>
-                <router-link to="/login" v-if="currentLoggedIn === false" class="nav-link">
-                <b-icon icon="person" aria-hidden="login"></b-icon>Zaloguj się</router-link>
-              </b-navbar-nav>
-              <b-navbar-nav right>
-                <router-link to="/account" v-if="currentLoggedIn === true" class="nav-link">
-                <b-icon icon="gear-fill" aria-hidden="settings"></b-icon>Ustawienia konta</router-link>
-              </b-navbar-nav>
-              <b-navbar-nav right>
-                <router-link to="/" @click.native.prevent="logOut" v-if="currentLoggedIn === true" class="nav-link">
-                <b-icon icon="power" aria-hidden="true"></b-icon>Wyloguj się</router-link>
-              </b-navbar-nav>
-       </b-collapse>
-    </b-navbar>
-    <div class="rest">
-      <router-view />
+    <div class="wrapper">
+        <b-navbar toggleable="lg" type="dark" variant="dark" class="fixed-top">
+            <b-navbar-toggle class="app__toggle-menu ml-auto" target="nav-collapse"></b-navbar-toggle>
+            <b-collapse id="nav-collapse" is-nav>
+                <b-navbar-nav class="mr-auto align-items-baseline">
+                    <b-nav-item href="/Games">
+                        <img class="GameWeb" src="./assets/logo.png" alt="GameWeb" />
+                    </b-nav-item>
+                    <b-nav-item v-if="currentLoggedIn === true" href="/Review">
+                        News
+                    </b-nav-item>
+                    <b-nav-item v-if="currentLoggedIn === true" href="/NewGame">
+                        Gry
+                    </b-nav-item>
+                </b-navbar-nav>
+                <b-navbar-nav>
+                    <b-nav-item href="/search" id="search-icon-id">
+                        <b-icon icon="search" aria-hidden="search"></b-icon>
+                    </b-nav-item>
+                    <b-nav-item v-if="currentLoggedIn === false" href="/login">
+                        <b-icon icon="person" aria-hidden="login"></b-icon>
+                    </b-nav-item>
+                    <b-nav-item v-if="currentLoggedIn === true" href="/account">
+                        <b-icon icon="gear-fill" aria-hidden="settings"></b-icon>
+                    </b-nav-item>
+                    <b-nav-item v-if="currentLoggedIn === true" href="javascript:void(0);">
+                        <router-link to="/" @click.native.prevent="logOut" class="nav-link logout">
+                            <b-icon icon="power" aria-hidden="true" class="logout"></b-icon>
+                        </router-link>
+                    </b-nav-item>
+                </b-navbar-nav>
+            </b-collapse>
+        </b-navbar>
+        <div class="rest">
+            <router-view />
+        </div>
     </div>
-  </div>
 </template>
 
 <script>
-export default {
-  name: "app",
+    export default {
+        name: "app",
 
-  computed: {
-    currentLoggedIn () {
-      return this.$store.state.auth.status.loggedIn;
-    },
-    currentUser() {
-      return this.$store.state.auth.user;
-    },
-  },
-  methods: {
-    logOut() {
-      this.$store.dispatch("auth/logout");
-      this.$router.push("/login");
+        computed: {
+            currentLoggedIn () {
+                return this.$store.state.auth.status.loggedIn;
+            },
+            currentUser() {
+                return this.$store.state.auth.user;
+            },
+        },
+        methods: {
+            logOut() {
+                this.$store.dispatch("auth/logout");
+                this.$router.push("/login");
 
-    },
-  },
-};
+            },
+        },
+    };
 </script>
 
 <style lang="scss" scoped>
 body {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 .navbar {
-    height: 108px;
-    background-color: #fa0b0b !important;
+    height: 75px;
+    background-color: #272727 !important;
+}
+
+.wrapper {
+    margin-top: 100px;
 }
 
 .GameWeb {
-  height: 100%;
-  width: 150px;
+    height: 100%;
+    width: 150px;
 }
 
 .navbar-dark .navbar-nav .nav-link {
@@ -92,22 +96,32 @@ body {
     border: none;
 }
 
+.nav-collapse > .navbar-nav {
+    &:hover {
+      background-color: #272727;
+    }
+}
+
 @media (max-width: 991px) {
 .navbar-collapse {
-   text-align: center;
-   background-color: #fa0b0b;
-   position: absolute;
-   width: 100%;
-   left: 0;
-   top: 108px;
-   z-index: 10;
-   padding-bottom: 14px;
-   box-shadow: #111 0px 18px 24px -19px;
-   border-top: 1px solid #fff;
+    text-align: center;
+    background-color: #333;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 74px;
+    z-index: 10;
+    padding-bottom: 14px;
+    box-shadow: #111 0px 18px 24px -19px;
+    border-top: 1px solid #fff;
 }
 
 .GameWeb {
-   display: none;
+    display: none;
 }
+}
+
+.logout {
+    padding: 0px !important;
 }
 </style>
