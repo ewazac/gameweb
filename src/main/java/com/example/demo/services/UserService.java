@@ -11,9 +11,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.thymeleaf.context.Context;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.Executors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +24,18 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final MailService mailService;
+
+    public void restartPassword(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        user.setActivateCode(UUID.randomUUID().toString());
+        userRepository.save(user);
+        Executors.newCachedThreadPool().execute(() -> {
+            Context context = new Context();
+            context.setVariable("activated code", user.getActivateCode());
+            mailService.sendMail("restartPassword", user.getEmail(), context);
+        });
+    }
 
     public List<User> getAll() {
         return userRepository.findAll();
@@ -30,9 +45,6 @@ public class UserService {
         return userRepository.save(user);
     }
 
-//    public void deleteById(String id) {
-//        userRepository.deleteById(id);
-//    }
 
     public User getById(String id) {
         return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id));

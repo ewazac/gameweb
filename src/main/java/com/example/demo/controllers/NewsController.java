@@ -1,9 +1,11 @@
 package com.example.demo.controllers;
 
 
+import com.example.demo.mapper.NewsMapper;
 import com.example.demo.model.dao.News;
 import com.example.demo.repository.NewsRepository;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.services.NewsService;
 import lombok.AllArgsConstructor;
 import org.bson.BsonBinarySubType;
 import org.bson.types.Binary;
@@ -22,6 +24,9 @@ public class NewsController {
 
     NewsRepository newsRepository;
     UserRepository userRepository;
+
+    NewsService newsService;
+    NewsMapper newsMapper;
 
     @PostMapping(value = "/addNews")
     @ResponseStatus(value = HttpStatus.CREATED)
@@ -42,7 +47,7 @@ public class NewsController {
 
     @GetMapping
     public List<News> getNews() {
-        return newsRepository.findAll();  //display list of all news
+        return newsRepository.findAll();
     }
 
 

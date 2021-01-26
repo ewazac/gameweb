@@ -38,10 +38,10 @@ public class UserController {
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
     public UserDto createUser(@Valid @RequestBody UserDto userDto) throws UserFoundException {
-        User user = userRepository.findByEmail(userDto.getEmail()).orElseThrow(()-> new EntityNotFoundException(userDto.email));
-        if(user != null) {
-            throw new UserFoundException();
-        }
+//        User user = userRepository.findByEmail(userDto.getEmail()).orElseThrow(()-> new EntityNotFoundException(userDto.email));
+//        if(user != null) {
+//            throw new UserFoundException();
+//        }
         return userMapper.toDto(userService.save(userMapper.toDao(userDto)));
     }
 
@@ -83,6 +83,11 @@ public class UserController {
     @PreAuthorize("isAuthenticated()")
     public void changeLogin(@RequestParam("newlogin") String newLogin, @RequestParam("oldlogin") String oldLogin) {
         userService.changeLogin(newLogin, oldLogin);
+    }
+
+    @PostMapping("/restart")
+    public void restartPassword(@RequestParam String email) {
+        userService.restartPassword(email);
     }
 
     @ExceptionHandler

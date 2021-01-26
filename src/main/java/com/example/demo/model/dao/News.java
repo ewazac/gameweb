@@ -1,15 +1,16 @@
 package com.example.demo.model.dao;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 import org.bson.types.Binary;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 
-@Getter
-@Document("news")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
+@Document("news")
 public class News {
 
     @Id
@@ -18,17 +19,5 @@ public class News {
     private String description;
     private Binary image;
 
-
-    public void setImage(Binary image) {
-        this.image = image;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
 }
