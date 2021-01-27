@@ -17,4 +17,5 @@ public class Template {
     private String name;
     private String subject;
     private String body;
+
 }
