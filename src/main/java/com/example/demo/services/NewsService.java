@@ -39,6 +39,10 @@ public class NewsService {
         newsRepository.deleteById(id);
     }
 
+    public List<News> getNews(List<String> ids) {
+        return newsRepository.findByIdIn(ids);
+    }
+
 
 
 

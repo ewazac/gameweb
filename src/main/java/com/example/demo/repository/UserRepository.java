@@ -12,6 +12,8 @@ public interface UserRepository extends MongoRepository<User, String> {
 
     User findByAvatar(Binary avatar);
 
+    Optional<User> findByActivateCode(String activateCode);
+
 
 
 

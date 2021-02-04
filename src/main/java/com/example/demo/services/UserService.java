@@ -32,10 +32,12 @@ public class UserService {
         userRepository.save(user);
         Executors.newCachedThreadPool().execute(() -> {
             Context context = new Context();
-            context.setVariable("activated code", user.getActivateCode());
+            context.setVariable("activated_code", user.getActivateCode());
             mailService.sendMail("restartPassword", user.getEmail(), context);
         });
     }
+
+
 
     public List<User> getAll() {
         return userRepository.findAll();
@@ -80,7 +82,10 @@ public class UserService {
     }
 
 
-
-
-
+    public void changeRestartPassword(String activatedCode, String password) throws Throwable {
+        User user = userRepository.findByActivateCode(activatedCode).orElseThrow(() -> new EntityNotFoundException("Cannot find user by activated code"));
+        user.setActivateCode(null);
+        user.setPassword(passwordEncoder.encode(password));
+        userRepository.save(user);
+    }
 }

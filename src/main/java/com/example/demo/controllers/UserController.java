@@ -1,9 +1,9 @@
 package com.example.demo.controllers;
 
-import com.example.demo.exeption.EntityNotFoundException;
+
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.model.dao.User;
-import com.example.demo.repository.UserRepository;
+import com.example.demo.model.dto.RestartDto;
 import com.example.demo.model.dto.UserDto;
 import com.example.demo.services.UserService;
 import lombok.AllArgsConstructor;
@@ -26,7 +26,7 @@ public class UserController {
 
 
 
-    private final UserRepository userRepository;
+
     private final UserService userService;
     private final UserMapper userMapper;
 
@@ -38,29 +38,8 @@ public class UserController {
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
     public UserDto createUser(@Valid @RequestBody UserDto userDto) throws UserFoundException {
-//        User user = userRepository.findByEmail(userDto.getEmail()).orElseThrow(()-> new EntityNotFoundException(userDto.email));
-//        if(user != null) {
-//            throw new UserFoundException();
-//        }
         return userMapper.toDto(userService.save(userMapper.toDao(userDto)));
     }
-
-//    @PostMapping()
-//    @ResponseStatus(value = HttpStatus.CREATED)
-//    public void createUser(@Valid @RequestBody UserDto userDTO) throws UserFoundException {
-//        User appUser = userRepository.findByEmail(userDTO.getEmail()).orElseThrow(()-> new EntityNotFoundException(userDTO.email));
-//        if(appUser != null) {
-//            throw new UserFoundException();
-//        }
-//        User user = User.builder()
-//                .firstName(userDTO.getFirstName())
-//                .lastName(userDTO.getLastName())
-//                .email(userDTO.getEmail())
-//                .password(passwordEncoder.encode(userDTO.getPassword()))
-//                .roles(Arrays.asList("USER"))
-//                .id(UUID.randomUUID().toString()).build();
-//        userRepository.save(user);
-//    }
 
     @PutMapping ("/uploadAvatar")
     @PreAuthorize("isAuthenticated()")
@@ -72,6 +51,11 @@ public class UserController {
     public Binary getAvatar() {
         User user = userService.getCurrentUser();
         return user.getAvatar();
+    }
+
+    @PatchMapping()
+    public void changeRestartPassword(@RequestBody RestartDto restartDto) throws Throwable {
+        userService.changeRestartPassword(restartDto.getActivatedCode(), restartDto.getPassword());
     }
 
     @PutMapping(value = "/changePassword")

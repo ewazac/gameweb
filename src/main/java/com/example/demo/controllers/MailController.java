@@ -27,11 +27,6 @@ public class MailController {
     }
 
 
-
-
-
-
-
     @Autowired
     MongoTemplate mongoTemplate;
 
