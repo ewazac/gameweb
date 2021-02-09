@@ -21,7 +21,7 @@ import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/reviews")
-@CrossOrigin(origins = "https://gameweb2.herokuapp.com", allowCredentials = "true")
+@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class ReviewController {
 
     ReviewRepository reviewRepository;
