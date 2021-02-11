@@ -21,7 +21,7 @@ import java.io.IOException;
 @CorsRestController
 @RequestMapping("/users")
 @Slf4j
-@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
+@CrossOrigin(origins = "https://gameweb2.herokuapp.com", allowCredentials = "true")
 public class UserController {
 
 

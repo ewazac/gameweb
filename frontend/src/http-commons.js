@@ -1,6 +1,6 @@
 import axios from 'axios'
 
 export const AXIOS = axios.create({
-  baseURL: `http://localhost:8086`,
+  baseURL: `https://gameweb21.herokuapp.com/`,
   withCredentials: true,
 })
