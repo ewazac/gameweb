@@ -1,170 +1,54 @@
 <template>
-  <div class="wraper">
-    <div class="demo">
-      <div id="v-for-object">
-        <div class="container">
-          <div class="row search">
-            <div class="search-wrapper">
-              <label class="label">Wyszukaj tytuł:</label>
-              <b-form-input type="text" v-model="search" placeholder="Wyszukaj tytuł.."></b-form-input>
-            </div>
-            <div class="search-advance mt-3 mt-md-0">
-              <label class="label">Wybierz kategorię:</label>
-              <b-form-select
-                v-model="category"
-                :options="categories"
-                class="mb-3"
-                value-field="item"
-                text-field="name"
-                disabled-field="notEnabled"
-              ></b-form-select>
-            </div>
-            <div class="sort">
-              <label class="label">Sortuj:</label>
-              <b-form-select
-                v-model="sort"
-                :options="options"
-                class="mb-3"
-                value-field="item"
-                text-field="name"
-                disabled-field="notEnabled"
-              ></b-form-select>
-            </div>
-          </div>
-
-          <b-card-group class="cardGroup" v-for="i in Math.ceil(games.length/4)" :key="i" deck>
-            <b-card
+  <div class="hello">
+    <b-card-group class="cardGroup" v-for="i in Math.ceil(games.length/4)" :key="i" deck>
+      <b-card
               class="mb-2"
-              v-for="item in sortedGames.slice((i-1)*4, (i-1)*4 +  4)"
-              :key="item.id"
-              :title="item.name"
-              :sub-title="'Ocena '+item.stars"
-              :img-src="getImage(item.gameImage)"
+              v-for="item in games.slice((i-1)*4, (i-1)*4 +  4)"
+              :key="item.appId"
+              :title="item.title"
+              :img-src="item.icon"
               img-top
-            >
-              <b-card-text v-if="item.description">{{ item.description.slice(0,150) }}...</b-card-text>
-              <b-button class="games__button" @click="handleDetails(item.name)"> Zobacz więcej </b-button>
-            </b-card>
-          </b-card-group>
-        </div>
-      </div>
-    </div>
+      >
+        <b-card-text v-if="item.summary">{{ item.summary.slice(0,150) }}...</b-card-text>
+        <b-button class="games__button" @click="handleDetails(item.appId)"> Zobacz więcej </b-button>
+      </b-card>
+    </b-card-group>
   </div>
 </template>
 
 <script>
-import { AXIOS } from "../http-commons";
-import Game from "../models/game";
+  import axios from "axios";
 
-export default {
-  name: "games-list",
-  beforeCreate: function () {
-    document.body.className = "app__body";
-  },
-  data() {
-    return {
-      readMoreActivated: false,
-      search: "",
-      error: [],
-      sort: "Najlepiej oceniane",
-      options: ["Najlepiej oceniane", "alfabetycznie", "od Z do A"],
-      category: "wszystkie",
-      categories: [],
-      games: new Game("", "", "", ""),
-      sorting: -1,
-    };
-  },
-  computed: {
-    filteredList() {
-      return this.games.filter((game) => {/*
-        if (!this.categories.includes(game.category)) {
-          this.categories.push(game.category);
-        }*/
-        return game.name.toLowerCase().includes(this.search.toLowerCase());
-      });
+  export default {
+    name: 'Home',
+    beforeCreate: function () {
+      document.body.className = "app__body";
     },
-    filteredCategory() {
-      return this.filteredList.filter((game) => {
-        if (this.category === "wszystkie") {
-          return game.category;
-        }
-        return game.category
-          .toLowerCase()
-          .includes(this.category.toLowerCase());
-      });
-    },
-    sortedGames() {
-      if (this.sort === "alfabetycznie") {
-        return this.filteredCategory
-          .slice(0)
-          .sort((a, b) => (a.name < b.name ? this.sorting : -this.sorting));
-      } else if (this.sort === "od Z do A") {
-        return this.filteredCategory
-          .slice(0)
-          .sort((a, b) => (a.name < b.name ? -this.sorting : this.sorting));
-      } else {
-        return this.filteredCategory
-          .slice(0)
-          .sort((a, b) => (a.stars < b.stars ? -this.sorting : this.sorting));
+    data() {
+      return {
+        games: '',
       }
     },
-  },
-  methods: {
-    handleDetails(item) {
-      console.log(item)
-      this.$router.push({path:'/game', params:{game:item}, query:{game: item}});
+    methods: {
+      handleDetails(item) {
+        console.log(item)
+        this.$router.push({path:'/game', params:{game2:item}, query:{game2: item}});
+      },
     },
-    getImage(image) {
-      if (image === null) {
-        return "https://media.sproutsocial.com/uploads/2017/02/10x-featured-social-media-image-size.png";
-      }
-      let base64 = image.data;
-      let buffer = Uint8Array.from(atob(base64), (c) => c.charCodeAt(0));
-      let blob = new Blob([buffer], { type: "image/gif" });
-      return URL.createObjectURL(blob);
-    },
-    activateReadMore() {
-      this.readMoreActivated = true;
-    },
-  },
-  mounted() {
-    AXIOS.get("games")
-      .then((response) => {
-        this.games = response.data;
-        AXIOS.get('reviews/ranking')
-        .then((response) => {
-          let ranking = response.data
-          for (const obj of this.games) {
-            let R = ranking.filter((rank) => {
-              if (rank.game == null) {
-                rank.game = '';
-              }
-              return rank.game.includes(obj.name);
-            })
-            if (R[0] != undefined) {
-              this.$set(obj, 'stars', R[0].stars)
-            }/*
-            else {
-              this.$set(obj, 'stars', (Math.random() * (5.00 - 1.00 + 1.00)).toFixed(2))
-            }*/
 
-          }
-        })
-      })
-      .catch((error) => {
-        console.log(error);
+    mounted() {
+      axios.get('https://gameweb12.herokuapp.com/api/apps/?category=GAME')
+              .then((result) => {
+                this.games = result.data.results;
+                console.log(result.data.results)
+              }).catch((err) => {
+        console.log(err)
       });
-      AXIOS.get('getAllCategories')
-      .then(response => {
-        this.categories = response.data;
-        this.categories.push(this.category);
-        console.log(this.categories, response.data)
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  },
-};
+    },
+
+  }
+
+
 </script>
 
 <style lang="scss" scoped>
@@ -322,3 +206,4 @@ export default {
     color: white;
   }
 </style>
+
