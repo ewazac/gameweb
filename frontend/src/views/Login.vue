@@ -109,12 +109,12 @@
 </script>
 
 <style lang="scss" scoped>
-.log {
+  .log {
     display: block;
     margin-top: 10px;
-}
+  }
 
-.login {
+  .login {
     width: 50%;
     background-color: #222;
     padding: 20px 25px 30px;
@@ -124,9 +124,9 @@
     -webkit-border-radius: 10px;
     transition: 0.2s;
     border-radius: 0;
-}
+  }
 
-.login__button {
+  .login__button {
     background-color: mediumaquamarine;
     width: 100%;
     border: none;
@@ -151,45 +151,45 @@
       outline: none !important;
       border: none !important;
       box-shadow: none !important;
-}
+    }
 
-&:hover {
+    &:hover {
       background-color: mediumaquamarine;
       filter: brightness(1.1);
     }
-}
+  }
 
-.form-control {
+  .form-control {
     background-color: #000;
-}
+  }
 
-.login__link {
+  .login__link {
     color: gray;
     text-decoration: underline;
     display: inline-block;
     width: 100%;
     text-align: center;
-}
+  }
 
-.login__header {
+  .login__header {
     margin-bottom: 1rem;
     color: mediumaquamarine;
     text-transform: uppercase;
     font-size: 30px;
     font-weight: bold;
-}
+  }
 
-.form-group {
+  .form-group {
     margin-top: 10px;
     width: 100%;
     display: flex;
-}
+  }
 
-.password-group {
+  .password-group {
     position: relative;
-}
+  }
 
- .show-password {
+  .show-password {
     position: absolute;
     color: darkgrey;
     font-size: 26px;
@@ -197,11 +197,11 @@
     right: 8px;
     display: none;
     cursor: pointer;
-}
+  }
 
- .current-icon {
+  .current-icon {
     display: inline !important;
- }
+  }
 
   input {
     width: 100%;
@@ -226,25 +226,25 @@
       color: mediumaquamarine;
       background-color: #000;
     }
-}
+  }
 
-.error {
+  .error {
     color: red;
-}
+  }
 
-h1 {
+  h1 {
     text-align: center;
-}
+  }
 
-@media (max-width: 991px) {
+  @media (max-width: 991px) {
     .login {
       width: 75%;
     }
-}
+  }
 
-@media (max-width: 767px) {
+  @media (max-width: 767px) {
     .login {
       width: 100%;
     }
- }
+  }
 </style>

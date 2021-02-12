@@ -23,19 +23,9 @@ const routes = [/*
     component: () => import('../components/Game.vue')
   },
   {
-    path: '/Newgame',
-    name: 'NewGame',
-    component: () => import('../components/NewGame.vue')
-  },
-  {
     path: '/account',
     name: 'Account',
     component: () => import('../components/Account.vue')
-  },
-  {
-    path: '/review',
-    name: 'Review',
-    component: () => import('../components/Review.vue')
   },
   {
     path: '/login',
