@@ -37,6 +37,11 @@ const routes = [/*
     name: 'Register',
     component: Register,
   },
+  {
+    path: '/Search',
+    name: 'Search',
+    component: () => import('../components/Search.vue')
+  },
   { 
     path: '*',
     redirect: '/games',
@@ -49,7 +54,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const publicPages = ['/login', '/Register', '/games', '/game/*'];
+  const publicPages = ['/login', '/Register', '/games', '/game/*','/search'];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem('user');
   console.log(to.matched.some(route => route.meta.requiresSession))
