@@ -4,12 +4,13 @@
             <div class="col-6 text-center">
                 <b-img
                         class="gameImage"
-                        :src="getImage(game.gameImage)"
-                        :alt='game.name'>
+                        :src="game.icon"
+                        :alt="game.title"
+                >
                 </b-img>
             </div>
             <div class="col-6 text-center">
-                <h1>{{ game.name }} </h1>
+                <h1>{{ game.title }}</h1>
             </div>
         </b-row>
         <b-row class="mt-4">
@@ -22,31 +23,29 @@
 
         <b-row class="mt-5">
             <b-col sm="8" offset-sm="2">
-                <h2> Recenzje </h2>
-                <p>Średnia ocena tej gry to {{ stars }}</p>
+                <h2>Recenzje</h2>
+                <span>Średnia ocena tej gry to {{ game.score.toFixed(2) }}</span>
+                <b-form-rating id="rating" :value="game.score" inline disabled>
+                </b-form-rating>
             </b-col>
         </b-row>
         <div class="mt-4" v-if="success">
-            <b-row v-for="review in reviews" :key="review.id">
+            <b-row v-for="r in reviews" :key="r.id">
                 <b-col sm="8" offset-sm="2">
                     <b-row>
                         <b-col cols="12">
-                            <h5>{{ review.title.toUpperCase() }}</h5>
+                            <h5>{{ r.title }}</h5>
                         </b-col>
                     </b-row>
                     <b-row>
                         <b-col cols="12">
-                            <b-form-rating
-                                    id="rating"
-                                    :value="review.stars"
-                                    inline
-                                    disabled>
+                            <b-form-rating id="rating" :value="r.score" inline disabled>
                             </b-form-rating>
                         </b-col>
                     </b-row>
                     <b-row>
                         <b-col cols="12">
-                            <p class="game__review">{{ review.description }}</p>
+                            <p class="game__review">{{ r.text }}</p>
                         </b-col>
                     </b-row>
                 </b-col>
@@ -56,9 +55,7 @@
 </template>>
 
 <script>
-    import {AXIOS} from '../http-commons'
-    import Game from "../models/game"
-    import Review from '../models/review'
+    import axios from "axios";
 
     export default {
         name: "game-detail",
@@ -68,26 +65,12 @@
         data() {
             return {
                 success: false,
-                game: new Game('','',''),
-                reviews: new Review('','','',null),
-                stars: null,
-            }
+                game: '',
+                reviews: '',
+            };
         },
-        methods: {
-            getImage(image) {
-                if (image === null) {
-                    return "https://media.sproutsocial.com/uploads/2017/02/10x-featured-social-media-image-size.png";
-                }
-                else {
-                    let base64 = image.data;
-                    let buffer = Uint8Array.from(atob(base64), (c) => c.charCodeAt(0));
-                    let blob = new Blob([buffer], { type: "image/gif" });
-                    return URL.createObjectURL(blob);
-                }
-            },
-        },
-        created(){
-            AXIOS.get('games/'+this.$router.history.current.query.game)
+        created() {
+            axios.get("https://gameweb12.herokuapp.com/api/apps/" + this.$router.history.current.query.game2 + "/?lang=pl")
                 .then((response) => {
                     this.game = response.data;
                     console.log(response.data);
@@ -97,30 +80,17 @@
                 });
         },
         mounted() {
-            AXIOS.get('reviews/game/'+this.$router.history.current.query.game)
+            axios.get("https://gameweb12.herokuapp.com/api/apps/" + this.$router.history.current.query.game2 + "/reviews")
                 .then((response) => {
-                    this.success = true;
-                    this.reviews = response.data;
-                    console.log(response.data);
+                    this.success=true
+                    this.reviews = response.data.results.data
+                    console.log(response.data)
+                    console.log(this.reviews)
                 })
                 .catch((error) => {
                     console.log(error);
                 });
-            AXIOS.get('reviews/ranking')
-                .then((response) => {
-                    var name = this.$router.history.current.query.game
-                    for (const object of response.data) {
-                        if (object.game == name) {
-                            this.stars = object.stars;
-                            break;
-                        }
-                    }
-                    console.log(response.data, this.stars);
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        }
+        },
     }
 </script>
 
@@ -131,15 +101,15 @@
 
     .game {
         margin-top: 40px;
-        background-color: #fa0b0b;
+        background-color: mediumaquamarine;
         padding-bottom: 20px;
         padding-top: 20px;
     }
 
     .disabled {
         background-color: white;
-        color: indianred;
-        border-color: indianred;
+        color: mediumaquamarine;
+        border-color: mediumaquamarine;
     }
 
     .game__image {
@@ -147,7 +117,7 @@
         min-height: 200px;
         max-width: 250px;
         max-height: 250px;
-        background-color: white;
+        background-color: mediumaquamarine;
         border: 1px solid black;
     }
 
@@ -169,5 +139,4 @@
         line-height: 1.6;
         text-align: left;
     }
-
 </style>
