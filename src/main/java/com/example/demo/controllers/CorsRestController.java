@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
     @Target({ElementType.TYPE})
     @Retention(RetentionPolicy.RUNTIME)
     @RestController
-    @CrossOrigin(origins = "https://gameweb2.herokuapp.com", allowCredentials = "true")
+    @CrossOrigin(origins = {"https://gameweb2.herokuapp.com", "http://localhost:4200"}, allowCredentials = "true")
     public @interface CorsRestController {
 
         String value() default "";
