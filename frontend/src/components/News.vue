@@ -21,6 +21,7 @@
                                     </div>
                                     <div class="font-weight-bold">{{item.description}}</div>
                                 </div>
+                                <b-button class="news__button" @click="handleDetails(item)"> Czytaj dalej </b-button>
                             </b-card>
                         </div>
                     </div>
@@ -32,6 +33,10 @@
 <script>
     import Request from '../request';
     export default {
+        name: 'Home',
+        beforeCreate: function () {
+            document.body.className = "app__body";
+        },
         data:() => {
             return {
                 news:null
@@ -54,6 +59,12 @@
 </script>
 <style lang="scss">
     .card{
+        min-height: 20rem;
+        border: solid darkgray;
+        border-width: 0 0 2px 0;
+        -moz-border-radius: 2px;
+        -webkit-border-radius: 2px;
+        border-radius: 2px;
         .card-body{
             padding: 0px;
             img{
@@ -68,5 +79,42 @@
             -moz-box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.15);
             box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.15);
         }
+        &:focus {
+            outline: none;
+            border: none;
+        }
     }
+    .news__button {
+        background-color: mediumaquamarine !important;
+        margin-top: auto;
+        border: none;
+
+        &:focus {
+            outline: none;
+            border: none;
+            box-shadow: none !important;
+        }
+    }
+
+    .btn-secondary {
+        background-color: mediumaquamarine;
+    }
+
+    .btn-secondary:hover {
+        opacity: 0.9;
+    }
+    label {
+        color: white;
+    }
+    .text-center{
+        color: #fff;
+        font-weight: 550;
+        font-size: 1.3rem;
+
+        &:hover{
+            color: #fff;
+            opacity: 0.9;
+        }
+    }
+
 </style>

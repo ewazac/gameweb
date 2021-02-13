@@ -131,7 +131,7 @@
   }
 
   .card {
-    min-height: 30rem;
+    min-height: 20rem;
     border: solid darkgray;
     border-width: 0 0 2px 0;
     -moz-border-radius: 2px;
