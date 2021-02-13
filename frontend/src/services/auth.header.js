@@ -31,6 +31,13 @@ class AuthService {
       password: user.password
     });
   }
+  sendResetLink(){
+    return Promise((resolve) => {
+      setTimeout(() => {
+        resolve();
+      },500)
+    })
+  }
 }
 
 export default new AuthService();
