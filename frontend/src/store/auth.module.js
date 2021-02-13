@@ -2,8 +2,8 @@ import AuthService from '../services/auth.header';
 
 const user = JSON.parse(localStorage.getItem('user'));
 const initialState = user
-  ? { status: { loggedIn: true }, user }
-  : { status: { loggedIn: false }, user: null };
+    ? { status: { loggedIn: true }, user }
+    : { status: { loggedIn: false }, user: null };
 
 export const auth = {
   namespaced: true,
@@ -11,14 +11,14 @@ export const auth = {
   actions: {
     login({ commit }, user) {
       return AuthService.login(user).then(
-        user => {
-          commit('loginSuccess', user);
-          return Promise.resolve(user);
-        })
-        .catch(error => {
-          commit('loginFailure');
-          return Promise.reject(error);
-        });
+          user => {
+            commit('loginSuccess', user);
+            return Promise.resolve(user);
+          })
+          .catch(error => {
+            commit('loginFailure');
+            return Promise.reject(error);
+          });
     },
     logout({ commit }) {
       AuthService.logout();
@@ -32,14 +32,14 @@ export const auth = {
         user.lastName = null
       }
       return AuthService.register(user).then(
-        response => {
-          commit('registerSuccess');
-          return Promise.resolve(response.data);
-        },
-        error => {
-          commit('registerFailure');
-          return Promise.reject(error);
-        }
+          response => {
+            commit('registerSuccess');
+            return Promise.resolve(response.data);
+          },
+          error => {
+            commit('registerFailure');
+            return Promise.reject(error);
+          }
       );
     }
   },
