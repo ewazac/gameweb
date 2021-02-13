@@ -4,6 +4,8 @@ import VueRouter from 'vue-router'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 
+import Users from './users';
+
 Vue.use(VueRouter)
 
 const routes = [/*
@@ -15,12 +17,18 @@ const routes = [/*
   {
     path: '/games',
     name: 'Games',
-    component: () => import('../components/Games.vue')
+    component: () => import('../components/Games.vue'),
+    meta:{auth: false}
   },
   {
     path: '/game',
     name: 'game-detail',
-    component: () => import('../components/Game.vue')
+    component: () => import('../components/Game.vue'),
+  },
+  {
+    path: '/Newgame',
+    name: 'NewGame',
+    component: () => import('../components/NewGame.vue'),
   },
   {
     path: '/account',
@@ -28,23 +36,35 @@ const routes = [/*
     component: () => import('../components/Account.vue')
   },
   {
+    path: '/news',
+    name: 'News',
+    component: () => import('../components/News.vue'),
+    meta:{auth: false}
+  },
+  {
+    path: '/review',
+    name: 'Review',
+    component: () => import('../components/Review.vue'),
+    meta:{auth:true}
+  },
+  {
     path: '/login',
     name: 'Login',
     component: Login,
+    meta:{auth: false}
   },
   {
     path: '/Register',
     name: 'Register',
     component: Register,
+    meta:{auth: false}
   },
+  Users,
+
   {
-    path: '/Search',
-    name: 'Search',
-    component: () => import('../components/Search.vue')
-  },
-  { 
     path: '*',
     redirect: '/games',
+    meta:{auth: false}
   },
 ]
 
@@ -54,14 +74,15 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const publicPages = ['/login', '/Register', '/games', '/game/*','/search'];
-  const authRequired = !publicPages.includes(to.path);
+  /*const publicPages = ['/login', '/Register', '/games', '/game/!*', '/reset-password'];*/
+  /*const authRequired = !publicPages.includes(to.path);*/
+  var authRequired = to.meta.auth != false;
   const loggedIn = localStorage.getItem('user');
-  console.log(to.matched.some(route => route.meta.requiresSession))
-
+  console.log(authRequired, 'AUTH');
   if (authRequired && !loggedIn) {
     next('/login');
   } else {
+    console.log('TEST');
     next();
   }
 });
