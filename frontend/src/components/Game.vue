@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <b-row class="game" align-h="around" align-v="center">
-            <div class="col-6 text-center">
+            <div class="col-4 text-center">
                 <b-img
                         class="gameImage"
                         :src="game.icon"
@@ -19,12 +19,12 @@
             </b-col>
         </b-row>
 
-        <hr class="mt-4" style="border-color: #fa0b0b" />
+        <hr class="mt-4" style="border-color: mediumaquamarine" />
 
         <b-row class="mt-5">
             <b-col sm="8" offset-sm="2">
                 <h2>Recenzje</h2>
-                <span>Średnia ocena tej gry to {{ game.score.toFixed(2) }}</span>
+                <span>Średnia ocena tej gry    </span>
                 <b-form-rating id="rating" :value="game.score" inline disabled>
                 </b-form-rating>
             </b-col>
@@ -96,14 +96,17 @@
 
 <style lang="scss" scoped>
     .container {
+        max-width:950px;
         background-color: #fff;
     }
 
     .game {
-        margin-top: 40px;
+        margin-top: 20px;
+        min-height: 250px;
+        max-height: 300px;
         background-color: mediumaquamarine;
-        padding-bottom: 20px;
-        padding-top: 20px;
+        padding-bottom: 10px;
+        padding-top: 10px;
     }
 
     .disabled {
@@ -112,11 +115,11 @@
         border-color: mediumaquamarine;
     }
 
-    .game__image {
+    .gameImage {
         min-width: 200px;
         min-height: 200px;
-        max-width: 250px;
-        max-height: 250px;
+        max-width: 200px;
+        max-height: 200px;
         background-color: mediumaquamarine;
         border: 1px solid black;
     }
