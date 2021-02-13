@@ -26,11 +26,6 @@ const routes = [/*
     component: () => import('../components/Game.vue'),
   },
   {
-    path: '/Newgame',
-    name: 'NewGame',
-    component: () => import('../components/NewGame.vue'),
-  },
-  {
     path: '/account',
     name: 'Account',
     component: () => import('../components/Account.vue')
@@ -40,12 +35,6 @@ const routes = [/*
     name: 'News',
     component: () => import('../components/News.vue'),
     meta:{auth: false}
-  },
-  {
-    path: '/review',
-    name: 'Review',
-    component: () => import('../components/Review.vue'),
-    meta:{auth:true}
   },
   {
     path: '/login',
