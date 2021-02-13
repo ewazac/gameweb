@@ -27,7 +27,7 @@
         </div>
         <p class="error" v-if="errorMessage != ''">{{ errorMessage }}</p>
         <hr />
-        <b-link class="login__link" href="#">Zapomniałeś hasła?</b-link>
+        <b-link class="login__link" to="/reset-password">Zapomniałeś hasła?</b-link>
         <b-link class="login__link" href="/Register">Nie masz konta? Zarejestruj się!</b-link>
         <hr />
         <div>
@@ -108,7 +108,7 @@
   };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .log {
     display: block;
     margin-top: 10px;

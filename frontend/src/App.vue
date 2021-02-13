@@ -7,11 +7,17 @@
                     <b-nav-item href="/Games">
                         <img class="GameWeb" src="./assets/logo.png" alt="GameWeb" />
                     </b-nav-item>
-                    <b-nav-item v-if="currentLoggedIn === true" href="/Review">
+                    <b-nav-item v-if="currentLoggedIn === true" href="/News">
                         News
                     </b-nav-item>
-                    <b-nav-item v-if="currentLoggedIn === true" href="/NewGame">
-                        Gry
+                    <b-nav-item v-if="currentLoggedIn === true" href="/Quiz">
+                        Quiz
+                    </b-nav-item>
+                    <b-nav-item v-if="currentLoggedIn === true" href="/Competition">
+                        Konkurs
+                    </b-nav-item>
+                    <b-nav-item v-if="currentLoggedIn === true" href="/Recommended">
+                        Polecane
                     </b-nav-item>
                 </b-navbar-nav>
                 <b-navbar-nav>
@@ -32,6 +38,7 @@
                 </b-navbar-nav>
             </b-collapse>
         </b-navbar>
+        <messages></messages>
         <div class="rest">
             <router-view />
         </div>
@@ -39,9 +46,12 @@
 </template>
 
 <script>
+    import Messages from './views/messages/messages';
     export default {
         name: "app",
-
+        components:{
+            Messages
+        },
         computed: {
             currentLoggedIn () {
                 return this.$store.state.auth.status.loggedIn;
@@ -61,67 +71,67 @@
 </script>
 
 <style lang="scss" scoped>
-body {
-    margin: 0;
-    padding: 0;
-}
+    body {
+        margin: 0;
+        padding: 0;
+    }
 
-.navbar {
-    height: 75px;
-    background-color: #272727 !important;
-}
+    .navbar {
+        height: 75px;
+        background-color: #272727 !important;
+    }
 
-.wrapper {
-    margin-top: 100px;
-}
+    .wrapper {
+        margin-top: 100px;
+    }
 
-.GameWeb {
-    height: 100%;
-    width: 150px;
-}
+    .GameWeb {
+        height: 100%;
+        width: 150px;
+    }
 
-.navbar-dark .navbar-nav .nav-link {
-    color: #fff;
-    font-weight: 550;
-    font-size: 1.3rem;
-
-    &:hover{
+    .navbar-dark .navbar-nav .nav-link {
         color: #fff;
-        opacity: 0.9;
+        font-weight: 550;
+        font-size: 1.3rem;
+
+        &:hover{
+            color: #fff;
+            opacity: 0.9;
+        }
     }
-}
 
-.app__toggle-menu {
-    background-color: #111;
-    border: none;
-}
-
-.nav-collapse > .navbar-nav {
-    &:hover {
-      background-color: #272727;
+    .app__toggle-menu {
+        background-color: #111;
+        border: none;
     }
-}
 
-@media (max-width: 991px) {
-.navbar-collapse {
-    text-align: center;
-    background-color: #333;
-    position: absolute;
-    width: 100%;
-    left: 0;
-    top: 74px;
-    z-index: 10;
-    padding-bottom: 14px;
-    box-shadow: #111 0px 18px 24px -19px;
-    border-top: 1px solid #fff;
-}
+    .nav-collapse > .navbar-nav {
+        &:hover {
+            background-color: #272727;
+        }
+    }
 
-.GameWeb {
-    display: none;
-}
-}
+    @media (max-width: 991px) {
+        .navbar-collapse {
+            text-align: center;
+            background-color: #333;
+            position: absolute;
+            width: 100%;
+            left: 0;
+            top: 74px;
+            z-index: 10;
+            padding-bottom: 14px;
+            box-shadow: #111 0px 18px 24px -19px;
+            border-top: 1px solid #fff;
+        }
 
-.logout {
-    padding: 0px !important;
-}
+        .GameWeb {
+            display: none;
+        }
+    }
+
+    .logout {
+        padding: 0px !important;
+    }
 </style>
