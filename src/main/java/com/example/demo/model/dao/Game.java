@@ -1,6 +1,7 @@
 package com.example.demo.model.dao;
 
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import org.bson.types.Binary;
 import org.springframework.data.annotation.Id;
@@ -8,9 +9,13 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.util.StringUtils;
 
-@Getter
+import java.util.List;
+import java.util.Set;
+
+
 @Document(collection = "games")
 @Builder
+@Data
 public class Game {
 
     @Id
@@ -20,43 +25,15 @@ public class Game {
     private final String description;
     private final String platform;
     private Binary gameImage;
+//    @DBRef
+//    private final Review reviews;
     @DBRef
-    private final Review reviews;
+    private Set<User> users;
+    private String groupId;
+    private long counter;
 
 
 
 
-    public void setId(String id) {
-        if (StringUtils.isEmpty(this.id)) {
-            this.id = id;
-        }
-    }
-
-    public void setImage(Binary gameImage) {
-        this.gameImage = gameImage;
-    }
-
-    public Binary getImage(Binary gameImage) {
-        return gameImage;
-    }
-
-
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-
-}
 
 }
