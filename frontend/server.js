@@ -12,7 +12,10 @@ app.use(cors({
     origin: "gameweb2.herokuapp.com",
     credentials: true
 }))
-
+app.use(cors({
+    origin: "gameweb12.herokuapp.com",
+    credentials: true
+}))
 
 app.get('/', function (req, res) {
     res.render(path.resolve(__dirname + '/../dist/index.html'))
