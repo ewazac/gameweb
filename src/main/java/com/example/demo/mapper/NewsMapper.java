@@ -16,6 +16,7 @@ public class NewsMapper {
                 .title(newsDto.getTitle())
                 .description(newsDto.getDescription())
                 .image(newsDto.getImage())
+                .body(newsDto.getBody())
                 .build();
     }
 
@@ -25,6 +26,7 @@ public class NewsMapper {
                 .description(news.getDescription())
                 .image(news.getImage())
                 .title(news.getTitle())
+                .body(news.getBody())
                 .build();
     }
 

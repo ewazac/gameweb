@@ -23,6 +23,7 @@ public class News {
     private Binary image;
     @CreatedDate
     private Date createdDate;
+    private String body;
 
 
 }

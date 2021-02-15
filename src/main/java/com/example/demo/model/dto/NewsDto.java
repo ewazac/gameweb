@@ -19,6 +19,7 @@ public class NewsDto {
     private String description;
     private Binary image;
     private Date createdDate;
+    private String body;
 
 
 }

@@ -32,8 +32,11 @@ public class NewsService {
         newsDb.setDescription(news.getDescription());
         newsDb.setImage(news.getImage());
         newsDb.setTitle(news.getTitle());
+        newsDb.setBody(news.getBody());
         return newsRepository.save(newsDb);
     }
+
+
 
     public void deleteById(String id) {
         newsRepository.deleteById(id);
