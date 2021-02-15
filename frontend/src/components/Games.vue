@@ -111,27 +111,28 @@
 
   .card-img-top {
     width: 100%;
-    height: 35%;
+    height: 45%;
   }
 
   .card-body {
     display: flex;
     flex-direction: column;
-    padding: 10px;
+    padding: 5px;
   }
 
   .card-body > .card-title {
     text-align: center;
-    margin-bottom: 20px;;
+    margin-bottom: 5px;;
   }
 
   .card-body > .card-text {
     text-align: justify;
-    padding: 0 10px;
+    padding: 0px;
   }
 
   .card {
-    min-height: 30rem;
+    min-height: 15rem;
+    max-height: 25rem;
     border: solid darkgray;
     border-width: 0 0 2px 0;
     -moz-border-radius: 2px;
