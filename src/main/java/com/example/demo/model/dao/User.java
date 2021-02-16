@@ -25,6 +25,7 @@ public class User {
     private Boolean newsletter;
     private List<String> categories;
     private String activateCode;
+    private String nick;
 
 
 

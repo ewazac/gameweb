@@ -52,8 +52,6 @@ public class NewsController {
     public String bodyAsHtml(@PathVariable String newsId) {
         News news = newsService.getById(newsId);
         return news.getBody();
-
-
     }
 
     @GetMapping

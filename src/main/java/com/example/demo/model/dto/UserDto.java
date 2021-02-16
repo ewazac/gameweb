@@ -24,5 +24,6 @@ public class UserDto {  //data transport object
     private List<String> roles;
     private Boolean newsletter;
     private List<String> categories;
+    private String nick;
 
 }

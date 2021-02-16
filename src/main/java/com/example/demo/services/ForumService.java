@@ -48,7 +48,7 @@ public class ForumService {
 
     public Forum addAnswer(Answer answer, String id) {
         Forum forum = getById(id);
-        answer.setUsername(userService.getCurrentUser().getEmail());
+        answer.setUsername(userService.getCurrentUser().getNick());
         forum.getAnswers().add(answer);
         return save(forum);
     }

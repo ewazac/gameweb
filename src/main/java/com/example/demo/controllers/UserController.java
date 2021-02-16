@@ -69,6 +69,16 @@ public class UserController {
         userService.changeLogin(newLogin, oldLogin);
     }
 
+    @PostMapping("/addNick")
+    public void addNick(String nick) {
+        userService.addNick(nick);
+    }
+
+    @PutMapping("/changeNick")
+    public void changeNick(String newNick, String oldNick) {
+        userService.changeNick(newNick, oldNick);
+    }
+
     @PostMapping("/restart")
     public void restartPassword(@RequestParam String email) {
         userService.restartPassword(email);

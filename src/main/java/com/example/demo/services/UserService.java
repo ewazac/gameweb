@@ -81,6 +81,20 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public void addNick(String nick) {
+        User user = getCurrentUser();
+        user.setNick(nick);
+        userRepository.save(user);
+    }
+
+    public void changeNick(String newNick, String oldNick) {
+        User user = getCurrentUser();
+        if(newNick.equals(oldNick)) {
+            System.out.println("The same nick");
+        }
+        user.setNick(newNick);
+        userRepository.save(user);
+    }
 
     public void changeRestartPassword(String activatedCode, String password) throws Throwable {
         User user = userRepository.findByActivateCode(activatedCode).orElseThrow(() -> new EntityNotFoundException("Cannot find user by activated code"));
@@ -88,4 +102,6 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(password));
         userRepository.save(user);
     }
+
+
 }
