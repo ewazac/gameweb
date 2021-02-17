@@ -3,6 +3,8 @@ package com.example.demo.controllers;
 
 import com.example.demo.mapper.NewsMapper;
 import com.example.demo.model.dao.News;
+import com.example.demo.model.dto.ForumDto;
+import com.example.demo.model.dto.NewsDto;
 import com.example.demo.repository.NewsRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.services.NewsService;
@@ -11,6 +13,7 @@ import org.bson.BsonBinarySubType;
 import org.bson.types.Binary;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -52,6 +55,18 @@ public class NewsController {
     public String bodyAsHtml(@PathVariable String newsId) {
         News news = newsService.getById(newsId);
         return news.getBody();
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public void deleteNewsById(@PathVariable String id) {
+        newsService.deleteById(id);
+    }
+
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public NewsDto updateNewsById(@RequestBody NewsDto newsDto, @PathVariable String id) {
+        return newsMapper.toDto(newsService.updateNewsById(newsMapper.toDao(newsDto), id));
     }
 
     @GetMapping

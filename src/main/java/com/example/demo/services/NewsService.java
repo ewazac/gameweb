@@ -27,7 +27,7 @@ public class NewsService {
         return newsRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id));
     }
 
-    public News update(News news, String id) {
+    public News updateNewsById(News news, String id) {
         News newsDb = getById(id);
         newsDb.setDescription(news.getDescription());
         newsDb.setImage(news.getImage());
