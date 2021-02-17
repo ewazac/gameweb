@@ -37,8 +37,6 @@ public class UserService {
         });
     }
 
-
-
     public List<User> getAll() {
         return userRepository.findAll();
     }
@@ -103,5 +101,21 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public void changeFirstName(String newName, String oldName) {
+        User user = getCurrentUser();
+        if(newName.equals(oldName)) {
+            System.out.println("The same name");
+        }
+        user.setFirstName(newName);
+        userRepository.save(user);
+    }
 
+    public void changeLastName(String newLastName, String oldLastName) {
+        User user = getCurrentUser();
+        if(newLastName.equals(oldLastName)) {
+            System.out.println("The same last name");
+        }
+        user.setLastName(newLastName);
+        userRepository.save(user);
+    }
 }

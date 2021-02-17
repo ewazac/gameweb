@@ -31,6 +31,10 @@ public class QuizService {
         return quizRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id));
     }
 
+    public void deleteById(String id) {
+        quizRepository.deleteById(id);
+    }
+
 
 
 

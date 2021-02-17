@@ -79,6 +79,16 @@ public class UserController {
         userService.changeNick(newNick, oldNick);
     }
 
+    @PutMapping("/changeFirstName")
+    public void changeFirstName(String newFirstName, String oldFirstName) {
+        userService.changeFirstName(newFirstName, oldFirstName);
+    }
+
+    @PutMapping("/changeLastName")
+    public void changeLastName(String newLastName, String oldLastName) {
+        userService.changeLastName(newLastName, oldLastName);
+    }
+
     @PostMapping("/restart")
     public void restartPassword(@RequestParam String email) {
         userService.restartPassword(email);
@@ -89,6 +99,4 @@ public class UserController {
     public void exceptionHandler(UserFoundException userFoundException) {
         log.info("No user found");
     }
-
-
 }

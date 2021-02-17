@@ -36,4 +36,12 @@ public class QuizController {
         return quizMapper.toDto(quizService.update(quizMapper.toDao(quizDto), id));
     }
 
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public void deleteQuizById(@PathVariable String id) {
+        quizService.deleteById(id);
+    }
+
+
+
 }
