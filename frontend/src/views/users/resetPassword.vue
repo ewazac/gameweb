@@ -66,55 +66,59 @@
             document.body.className = "app__body-login";
         },
         methods: {
-            handleReset(){
+            handleReset() {
                 this.loading = true;
                 this.$validator.validateAll().then((isValid) => {
                     if (!isValid) {
                         this.loading = false;
                         return;
                     }
-                    this.$store.dispatch()
+                    this.$store.dispatch('auth/sendResetLink', {email: this.user.username}).then(res => {
+                        console.log(res);
+                    })
                 });
-            },
-            handleLogin() {
-                this.loading = true;
-                this.$validator.validateAll().then((isValid) => {
-                    if (!isValid) {
-                        this.loading = false;
-                        return;
-                    }
-                    if (this.user.username && this.user.password) {
-                        this.$store.dispatch("auth/login", this.user).then(
-                            () => {
-                                this.$router.push("/account");
-                            },
-                            (error) => {
-                                this.errorMessage = "Niepoprawne hasło lub login";
-                                this.loading = false;
-                                this.message =
-                                    (error.response && error.response.data) ||
-                                    error.message ||
-                                    error.toString();
-                            }
-                        );
-                    }
-                });
-            },
-            showPassword() {
-                var passwordInput = document.getElementById('password-input-id');
-                var iconShowPassword = document.getElementById("icon-show-password-id");
-                var iconHidePassword = document.getElementById("icon-hide-password-id");
-
-                if (passwordInput.type === "password") {
-                    passwordInput.type = "text";
-                    iconShowPassword.classList.remove("current-icon");
-                    iconHidePassword.classList.add("current-icon");
-                } else {
-                    passwordInput.type = "password";
-                    iconHidePassword.classList.remove("current-icon");
-                    iconShowPassword.classList.add("current-icon");
-                }
             }
-        },
+        }
     };
+    //         handleLogin() {
+    //             this.loading = true;
+    //             this.$validator.validateAll().then((isValid) => {
+    //                 if (!isValid) {
+    //                     this.loading = false;
+    //                     return;
+    //                 }
+    //                 if (this.user.username && this.user.password) {
+    //                     this.$store.dispatch("auth/login", this.user).then(
+    //                         () => {
+    //                             this.$router.push("/account");
+    //                         },
+    //                         (error) => {
+    //                             this.errorMessage = "Niepoprawne hasło lub login";
+    //                             this.loading = false;
+    //                             this.message =
+    //                                 (error.response && error.response.data) ||
+    //                                 error.message ||
+    //                                 error.toString();
+    //                         }
+    //                     );
+    //                 }
+    //             });
+    //         },
+    //         showPassword() {
+    //             var passwordInput = document.getElementById('password-input-id');
+    //             var iconShowPassword = document.getElementById("icon-show-password-id");
+    //             var iconHidePassword = document.getElementById("icon-hide-password-id");
+    //
+    //             if (passwordInput.type === "password") {
+    //                 passwordInput.type = "text";
+    //                 iconShowPassword.classList.remove("current-icon");
+    //                 iconHidePassword.classList.add("current-icon");
+    //             } else {
+    //                 passwordInput.type = "password";
+    //                 iconHidePassword.classList.remove("current-icon");
+    //                 iconShowPassword.classList.add("current-icon");
+    //             }
+    //         }
+    //     },
+    // };
 </script>

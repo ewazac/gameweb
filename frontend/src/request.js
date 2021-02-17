@@ -22,7 +22,7 @@ service.interceptors.response.use(
         return response.data;
     },
     error => {
-        store.dispatch('app/add_message', {text: error.response.data.error, type: 'danger'});
+        store.dispatch('app/add_message', {text: error.response.data.error+': '+error.response.data.message, type: 'danger'});
         return Promise.reject(error);
     },
 );
