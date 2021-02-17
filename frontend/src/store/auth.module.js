@@ -1,9 +1,13 @@
 import AuthService from '../services/auth.header';
+import Request from '../request';
 
 const user = JSON.parse(localStorage.getItem('user'));
+var isAdmin = () => {
+  return user.roles.find(x => x == 'ADMIN') != null;
+}
 const initialState = user
-    ? { status: { loggedIn: true }, user }
-    : { status: { loggedIn: false }, user: null };
+    ? { status: { loggedIn: true }, user, isAdmin: isAdmin(user) }
+    : { status: { loggedIn: false }, user: null, isAdmin: false };
 
 export const auth = {
   namespaced: true,
@@ -41,12 +45,22 @@ export const auth = {
             return Promise.reject(error);
           }
       );
+    },
+    sendResetLink(payload, data){
+      return new Promise((resolve) => {
+        Request({
+          url:'/users/restart?email='+data.email,
+          method: 'POST'
+        })
+        resolve();
+      })
     }
   },
   mutations: {
     loginSuccess(state, user) {
       state.status.loggedIn = true;
       state.user = user;
+      state.isAdmin = isAdmin(user);
     },
     loginFailure(state) {
       state.status.loggedIn = false;
@@ -61,6 +75,11 @@ export const auth = {
     },
     registerFailure(state) {
       state.status.loggedIn = false;
+    }
+  },
+  getters:{
+    isAdmin(state){
+      return state.isAdmin;
     }
   }
 };

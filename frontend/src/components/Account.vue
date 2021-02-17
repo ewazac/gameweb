@@ -1,113 +1,145 @@
 <template>
   <div class="container">
     <div class="account">
-      <h1 class="account__header">Zmień ustawienia konta</h1>
-      <b-row class="mt-5">
-        <b-col cols="12" md="6">
-          <h4 class="account__header account__header-sm text-left">
-            Twój avatar:
-          </h4>
-          <img class="left account__avatar" alt="avatar" :src="avatar" />
-          <input class="left" type="file" @change="changeImage" />
-          <b-button class="account__button" @click="handleChange"
-          >Zmień avatar</b-button
-          >
-        </b-col>
-        <b-col cols="12" md="6">
-          <h4 class="account__header account__header-sm text-left mt-4 mt-md-0">
-            Twój obecny mail:
-          </h4>
-          <div class="text">{{ currentUser.email }}</div>
-          <h5 class="account__header account__header-sm text-left mt-4">
-            Zmień hasło:
-          </h5>
-          <form name="form" @submit.prevent="handleChangePass">
-            <div>
-              <h6 style="color: #fff;">Podaj stare hasło:</h6>
-              <b-form-input
-                      name="oldPassword"
-                      class="input"
-                      type="password"
-                      v-model="oldPassword"
-                      autocomplete="on"
-                      required
-              />
-            </div>
-            <div>
-              <h6 style="color: #fff;">Podaj nowe hasło:</h6>
-              <b-form-input
-                      name="newPassword"
-                      class="account__text-input"
-                      type="password"
-                      v-model="newPassword"
-                      autocomplete="on"
-                      required
-              />
-            </div>
-            <b-button class="account__button mt-3" type="submit">
-              Zmień hasło
-            </b-button>
-            <b-alert
-                    class="left text-center"
-                    v-if="dispatched === true"
-                    show
-                    variant="success"
-            >Hasło zostało zmienione
-            </b-alert>
-            <b-alert
-                    class="left text-center"
-                    v-if="exist === true"
-                    show
-                    variant="danger"
-            >Nieprawidłowe hasło
-            </b-alert>
-          </form>
-        </b-col>
-      </b-row>
-    </div>
-    <div class="account">
-      <h1 class="account__header">Newsletter</h1>
-      <p class="text-center mt-4" style="color: #fff;">
-        Chcesz być na bieżąco, zapisz się do naszego newslettera:
-      </p>
-      <div class="row text-left">
-        <div class="col-10 offset-1 col-sm-6 offset-sm-3">
-          <form name="form-newsletter" @submit.prevent="subscribeToNewsletter">
-            <b-form-group class="text">
-              <template #label>
-                <b class="mt-4" style="color: #fff;">Wybierz kategorie gier, które Cię interesują:</b><br />
-                <b-form-checkbox
-                        v-model="allSelected"
-                        :indeterminate="indeterminate"
-                        aria-describedby="Categories"
-                        aria-controls="Categories"
-                        @change="toggleAll"
-                >
-                  {{ allSelected ? "Odznacz wszystkie" : "Wybierz wszystkie" }}
-                </b-form-checkbox>
-              </template>
+      <div class="row">
+        <div class="col-md-3" v-if="isAdmin">
+          <!-- Sidebar -->
+          <admin-sidebar></admin-sidebar>
+          <!-- /#sidebar-wrapper -->
+        </div>
+        <div class="col-md-9" :class="{'col-md-12': !isAdmin}">
+          <div class="w-100">
+            <b-card
+                    title="Ustawienia konta"
+                    tag="article"
+                    class="mb-2 w-100"
+            >
+              <b-card-text>
+                <h3 class="h5">Dane osobowe</h3>
+                <div class="my-4">
+                  <div class="row">
+                    <div class="col-md-2 align-center">Zmień avatar</div>
+                    <input class="left d-none" type="file" ref="file_input" @change="handleChangeAvatar($event)" />
+                    <div class="col-md-10" v-if="!avatar">
+                      <div @click="$refs.file_input.click()" class="w-100 text-center" style="cursor: pointer; border: 1px dashed #c8c1c1; padding: 40px">
+                        <span class="text-muted">Kliknij aby zmienić avatar</span>
+                      </div>
+                    </div>
+                    <div class="col-md-10" v-if="avatar">
+                      <div class="avatar-holder" style="cursor: pointer" @click="$refs.file_input.click()"><img :src="avatar"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row align-center mt-2">
+                  <div class="col-md-2 align-center">Imię i nazwisko:</div>
+                  <div class="col-md-10" v-if="edited_field != 'name'">{{currentUser.firstName}} {{currentUser.lastName}} <i @click="edited_field = 'name'" class="bi bi-pencil-square"></i></div>
+                  <div v-else class="d-flex col-md-10 transition">
+                    <b-form-input
+                            class="input mx-1"
+                            type="text"
+                            v-model="currentUser.firstName"
+                            autocomplete="on"
+                            required
+                    />
+                    <b-form-input
+                            class="input mx-1"
+                            type="text"
+                            v-model="currentUser.lastName"
+                            autocomplete="on"
+                            required
+                    />
+                    <b-button class="account__button" @click="handleChange">Zapisz</b-button>
+                  </div>
+                </div>
+                <div class="row align-center mt-2">
+                  <div class="col-md-2 align-center">Nick:</div>
+                  <div class="col-md-10" v-if="edited_field != 'nick'"><span v-if="currentUser.nick">{{currentUser.nick}}</span><span v-else class="text-muted">Brak nick'u</span><i @click="edited_field = 'nick'" class="bi bi-pencil-square ml-2"></i></div>
+                  <div v-else class="d-flex col-md-10 transition">
+                    <b-form-input
+                            placeholder="Nick"
+                            class="input mx-1"
+                            type="text"
+                            v-model="currentUser.nick"
+                            autocomplete="on"
+                            required
+                    />
+                    <b-button class="account__button" @click="handleChange">Zapisz</b-button>
+                  </div>
+                </div>
+                <div class="row align-center mt-2">
+                  <div class="col-md-2 align-center">Email:</div>
+                  <div class="col-md-10" v-if="edited_field != 'email'">{{currentUser.email}}</div>
+                </div>
+                <div class="row align-center mt-2">
+                  <div class="col-md-2 align-center">Hasło:</div>
+                  <div class="col-md-10" v-if="edited_field != 'password'">.....<i @click="edited_field = 'password'" class="bi bi-pencil-square ml-2"></i></div>
+                  <div v-else class="d-flex col-md-10 transition">
+                    <div>
+                      <b-form-input
+                              style="max-width: 150px"
+                              placeholder="Stare hasło"
+                              class="input mx-1"
+                              type="password"
+                              v-model="currentUser.oldpassword"
+                              :state="validatePasswords()"
+                              autocomplete="on"
+                              required
+                              aria-describedby="old_password"
+                      />
+                      <b-form-invalid-feedback id="old_password">This is a required field and must be at least 3 characters.</b-form-invalid-feedback>
+                    </div>
 
-              <b-form-checkbox-group
-                      id="Categories"
-                      v-model="selected"
-                      :options="categories"
-                      name="Categories"
-                      class="ml-4"
-                      aria-label="Individual Categories"
-                      stacked
-              ></b-form-checkbox-group>
-            </b-form-group>
-            <b-button class="btn account__button mt-3" type="submit">
-              Zapisz się
-            </b-button>
-          </form>
-          <b-alert
-                  class="left text-center"
-                  v-if="newsletter === true"
-                  show
-                  variant="success"
-          >Zostałeś zapisany do Newslettera
-          </b-alert>
+                    <div class="mx-1" style="min-width: 200px">
+                      <b-form-input
+                              placeholder="Nowe hasło"
+                              class="input mx-1"
+                              type="password"
+                              :state="validatePasswords()"
+                              v-model="currentUser.newpassword"
+                              autocomplete="on"
+                              required
+                              aria-describedby="new_password"
+                      />
+                      <b-form-invalid-feedback id="old_password">This is a required field and must be at least 3 characters. Confirmation should matched.</b-form-invalid-feedback>
+                      <b-form-input
+                              placeholder="Powtórz nowego hasła"
+                              class="input mx-1 mt-2"
+                              type="password"
+                              :state="validatePasswords()"
+                              v-model="currentUser.newpassword_confirmation"
+                              autocomplete="on"
+                              required
+                              aria-describedby="old_password_confirmation"
+                      />
+                    </div>
+                    <div class="align-center ml-auto">
+                      <b-button class="ml-2 account__button" @click="handleChangePass()">Zapisz</b-button>
+                    </div>
+
+                  </div>
+                </div>
+              </b-card-text>
+            </b-card>
+          </div>
+          <div class="w-100 mt-5">
+            <b-card
+                    title="Newsletter"
+                    tag="article"
+                    class="mb-2 w-100"
+            >
+              <b-card-text>
+                <b-form-checkbox
+                        id="checkbox-1"
+                        v-model="currentUser.newsletter_agree"
+                        name="checkbox-1"
+                        value="1"
+                        unchecked-value="0"
+                >
+                  Wyrażam zgodę na wysyłanie newslettera.
+                </b-form-checkbox>
+              </b-card-text>
+            </b-card>
+          </div>
         </div>
       </div>
     </div>
@@ -124,6 +156,11 @@
     beforeCreate: function () {
       document.body.className = "app__body";
     },
+    computed:{
+      isAdmin(){
+        return this.currentUser && this.currentUser.roles.findIndex(x => x == 'ADMIN') != -1;
+      }
+    },
     data() {
       return {
         currentUser: JSON.parse(localStorage.getItem("user")),
@@ -138,26 +175,33 @@
         selected: [],
         indeterminate: false,
         allSelected: false,
-        newsletter: false
+        newsletter: false,
+        edited_field:null,
+        sending: false,
       };
     },
     methods: {
       handleChangePass() {
-        const fd = new FormData();
-        fd.append("newpassword", this.newPassword);
-        fd.append("oldpassword", this.oldPassword);
-        axios
-                .put(API_URL + "users/changePassword", fd, {
-                  withCredentials: true,
-                })
-                .then((response) => {
-                  this.dispatched = true;
-                  console.log(response);
-                })
-                .catch((error) => {
-                  console.log(error);
-                  this.exist = true;
-                });
+        this.sending = true;
+        if(this.validatePasswords()){
+          const fd = new FormData();
+          fd.append("newpassword", this.currentUser.newpassword);
+          fd.append("oldpassword", this.currentUser.oldpassword);
+          axios
+                  .put(API_URL + "users/changePassword", fd, {
+                    withCredentials: true,
+                  })
+                  .then(() => {
+                    this.dispatched = true;
+                    this.$store.dispatch('app/add_message', {text: 'Hasło zostało zmienione', type: 'success'});
+                    this.sending = false
+                    this.edited_field = null;
+                  })
+                  .catch(() => {
+                    this.$store.dispatch('app/add_message', {text: 'Niepoprawne stare hasło', type: 'danger'});
+                    this.sending = false
+                  });
+        }
       },
       subscribeToNewsletter() {
         console.log(this.categories, this.selected);
@@ -176,16 +220,20 @@
                   console.log(error);
                 });
       },
-      changeImage(event) {
-        console.log(event);
-        this.selectedFile = event.target.files[0];
+      handleChange(){
+        this.edited_field = null;
       },
-      handleChange() {
-        if (this.selectedFile === null) {
-          this.$router.go();
-        }
+      validatePasswords(){
+        if(!this.sending) return null;
+        if(!this.currentUser.newpassword || !this.currentUser.newpassword_confirmation || !this.currentUser.oldpassword) return false;
+        if(this.currentUser.newpassword.length < 4 || this.currentUser.newpassword_confirmation.length < 4 || this.currentUser.oldpassword.length < 4) return false;
+        if(this.currentUser.newpassword != this.currentUser.newpassword_confirmation) return false;
+        return true;
+      },
+      handleChangeAvatar(event) {
+        var selected_file = event.target.files[0]
         const fd = new FormData();
-        fd.append("avatar", this.selectedFile);
+        fd.append("avatar", selected_file);
         axios
                 .put(API_URL + "users/uploadAvatar", fd, {
                   withCredentials: true,
@@ -193,9 +241,25 @@
                     "Content-Type": "multipart/form-data",
                   },
                 })
+                .then(() => {
+                  /*this.$router.go();*/
+                  this.getAvatar();
+                })
+                .catch(() => {
+                });
+      },
+      getAvatar(){
+        axios.get(API_URL + "users/getAvatar", {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
                 .then((response) => {
-                  console.log(response);
-                  this.$router.go();
+                  let base64 = response.data.data;
+                  let buffer = Uint8Array.from(atob(base64), (c) => c.charCodeAt(0));
+                  let blob = new Blob([buffer], { type: "image/gif" });
+                  this.avatar = URL.createObjectURL(blob);
                 })
                 .catch((error) => {
                   console.log(error);
@@ -223,22 +287,7 @@
       if (!this.currentUser) {
         this.$router.push("Login");
       }
-      axios
-              .get(API_URL + "users/getAvatar", {
-                withCredentials: true,
-                headers: {
-                  "Content-Type": "multipart/form-data",
-                },
-              })
-              .then((response) => {
-                let base64 = response.data.data;
-                let buffer = Uint8Array.from(atob(base64), (c) => c.charCodeAt(0));
-                let blob = new Blob([buffer], { type: "image/gif" });
-                this.avatar = URL.createObjectURL(blob);
-              })
-              .catch((error) => {
-                console.log(error);
-              });
+      this.getAvatar();
       axios
               .get(API_URL + "getAllCategories", {
                 withCredentials: true,
@@ -253,151 +302,3 @@
   };
 </script>
 
-
-<style lang="scss" scoped>
-  img.left {
-    height: 8rem;
-    width: 8rem;
-  }
-
-  .account {
-    width: 70%;
-    background-color: #222;
-    padding: 20px 30px 30px;
-    margin: 0 auto 25px;
-    margin-top: 50px;
-    -moz-border-radius: 0;
-    -webkit-border-radius: 0;
-    border-radius: 0;
-    transition: 0.2s;
-  }
-
-  .account__header {
-    color: mediumaquamarine;
-    text-transform: uppercase;
-    font-size: 30px;
-    font-weight: bold;
-    text-align: center;
-
-    &-sm {
-      font-size: 22px;
-    }
-  }
-
-  input {
-    width: 100%;
-    border-width: 0px 0px 2px 0px;
-    border-radius: 0;
-    border: 1px solid #111;
-    color: mediumaquamarine;
-    background-color: #000;
-
-    &:active {
-      outline: none;
-      box-shadow: none;
-      border: 1px solid #111;
-      color: mediumaquamarine;
-      background-color: #000;
-    }
-
-    &:focus {
-      outline: none;
-      box-shadow: none;
-      border: 1px solid #111;
-      color: mediumaquamarine;
-      background-color: #000;
-    }
-  }
-
-  .form-control {
-    background-color: #000;
-    color: mediumaquamarine;
-  }
-
-  input[type="file"] {
-    border: none !important;
-    cursor: pointer;
-
-    width: 100%;
-    border-width: 0px 0px 2px 0px;
-    border-radius: 0;
-    border: 1px solid #111;
-    color: mediumaquamarine;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    background-color: #222;
-
-    &:active {
-      outline: none;
-      box-shadow: none;
-      border: 1px solid #111;
-      color: mediumaquamarine;
-    }
-
-    &:focus {
-      outline: none;
-      box-shadow: none;
-      border: 1px solid #111;
-      color: mediumaquamarine;
-    }
-
-    &:hover {
-      cursor: pointer;
-    }
-  }
-  .text{
-    background-color: #222;
-    color: white;
-  }
-
-  .account__text-input {
-    width: 100%;
-    border-width: 0px 0px 2px 0px;
-    border-radius: 0;
-    border: 1px solid #111;
-    color: mediumaquamarine;
-    display: block !important;
-
-    &:active {
-      outline: none;
-      box-shadow: none;
-      border: 1px solid #111;
-      color: mediumaquamarine;
-    }
-
-    &:focus {
-      outline: none;
-      box-shadow: none;
-      border: 1px solid #111;
-      color: mediumaquamarine;
-    }
-  }
-
-  .account__avatar {
-    background-color: #fff;
-  }
-
-  .custom-control {
-    color: #fff;
-
-  }
-
-  .account__button {
-    background-color: mediumaquamarine !important;
-    margin-top: auto;
-    border: none;
-    color: #fff;
-
-    &:focus {
-      outline: none;
-      border: none;
-      box-shadow: none !important;
-    }
-  }
-
-  @media (max-width: 991px) {
-    .account {
-      width: 100%;
-    }
-  }
-</style>

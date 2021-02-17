@@ -5,6 +5,8 @@ import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 
 import Users from './users';
+import AdminRoutes from './admin';
+import NewsEditAdd from '../views/admin/news-edit-add';
 
 Vue.use(VueRouter)
 
@@ -37,6 +39,12 @@ const routes = [/*
     meta:{auth: false}
   },
   {
+    path: '/news/:id',
+    name: 'News',
+    component: () => import('../components/SingleNews.vue'),
+    meta:{auth: false}
+  },
+  {
     path: '/login',
     name: 'Login',
     component: Login,
@@ -49,6 +57,19 @@ const routes = [/*
     meta:{auth: false}
   },
   Users,
+    AdminRoutes,
+  {
+    path: '/admin/news/:id',
+    name: 'news',
+    component: NewsEditAdd,
+    meta:{auth: true}
+  },
+  {
+    path: '/admin/news/create',
+    name: 'news',
+    component: NewsEditAdd,
+    meta:{auth: true}
+  },
 
   {
     path: '*',
@@ -59,6 +80,8 @@ const routes = [/*
 
 const router = new VueRouter({
   mode: 'history',
+  linkActiveClass: "active", // active class for non-exact links.
+  linkExactActiveClass: "active",
   routes
 })
 
