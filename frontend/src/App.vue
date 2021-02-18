@@ -91,7 +91,7 @@
     }
 
     .navbar-dark .navbar-nav .nav-link {
-        color: #fff;
+        color: #fff !important;
         font-weight: 550;
         font-size: 1.3rem;
 

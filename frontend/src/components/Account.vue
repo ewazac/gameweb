@@ -86,7 +86,7 @@
                               required
                               aria-describedby="old_password"
                       />
-                      <b-form-invalid-feedback id="old_password">This is a required field and must be at least 3 characters.</b-form-invalid-feedback>
+<!--                      <b-form-invalid-feedback id="old_password">This is a required field and must be at least 4 characters.</b-form-invalid-feedback>-->
                     </div>
 
                     <div class="mx-1" style="min-width: 200px">
@@ -100,9 +100,9 @@
                               required
                               aria-describedby="new_password"
                       />
-                      <b-form-invalid-feedback id="old_password">This is a required field and must be at least 3 characters. Confirmation should matched.</b-form-invalid-feedback>
+                      <b-form-invalid-feedback id="new_password">This is a required field and must be at least 4 characters. Confirmation should matched.</b-form-invalid-feedback>
                       <b-form-input
-                              placeholder="Powtórz nowego hasła"
+                              placeholder="Powtórz nowe hasło"
                               class="input mx-1 mt-2"
                               type="password"
                               :state="validatePasswords()"
@@ -301,4 +301,124 @@
     },
   };
 </script>
+<style lang="scss" scoped>
 
+  .account {
+  width: 70%;
+  background-color: black;
+  padding: 20px 30px 30px;
+  margin: 0 auto 25px;
+  margin-top: 50px;
+  -moz-border-radius: 0;
+  -webkit-border-radius: 0;
+  border-radius: 0;
+  transition: 0.2s;
+  }
+  .form-control {
+    background-color: black;
+  }
+
+  .input{
+    width: 100%;
+    border-width: 0px 0px 2px 0px;
+    border-radius: 0;
+    border: 1px solid #111;
+    color: mediumaquamarine;
+    display: block !important;
+
+    &:active {
+      outline: none;
+      box-shadow: none;
+      border: 1px solid #111;
+      color: mediumaquamarine;
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: none;
+      border: 1px solid #111;
+      color: mediumaquamarine;
+    }
+  }
+
+
+  /*.form-control {*/
+  /*  background-color: #000;*/
+  /*  color: mediumaquamarine;*/
+  /*}*/
+
+  /*input[type="file"] {*/
+  /*  border: none !important;*/
+  /*  cursor: pointer;*/
+
+  /*  width: 100%;*/
+  /*  border-width: 0px 0px 2px 0px;*/
+  /*  border-radius: 0;*/
+  /*  border: 1px solid #111;*/
+  /*  color: mediumaquamarine;*/
+  /*  margin-top: 20px;*/
+  /*  margin-bottom: 20px;*/
+  /*  background-color: #222;*/
+
+  /*  &:active {*/
+  /*    outline: none;*/
+  /*    box-shadow: none;*/
+  /*    border: 1px solid #111;*/
+  /*    color: mediumaquamarine;*/
+  /*  }*/
+
+  /*  &:focus {*/
+  /*    outline: none;*/
+  /*    box-shadow: none;*/
+  /*    border: 1px solid #111;*/
+  /*    color: mediumaquamarine;*/
+  /*  }*/
+
+  /*  &:hover {*/
+  /*    cursor: pointer;*/
+  /*  }*/
+  /*}*/
+  /*.text{*/
+  /*  background-color: #222;*/
+  /*  color: white;*/
+  /*}*/
+
+  /*.account__edited_field {*/
+  /*  width: 100%;*/
+  /*  border-width: 0px 0px 2px 0px;*/
+  /*  border-radius: 0;*/
+  /*  border: 1px solid #111;*/
+  /*  color: mediumaquamarine;*/
+  /*  display: block !important;*/
+
+  /*  &:active {*/
+  /*    outline: none;*/
+  /*    box-shadow: none;*/
+  /*    border: 1px solid #111;*/
+  /*    color: mediumaquamarine;*/
+  /*  }*/
+
+  /*  &:focus {*/
+  /*    outline: none;*/
+  /*    box-shadow: none;*/
+  /*    border: 1px solid #111;*/
+  /*    color: mediumaquamarine;*/
+  /*  }*/
+  /*}*/
+
+  /*.custom-control {*/
+  /*  color: #fff;*/
+
+  /*  &:focus {*/
+  /*    outline: none;*/
+  /*    border: none;*/
+  /*    box-shadow: none !important;*/
+  /*  }*/
+  /*}*/
+
+  @media (max-width: 991px) {
+    .account {
+      width: 100%;
+    }
+  }
+</style>

@@ -104,7 +104,7 @@
         margin-top: 20px;
         min-height: 250px;
         max-height: 300px;
-        background-color: mediumaquamarine;
+        background-color: #222;
         padding-bottom: 10px;
         padding-top: 10px;
     }

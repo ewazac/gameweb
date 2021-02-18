@@ -12,7 +12,7 @@ require('./registerComponents');
 require('./filters');
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
-Vue.use(VeeValidate), { fieldsBagName: 'veeFields' });
+Vue.use(VeeValidate, { fieldsBagName: 'veeFields' });
 import Confirm from './services/confirm';
 Vue.use(Confirm);
 Vue.use(require('vue-moment'));

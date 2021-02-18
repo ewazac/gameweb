@@ -15,13 +15,13 @@
                                 <img v-if="item.image" :src="'data:image/jpeg;base64,'+item.image.data">
                                 <img v-else src="../assets/default.png">
                                 <div class="p-3">
-                                    <div class="font-weight-bold d-flex justify-content-between">
+                                    <div class="font-weight-bold d-flex justify-content-between" style="color: whitesmoke">
                                         <div>{{item.title}}</div>
-                                        <div class="text-muted">{{item.createdDate | convertDate('Y-m-d')}}</div>
+                                        <div class="text-muted" style="color: whitesmoke">{{item.createdDate | convertDate('Y-m-d')}}</div>
                                     </div>
-                                    <div class="font-weight-bold">{{item.description}}</div>
+                                    <div class="font-weight-bold" style="color: whitesmoke">{{item.description}}</div>
                                 </div>
-                                <b-button class="news__button" @click="handleDetails(item)"> Czytaj dalej </b-button>
+                                <b-button class="news__button" @click="handleDetails(item.id)"> Czytaj dalej </b-button>
                             </b-card>
                         </div>
                     </div>
@@ -53,8 +53,12 @@
                 }).then(res => {
                     this.news = res;
                 })
+            },
+            handleDetails(item) {
+                console.log(item)
+                this.$router.push({path:'/news/id', params:{id:item}, query:{id: item}});
             }
-        }
+        },
     }
 </script>
 <style lang="scss">
@@ -65,15 +69,15 @@
         -moz-border-radius: 2px;
         -webkit-border-radius: 2px;
         border-radius: 2px;
-        .card-body{
-            padding: 0px;
+    .card-body{
+       padding: 0px;
             img{
                 width: 100%;
                 height: 200px;
                 object-fit: cover;
             }
-        }
-        transition: all 200ms;
+       }
+       transition: all 200ms;
         &:hover{
             -webkit-box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.15);
             -moz-box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.15);
@@ -85,6 +89,7 @@
         }
     }
     .news__button {
+
         background-color: mediumaquamarine !important;
         margin-top: auto;
         border: none;
