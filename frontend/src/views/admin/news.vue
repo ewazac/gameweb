@@ -30,11 +30,11 @@
                                     <template #cell(actions)="{ item }">
                                         <div>
                                             <b-button @click="deleteElement(item.id)" class="mr-2" variant="danger">Usuń</b-button>
-                                            <b-button :to="'/admin/news/'+item.id" variant="success">Edytuj</b-button>
+                                            <b-button :to="'/admin/news/'+item.id" variant="outline-primary">Edytuj</b-button>
                                         </div>
                                     </template>
                                 </b-table>
-                                <b-button :to="'/admin/news/create'" variant="success">Dodaj nowy</b-button>
+                                <b-button :to="'/admin/news/create'" variant="light">Dodaj nowy</b-button>
 
                             </b-card-text>
                         </b-card>
