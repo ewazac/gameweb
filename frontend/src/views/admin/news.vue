@@ -29,7 +29,7 @@
                                     </template>
                                     <template #cell(actions)="{ item }">
                                         <div>
-                                            <b-button @click="deleteElement(item.id)" class="mr-2" variant="danger">Usuń</b-button>
+                                            <b-button @click="deleteElement(item.id)" class="mr-2" variant="outline-danger">Usuń</b-button>
                                             <b-button :to="'/admin/news/'+item.id" variant="outline-primary">Edytuj</b-button>
                                         </div>
                                     </template>

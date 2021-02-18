@@ -47,7 +47,7 @@
                                     ></b-form-textarea>
                                     <editor-content :editor="editor" />
 
-                                    <b-button @click="saveElement()" variant="success">Zapisz</b-button>
+                                    <b-button @click="saveElement()" variant="outline-success">Zapisz</b-button>
 
                                 </b-card-text>
                             </b-card>
