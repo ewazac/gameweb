@@ -3,6 +3,7 @@
         <div class="hello">
             <div class="container">
                 <h2 class="text-center">News za newsem ze świata gier</h2>
+                <hr class="mt-4" style="border-color: mediumaquamarine" />
                 <hr>
                 <h3 class="my-4 text-center">Ciekawostki a czasem spekulacje. Zapowiedzi, a po nich premiery. Pierwsze opinie oraz wrażenia. Bądź na bieżąco w świecie newsów!</h3>
                 <div class="mt-5">
@@ -14,14 +15,14 @@
                             >
                                 <img v-if="item.image" :src="'data:image/jpeg;base64,'+item.image.data">
                                 <img v-else src="../assets/default.png">
-                                <div class="p-3">
-                                    <div class="font-weight-bold d-flex justify-content-between" style="color: whitesmoke">
+                                <div class="p-3" style="color: whitesmoke">
+                                    <div class="font-weight-bold d-flex justify-content-between">
                                         <div>{{item.title}}</div>
-                                        <div class="text-muted" style="color: whitesmoke">{{item.createdDate | convertDate('Y-m-d')}}</div>
+                                        <div class="text-muted">{{item.createdDate | convertDate('Y-m-d')}}</div>
                                     </div>
-                                    <div class="font-weight-bold" style="color: whitesmoke">{{item.description}}</div>
+                                    <div class="font-weight-bold">{{item.description}}</div>
+                                    <b-button class="news__button" @click="handleDetails(item.id)"> Czytaj dalej </b-button>
                                 </div>
-                                <b-button class="news__button" @click="handleDetails(item.id)"> Czytaj dalej </b-button>
                             </b-card>
                         </div>
                     </div>
@@ -56,21 +57,22 @@
             },
             handleDetails(item) {
                 console.log(item)
-                this.$router.push({path:'/news/id', params:{id:item}, query:{id: item}});
+                this.$router.push({path:'/news', params:{id:item}, query:{id: item}});
             }
         },
     }
 </script>
 <style lang="scss">
     .card{
+        justify-content: center;
         min-height: 20rem;
-        border: solid darkgray;
         border-width: 0 0 2px 0;
         -moz-border-radius: 2px;
         -webkit-border-radius: 2px;
         border-radius: 2px;
+
     .card-body{
-       padding: 0px;
+       padding: 10px;
             img{
                 width: 100%;
                 height: 200px;
@@ -88,8 +90,7 @@
             border: none;
         }
     }
-    .news__button {
-
+    .news__button{
         background-color: mediumaquamarine !important;
         margin-top: auto;
         border: none;
@@ -101,13 +102,6 @@
         }
     }
 
-    .btn-secondary {
-        background-color: mediumaquamarine;
-    }
-
-    .btn-secondary:hover {
-        opacity: 0.9;
-    }
     label {
         color: white;
     }
@@ -121,5 +115,4 @@
             opacity: 0.9;
         }
     }
-
 </style>

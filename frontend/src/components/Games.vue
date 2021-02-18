@@ -116,7 +116,7 @@
   .card-body {
     display: flex;
     flex-direction: column;
-    padding: 5px;
+    padding: 10px;
   }
 
   .card-body > .card-title {
@@ -130,9 +130,9 @@
   }
 
   .card {
+    padding: 10px;
     min-height: 15rem;
     max-height: 25rem;
-    border: solid darkgray;
     border-width: 0 0 2px 0;
     -moz-border-radius: 2px;
     -webkit-border-radius: 2px;

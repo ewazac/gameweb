@@ -1,6 +1,6 @@
 <template>
     <div class="bg-light border-right" id="sidebar-wrapper">
-        <div class="sidebar-heading">Start Bootstrap </div>
+        <div class="sidebar-heading">Nawigacja </div>
         <div class="list-group list-group-flush">
             <router-link :to="'/account'" class="list-group-item list-group-item-action bg-light">Account</router-link>
             <router-link :to="'/admin/news'" class="list-group-item list-group-item-action bg-light">Newsy</router-link>
