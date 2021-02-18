@@ -25,7 +25,7 @@ public class UserMapper {
                 .id(UUID.randomUUID().toString())
                 .avatar(userDto.getAvatar())
                 .email(userDto.getEmail())
-                .newsletter(userDto.getNewsletter())
+                .newsletter(userDto.isNewsletter())
                 .firstName(userDto.getFirstName())
                 .lastName(userDto.getLastName())
                 .password(passwordEncoder.encode(userDto.getPassword()))
@@ -41,7 +41,7 @@ public class UserMapper {
                 .email(user.getEmail())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
-                .newsletter(user.getNewsletter())
+                .newsletter(user.isNewsletter())
                 .password(user.getPassword())
                 .roles(user.getRoles())
                 .build();

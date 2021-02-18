@@ -4,11 +4,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import org.bson.types.Binary;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -31,6 +33,9 @@ public class Game {
     private Set<User> users;
     private String groupId;
     private long counter;
+
+    @CreatedDate
+    private LocalDate createdDate;
 
 
 

@@ -22,7 +22,7 @@ public class UserDto {  //data transport object
     public String password;
     private Binary avatar;
     private List<String> roles;
-    private Boolean newsletter;
+    private boolean newsletter;
     private List<String> categories;
     private String nick;
 

@@ -6,6 +6,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 
@@ -22,7 +24,7 @@ public class News {
     private String description;
     private Binary image;
     @CreatedDate
-    private Date createdDate;
+    private LocalDate createdDate;
     private String body;
 
 

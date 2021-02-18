@@ -63,12 +63,6 @@ public class UserController {
         userService.changePassword(newPassword, oldPassword);
     }
 
-    @PutMapping(value = "/changeLogin")
-    @PreAuthorize("isAuthenticated()")
-    public void changeLogin(@RequestParam("newlogin") String newLogin, @RequestParam("oldlogin") String oldLogin) {
-        userService.changeLogin(newLogin, oldLogin);
-    }
-
     @PostMapping("/addNick")
     public void addNick(String nick) {
         userService.addNick(nick);

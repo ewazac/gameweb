@@ -12,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @Document(collection = "user")
 @Builder
+
 public class User {
 
     @Id
@@ -22,10 +23,11 @@ public class User {
     private String email;
     private Binary avatar;
     private List<String> roles;
-    private Boolean newsletter;
     private List<String> categories;
     private String activateCode;
     private String nick;
+
+    private boolean newsletter;
 
 
 
