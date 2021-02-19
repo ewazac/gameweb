@@ -6,9 +6,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -25,4 +27,6 @@ public class Forum {
     private List<Answer> answers;
     @CreatedBy
     private String createdBy;
+    @CreatedDate
+    private LocalDate createdDate;
 }

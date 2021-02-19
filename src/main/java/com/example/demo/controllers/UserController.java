@@ -69,18 +69,18 @@ public class UserController {
     }
 
     @PutMapping("/changeNick")
-    public void changeNick(String newNick, String oldNick) {
-        userService.changeNick(newNick, oldNick);
+    public void changeNick(String newNick) {
+        userService.changeNick(newNick);
     }
 
     @PutMapping("/changeFirstName")
-    public void changeFirstName(String newFirstName, String oldFirstName) {
-        userService.changeFirstName(newFirstName, oldFirstName);
+    public void changeFirstName(String newFirstName) {
+        userService.changeFirstName(newFirstName);
     }
 
     @PutMapping("/changeLastName")
-    public void changeLastName(String newLastName, String oldLastName) {
-        userService.changeLastName(newLastName, oldLastName);
+    public void changeLastName(String newLastName) {
+        userService.changeLastName(newLastName);
     }
 
     @PostMapping("/restart")

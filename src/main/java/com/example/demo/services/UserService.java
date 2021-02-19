@@ -70,14 +70,6 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void changeLogin(String newLogin, String oldLogin) {
-        User user = getCurrentUser();
-        if(newLogin.equals(oldLogin)) {
-            System.out.println("The same login");
-        }
-        user.setEmail(newLogin);
-        userRepository.save(user);
-    }
 
     public void addNick(String nick) {
         User user = getCurrentUser();
@@ -85,11 +77,8 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void changeNick(String newNick, String oldNick) {
+    public void changeNick(String newNick) {
         User user = getCurrentUser();
-        if(newNick.equals(oldNick)) {
-            System.out.println("The same nick");
-        }
         user.setNick(newNick);
         userRepository.save(user);
     }
@@ -101,20 +90,14 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void changeFirstName(String newName, String oldName) {
+    public void changeFirstName(String newName) {
         User user = getCurrentUser();
-        if(newName.equals(oldName)) {
-            System.out.println("The same name");
-        }
         user.setFirstName(newName);
         userRepository.save(user);
     }
 
-    public void changeLastName(String newLastName, String oldLastName) {
+    public void changeLastName(String newLastName) {
         User user = getCurrentUser();
-        if(newLastName.equals(oldLastName)) {
-            System.out.println("The same last name");
-        }
         user.setLastName(newLastName);
         userRepository.save(user);
     }
