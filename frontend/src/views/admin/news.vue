@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="account">
-            <div class="row">
+            <div class="row" >
                 <div class="col-md-3" v-if="isAdmin">
                     <!-- Sidebar -->
                     <admin-sidebar></admin-sidebar>
@@ -34,7 +34,7 @@
                                         </div>
                                     </template>
                                 </b-table>
-                                <b-button :to="'/admin/news/create'" variant="light">Dodaj nowy</b-button>
+                                <b-button :to="'/admin/news/create'" variant="outline-light">Dodaj nowy</b-button>
 
                             </b-card-text>
                         </b-card>
