@@ -14,4 +14,7 @@ public interface GamesRepository extends MongoRepository<Game, String > {
     List<Game> findByGroupId(String groupId);
 
     List<Game> findByCreatedDateIsAfter(LocalDate date);
+
+
+    void deleteByGroupId(String groupId);
 }

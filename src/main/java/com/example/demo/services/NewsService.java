@@ -3,17 +3,24 @@ package com.example.demo.services;
 
 import com.example.demo.exeption.EntityNotFoundException;
 import com.example.demo.model.dao.News;
+import com.example.demo.model.dao.User;
 import com.example.demo.repository.NewsRepository;
 import lombok.RequiredArgsConstructor;
+import org.bson.BsonBinarySubType;
+import org.bson.types.Binary;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class NewsService {
 
     private final NewsRepository newsRepository;
+    private final UserService userService;
 
     public List<News> getAll() {
         return newsRepository.findAll();
@@ -34,6 +41,12 @@ public class NewsService {
         newsDb.setTitle(news.getTitle());
         newsDb.setBody(news.getBody());
         return newsRepository.save(newsDb);
+    }
+
+    public News addNewsImage(MultipartFile multipartFile, String newsId) throws IOException {
+        News news = getById(newsId);
+        news.setImage(new Binary(BsonBinarySubType.BINARY, multipartFile.getBytes()));
+        return newsRepository.save(news);
     }
 
 

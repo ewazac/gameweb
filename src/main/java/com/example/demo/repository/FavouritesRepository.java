@@ -10,4 +10,6 @@ public interface FavouritesRepository extends MongoRepository<Favourites, String
 
     List<Favourites> findByUserId(String id);
 
+
+
 }

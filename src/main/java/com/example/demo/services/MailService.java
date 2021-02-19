@@ -43,27 +43,4 @@ public class MailService {
         });
     }
 
-
-
-
-    public void sendEmail(List<String> categories) throws MessagingException {
-
-        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        mimeMessageHelper.setTo(userDetails.getUsername());
-        mimeMessageHelper.setSubject("Potwierdzenie zapisania do newslettera");
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Zapisałeś się do newslettera w kategoriach:").append(System.lineSeparator());
-        for(String value : categories) {
-            stringBuilder.append(value).append(" ");
-        }
-
-        mimeMessageHelper.addAttachment("logo.png", new ClassPathResource("logo.png"));
-        String inlineImage = "<img src=\"cid:logo.png\"></img><br/>";
-        mimeMessageHelper.setText(stringBuilder.toString() + inlineImage, true);
-
-
-        javaMailSender.send(mimeMessage);
-    }
 }

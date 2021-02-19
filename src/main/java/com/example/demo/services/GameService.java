@@ -42,4 +42,8 @@ public class GameService {
     public Map<String, List<Game>> findLists() {
         return gamesRepository.findAll().stream().collect(Collectors.groupingBy(game -> game.getGroupId()));
     }
+
+    public void deleteGroupById(String groupId) {
+        gamesRepository.deleteByGroupId(groupId);
+    }
 }

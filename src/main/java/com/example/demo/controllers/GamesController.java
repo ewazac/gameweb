@@ -49,6 +49,11 @@ public class GamesController {
         return gameService.findByGroupId(groupId);
     }
 
+    @DeleteMapping("{groupId")
+    public void deleteByGroupId(@PathVariable String groupId) {
+        gameService.deleteGroupById(groupId);
+    }
+
     @GetMapping
     public Map<String, List<Game>> findLists() {
         return gameService.findLists();

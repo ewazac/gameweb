@@ -1,7 +1,6 @@
 package com.example.demo.config;
 
 import com.example.demo.exeption.EntityNotFoundException;
-import com.example.demo.model.dao.User;
 import com.example.demo.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +14,6 @@ import java.util.Optional;
 public class CreatedByAuditorConfig implements AuditorAware<String> {
 
     private final UserService userService;
-
 
     @Override
     public Optional<String> getCurrentAuditor() {

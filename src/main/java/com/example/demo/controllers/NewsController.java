@@ -45,6 +45,11 @@ public class NewsController {
         newsRepository.save(news);
     }
 
+    @PutMapping(value = "/addNewsImage/{id}")
+    public News addNewsImage(MultipartFile multipartFile, @PathVariable String id) throws IOException {
+        return newsService.addNewsImage(multipartFile, id);
+    }
+
     @GetMapping(value = "/newsImage/{title}")
     public Binary displayNewsImage(@PathVariable String title) {
         News news = newsRepository.findNewsByTitle(title);
