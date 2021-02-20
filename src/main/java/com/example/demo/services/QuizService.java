@@ -6,6 +6,7 @@ import com.example.demo.model.dao.Quiz;
 import com.example.demo.repository.QuizRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -33,6 +34,11 @@ public class QuizService {
 
     public void deleteById(String id) {
         quizRepository.deleteById(id);
+    }
+
+    public String bodyAsHtml(@PathVariable String quizId) {
+        Quiz quiz = getById(quizId);
+        return quiz.getBody();
     }
 
 

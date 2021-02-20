@@ -58,8 +58,7 @@ public class NewsController {
 
     @GetMapping(value = "/getNewsBody/{newsId}", produces = MediaType.TEXT_HTML_VALUE)
     public String bodyAsHtml(@PathVariable String newsId) {
-        News news = newsService.getById(newsId);
-        return news.getBody();
+        return newsService.bodyAsHtml(newsId);
     }
 
     @DeleteMapping("/{id}")

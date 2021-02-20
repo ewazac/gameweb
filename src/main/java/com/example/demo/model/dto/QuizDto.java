@@ -18,6 +18,7 @@ public class QuizDto {
     public String name;
     public String description;
     public List<Option> answers;
+    private String body;
 
 
 }

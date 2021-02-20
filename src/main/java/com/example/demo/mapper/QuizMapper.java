@@ -1,9 +1,6 @@
 package com.example.demo.mapper;
 
-
-import com.example.demo.model.dao.Forum;
 import com.example.demo.model.dao.Quiz;
-import com.example.demo.model.dto.ForumDto;
 import com.example.demo.model.dto.QuizDto;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +16,7 @@ public class QuizMapper {
                 .description(quizDto.getDescription())
                 .id(quizDto.getId())
                 .name(quizDto.getName())
+                .body(quizDto.getBody())
                 .build();
     }
 
@@ -28,6 +26,7 @@ public class QuizMapper {
                 .id(quiz.getId())
                 .description(quiz.getDescription())
                 .answers(quiz.getAnswers())
+                .body(quiz.getBody())
                 .build();
     }
 

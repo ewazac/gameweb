@@ -26,5 +26,6 @@ public class Quiz {
     public List<Option> answers;
     @CreatedDate
     private LocalDate createdDate;
+    private String body;
 
 }
