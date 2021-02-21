@@ -1,5 +1,5 @@
-// import Browse from '../views/admin/quiz/index'
-// import EditAdd from '../views/admin/quiz/edit-add'
+import Browse from '../views/admin/quiz/index'
+import EditAdd from '../views/admin/quiz/edit-add'
 export default [
 
     {

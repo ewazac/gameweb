@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="container">
     <form name="form" @submit.prevent="handleSearch">
                 <h6 class="tytul">Wyszukaj tytuł:</h6>
                 <div class="sss">
@@ -82,13 +82,11 @@ export default {
     flex: 1 0 33%;
   }
 }
-
 @media screen and (max-width: 991px) {
   .card-deck .card {
     flex: 1 0 30%;
   }
 }
-
 @media screen and (max-width: 991px) {
   .card-deck .card {
     flex: 1 0 30%;
@@ -99,27 +97,22 @@ export default {
     max-width: 247px;
   }
 }
-
 .container {
   margin-top: 1%;
   text-align: center;
 }
-
 .search {
   display: inline-flex;
 }
-
 .search-wrapper {
   width: 20rem;
   margin: 0 auto;
   padding-right: 1%;
 }
-
 .search-advance {
   width: 20rem;
   margin: 0 auto;
 }
-
 .sort {
   padding-left: 1%;
   width: 20rem;
@@ -128,28 +121,23 @@ export default {
 .card-title {
   height: 35%;
 }
-
 .card-img-top {
   width: 100%;
   height: 35%;
 }
-
 .card-body {
   display: flex;
   flex-direction: column;
   padding: 10px;
 }
-
 .card-body > .card-title {
   text-align: center;
   margin-bottom: 20px;;
 }
-
 .card-body > .card-text {
   text-align: justify;
   padding: 0 10px;
 }
-
 .card {
   min-height: 30rem;
   border: solid darkgray;
@@ -162,7 +150,7 @@ export default {
   box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.3);
 }
 .games__button {
-  background-color: #fa0b0b !important;
+  background-color:mediumaquamarine!important;
   margin-top: auto;
   border: none;
 
@@ -176,20 +164,20 @@ export default {
 select {
   border: 1px solid #111 !important;
   cursor: pointer;
-  color: #fa0b0b;
+  color: mediumaquamarine;
 
   &:active {
     outline: none;
     box-shadow: none;
     border: 1px solid #111;
-    color: #fa0b0b;
+    color: mediumaquamarine;
   }
 
   &:focus {
     outline: none;
     box-shadow: none;
     border: 1px solid #111;
-    color: #fa0b0b;
+    color: mediumaquamarine;
   }
 }
 
@@ -198,25 +186,25 @@ input {
   border-width: 0px 0px 2px 0px;
   border-radius: 4px;
   border: 1px solid #111;
-  color: #fa0b0b;
+  color: mediumaquamarine;
 
   &:active {
     outline: none;
     box-shadow: none;
     border: 1px solid #111;
-    color: #fa0b0b;
+    color: mediumaquamarine;
   }
 
   &:focus {
     outline: none;
     box-shadow: none;
     border: 1px solid #111;
-    color: #fa0b0b;
+    color: mediumaquamarine;
   }
 }
 
 .btn-secondary {
-  background-color: #fa0b0b;
+  background-color: mediumaquamarine;
 }
 
 .btn-secondary:hover {

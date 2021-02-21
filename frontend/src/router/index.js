@@ -7,7 +7,7 @@ import Search from '../components/Search'
 import Users from './users';
 import AdminRoutes from './admin';
 import NewsEditAdd from '../views/admin/news-edit-add';
-// import Quizes from '../router/quiz';
+import Quizes from '../router/quiz';
 Vue.use(VueRouter)
 
 const routes = [/*
@@ -82,9 +82,9 @@ const routes = [/*
     meta:{auth: false}
   },
 ]
-// Quizes.forEach(item => {
-//   routes.push(item);
-// })
+Quizes.forEach(item => {
+  routes.push(item);
+})
 const router = new VueRouter({
   mode: 'history',
   linkActiveClass: "active", // active class for non-exact links.

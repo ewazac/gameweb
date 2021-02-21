@@ -19,7 +19,7 @@
 </template>
 <script>
     import Request from '../request'
-    import {content} from '../assets/example_html_content'
+    // import {content} from '../assets/example_html_content'
     export default {
         data:() => {
             return {
@@ -43,7 +43,6 @@
                     method:'get',
                 }).then(res => {
                     this.news = res.filter(x => x.id == this.$route.params.id)[0];
-                    this.news.content = content;
                 })
             }
         }

@@ -18,10 +18,10 @@
                                 <div class="p-3" style="color: whitesmoke">
                                     <div class="font-weight-bold d-flex justify-content-between">
                                         <div>{{item.title}}</div>
-                                        <div class="text-muted">{{item.createdDate | convertDate('Y-m-d')}}</div>
+                                        <div class="text-muted">{{item.createdDate}}</div>
                                     </div>
                                     <div class="font-weight-bold">{{item.description}}</div>
-                                    <b-button class="news__button" @click="handleDetails(item.id)"> Czytaj dalej </b-button>
+                                    <b-button class="news__button w-100 mt-3" :to="'/news/'+item.id"> Czytaj dalej </b-button>
                                 </div>
                             </b-card>
                         </div>
@@ -52,13 +52,9 @@
                     url:'/news',
                     method:'get',
                 }).then(res => {
-                    this.news = res;
+                    this.news = res.reverse();
                 })
             },
-            handleDetails(item) {
-                console.log(item)
-                this.$router.push({path:'/news', params:{id:item}, query:{id: item}});
-            }
         },
     }
 </script>
