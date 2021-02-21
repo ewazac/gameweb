@@ -13,7 +13,7 @@
 
                 </div>
             </div>
-            <div class="my-5" v-html="news.content"></div>
+            <div class="my-5" v-html="news.content" style="color: black"></div>
         </div>
     </div>
 </template>
