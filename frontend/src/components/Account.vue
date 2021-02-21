@@ -14,7 +14,7 @@
                     tag="article"
                     class="mb-2 w-100"
             >
-              <b-card-text>
+              <b-card-text class="card-text-dark">
                 <h3 class="h5">Dane osobowe</h3>
                 <div class="my-4">
                   <div class="row">
@@ -100,7 +100,7 @@
                               required
                               aria-describedby="new_password"
                       />
-                      <b-form-invalid-feedback id="new_password">This is a required field and must be at least 4 characters. Confirmation should matched.</b-form-invalid-feedback>
+                      <b-form-invalid-feedback id="new_password">Hasło powinno mieć conajmniej 4 litery. Hasła powinny do siebie pasować.</b-form-invalid-feedback>
                       <b-form-input
                               placeholder="Powtórz nowe hasło"
                               class="input mx-1 mt-2"
@@ -127,7 +127,7 @@
                     tag="article"
                     class="mb-2 w-100"
             >
-              <b-card-text>
+              <b-card-text class="card-text-dark">
                 <b-form-checkbox
                         id="checkbox-1"
                         v-model="currentUser.newsletter_agree"
@@ -150,7 +150,7 @@
   import axios from "axios";
 
   const API_URL = "https://gameweb21.herokuapp.com/";
-
+  // import User from '../models/user'
   export default {
     name: "Account",
     beforeCreate: function () {
@@ -178,6 +178,7 @@
         newsletter: false,
         edited_field:null,
         sending: false,
+        invalid_pass_message: ''
       };
     },
     methods: {
@@ -221,13 +222,20 @@
                 });
       },
       handleChange(){
+        this.currentUser.updateFirstLastName();
         this.edited_field = null;
       },
       validatePasswords(){
         if(!this.sending) return null;
-        if(!this.currentUser.newpassword || !this.currentUser.newpassword_confirmation || !this.currentUser.oldpassword) return false;
-        if(this.currentUser.newpassword.length < 4 || this.currentUser.newpassword_confirmation.length < 4 || this.currentUser.oldpassword.length < 4) return false;
-        if(this.currentUser.newpassword != this.currentUser.newpassword_confirmation) return false;
+        if(!this.currentUser.newpassword || !this.currentUser.newpassword_confirmation || !this.currentUser.oldpassword){
+          return false;
+        }
+        if(this.currentUser.newpassword.length < 4 || this.currentUser.newpassword_confirmation.length < 4 || this.currentUser.oldpassword.length < 4){
+          return false;
+        }
+        if(this.currentUser.newpassword != this.currentUser.newpassword_confirmation){
+          return false;
+        }
         return true;
       },
       handleChangeAvatar(event) {
@@ -304,9 +312,9 @@
 <style lang="scss" scoped>
 
   .account {
-  width: 70%;
-  background-color: black;
-  padding: 20px 30px 30px;
+  /*width: 70%;*/
+  /*background-color: black;*/
+  /*padding: 20px 30px 30px;*!*/
   margin: 0 auto 25px;
   margin-top: 50px;
   -moz-border-radius: 0;

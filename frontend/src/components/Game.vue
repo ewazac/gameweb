@@ -51,11 +51,18 @@
                 </b-col>
             </b-row>
         </div>
+        <div class="py-5 d-flex justify-content-center">
+            <b-pagination
+                    v-model="paramsReviews.page"
+                    :total-rows="paramsReviews.total"
+                    :per-page="paramsReviews.per_page" first-text="First" prev-text="Prev" next-text="Next" last-text="Last"></b-pagination>
+        </div>
     </div>
 </template>>
 
 <script>
     import axios from "axios";
+    import {paginate} from "../helpers";
 
     export default {
         name: "game-detail",
@@ -67,7 +74,17 @@
                 success: false,
                 game: '',
                 reviews: '',
+                paramsReviews:{
+                    per_page: 10,
+                    page: 1,
+                    total: 1
+                }
             };
+        },
+        computed:{
+            filterdReviews(){
+                return paginate(this.reviews, this.paramsReviews.per_page, this.paramsReviews.page);
+            }
         },
         created() {
             axios.get("https://gameweb12.herokuapp.com/api/apps/" + this.$router.history.current.query.game2 + "/?lang=pl")
@@ -84,6 +101,7 @@
                 .then((response) => {
                     this.success=true
                     this.reviews = response.data.results.data
+                    this.paramsReviews.total = this.reviews.length;
                     console.log(response.data)
                     console.log(this.reviews)
                 })
@@ -99,7 +117,6 @@
         max-width:950px;
         background-color: #fff;
     }
-
     .game {
         margin-top: 20px;
         min-height: 250px;
@@ -108,13 +125,11 @@
         padding-bottom: 10px;
         padding-top: 10px;
     }
-
     .disabled {
         background-color: white;
         color: mediumaquamarine;
         border-color: mediumaquamarine;
     }
-
     .gameImage {
         min-width: 200px;
         min-height: 200px;
@@ -123,7 +138,6 @@
         background-color: mediumaquamarine;
         border: 1px solid black;
     }
-
     h1 {
         color: #fff;
     }
@@ -134,7 +148,6 @@
         line-height: 1.6;
         text-align: left;
     }
-
     .game__review {
         padding: 1rem 0;
         font-size: 1.2rem;

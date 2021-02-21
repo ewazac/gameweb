@@ -17,7 +17,9 @@ import Confirm from './services/confirm';
 Vue.use(Confirm);
 Vue.use(require('vue-moment'));
 Vue.config.productionTip = false
+import CKEditor from '@ckeditor/ckeditor5-vue2';
 
+Vue.use( CKEditor );
 
 new Vue({
   router,
