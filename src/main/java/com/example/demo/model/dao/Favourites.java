@@ -18,6 +18,7 @@ public class Favourites {
     private String id;
     private String userId;
     private String newsId;
+    private String gameId;
 
 
 }

@@ -25,8 +25,6 @@ import java.io.IOException;
 public class UserController {
 
 
-
-
     private final UserService userService;
     private final UserMapper userMapper;
 
@@ -86,6 +84,11 @@ public class UserController {
     @PostMapping("/restart")
     public void restartPassword(@RequestParam String email) {
         userService.restartPassword(email);
+    }
+
+    @PatchMapping("/newsletter")
+    public void changeNewsletter() {
+        userService.changeNewsletter();
     }
 
     @ExceptionHandler

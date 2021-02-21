@@ -70,6 +70,13 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public void changeNewsletter() {
+        User user = getCurrentUser();
+        user.setNewsletter(!user.isNewsletter());
+        userRepository.save(user);
+
+    }
+
 
     public void addNick(String nick) {
         User user = getCurrentUser();

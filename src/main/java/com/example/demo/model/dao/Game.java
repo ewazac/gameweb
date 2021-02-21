@@ -27,8 +27,6 @@ public class Game {
     private final String description;
     private final String platform;
     private Binary gameImage;
-//    @DBRef
-//    private final Review reviews;
     @DBRef
     private Set<User> users;
     private String groupId;

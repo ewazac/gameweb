@@ -21,15 +21,30 @@ public class FavoritesService {
     public void addToFavourite(String newsId) {
         User currentUser = userService.getCurrentUser();
         News news = newsService.getById(newsId);
-        favouritesRepository.save(new Favourites(null, currentUser.getId(), news.getId()));
-
+        favouritesRepository.save(new Favourites(null, currentUser.getId(), news.getId(), null));
     }
 
     public List<News> getFavoritesNewsForUser() {
         User currentUser = userService.getCurrentUser();
         List<Favourites> favourites = favouritesRepository.findByUserId(currentUser.getId());
-        List<String> newsIds = favourites.stream().map(Favourites::getNewsId).collect(Collectors.toList());
+        List<String> newsIds = favourites.stream()
+                .filter(favourite -> favourite.getNewsId() != null)
+                .map(Favourites::getNewsId).collect(Collectors.toList());
         return newsService.getNews(newsIds);
+    }
+
+    public void addGameToFavourite(String gameId) {
+        User currentUser = userService.getCurrentUser();
+        favouritesRepository.save(new Favourites(null, currentUser.getId(), null, gameId));
+    }
+
+    public List<String> getFavoritesGamesForUser() {
+        User currentUser = userService.getCurrentUser();
+        List<Favourites> favourites = favouritesRepository.findByUserId(currentUser.getId());
+        List<String> gamesIds = favourites.stream()
+                .filter(game -> game.getGameId() != null)
+                .map(Favourites::getGameId).collect(Collectors.toList());
+        return gamesIds;
     }
 
 }

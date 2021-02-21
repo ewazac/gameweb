@@ -25,6 +25,7 @@ import java.util.Optional;
 @AllArgsConstructor
 @RestController
 @RequestMapping(value = "/news")
+@CrossOrigin(origins = {"https://gameweb2.herokuapp.com", "http://localhost:4200"}, allowCredentials = "true")
 public class NewsController {
 
     NewsRepository newsRepository;

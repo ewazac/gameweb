@@ -5,17 +5,20 @@ import lombok.Builder;
 import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDate;
 
 @Builder
 @Getter
 public class ReviewDto {
 
     @NotBlank
-    public String title;
+    private String title;
     @NotBlank
-    public String description;
-    public Float stars;
-    public String game;
+    private String description;
+    private Float stars;
+    private String gameId;
+    private LocalDate createdDate;
+    private String id;
 
 
 }

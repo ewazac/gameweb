@@ -1,8 +1,10 @@
 package com.example.demo.controllers;
 
+import com.example.demo.mapper.ReviewMapper;
 import com.example.demo.model.dao.Review;
 import com.example.demo.repository.ReviewRepository;
 import com.example.demo.model.dto.ReviewDto;
+import com.example.demo.services.ReviewService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -24,48 +26,40 @@ import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
 @CrossOrigin(origins = "https://gameweb2.herokuapp.com", allowCredentials = "true")
 public class ReviewController {
 
-    ReviewRepository reviewRepository;
-    @Autowired
-    MongoTemplate mongoTemplate;
+    private final ReviewService reviewService;
+    private final ReviewMapper reviewMapper;
 
-    @PostMapping
-    @ResponseStatus(value = HttpStatus.CREATED)
-    public void createReview(@Valid @RequestBody ReviewDto reviewDTO) {
-        Review review = Review.builder()
-                .title(reviewDTO.getTitle())
-                .description(reviewDTO.getDescription())
-                .stars(reviewDTO.getStars())
-                .game(reviewDTO.getGame())
-                .id(UUID.randomUUID().toString()).build();
-        reviewRepository.save(review);
+
+
+    @PostMapping()
+    public ReviewDto save(ReviewDto reviewDto) {
+        return reviewMapper.toDto(reviewService.save(reviewMapper.toDao(reviewDto)));
     }
 
-    @GetMapping(value = "/game/{game}")
-    public List<Review> getReviewsByGame(@PathVariable String game)
-    {
-        return reviewRepository.findReviewByGame(game);
+    @GetMapping("{id}")
+    public ReviewDto getReviewById(@PathVariable String id) {
+        return reviewMapper.toDto(reviewService.findReviewById(id));
     }
 
-
-    @GetMapping(value = "/stars/{stars}")
-    public List<Review> getReviewsByStars(@PathVariable Float stars) {
-        return reviewRepository.findReviewByStars(stars);
+    @GetMapping()
+    public List<ReviewDto> getReviews() {
+        return reviewMapper.toListDto(reviewService.findAll());
     }
 
-    @GetMapping(value = "/ranking")
-    public List<Review> getRanking() {
-
-        Aggregation aggregation = newAggregation(group("game").avg("stars").as("stars"), project("stars").and("game").previousOperation(), sort(Sort.Direction.DESC, "stars"));
-        AggregationResults<Review> results = mongoTemplate.aggregate(aggregation, "reviews", Review.class);
-        List<Review> finalResult = results.getMappedResults();
-        return finalResult;
-
+    @PutMapping("{id}")
+    public ReviewDto updateReview(@RequestBody ReviewDto reviewDto, @PathVariable String id) {
+        return reviewMapper.toDto(reviewService.update(reviewMapper.toDao(reviewDto), id));
     }
 
+    @DeleteMapping("{id}")
+    public void deleteReviewById(@PathVariable String id) {
+        reviewService.deleteById(id);
+    }
 
-    @GetMapping
-    public List<Review> getReviews() {return reviewRepository.findAll();}
-
+    @GetMapping("/game/{id}")
+    public List<Review> getReviewsByGame(@PathVariable String id) {
+        return reviewService.findReviewsByGameId(id);
+    }
 
 
 
