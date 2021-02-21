@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="account">
-            <div class="row" >
+            <div class="row">
                 <div class="col-md-3" v-if="isAdmin">
                     <!-- Sidebar -->
                     <admin-sidebar></admin-sidebar>
@@ -10,9 +10,9 @@
                 <div class="col-md-9" :class="{'col-md-12': !isAdmin}">
                     <div class="w-100">
                         <b-card
-                                title="Newsy"
+                                title="Quizy"
                                 tag="article"
-                                class="mb-2 w-100"
+                                class="mb-2 w-100 text-white"
                         >
                             <b-card-text>
                                 <b-table striped hover :items="items" class="table-white-text">
@@ -21,22 +21,23 @@
                                             {{item.id}}
                                         </div>
                                     </template>
-                                    <template #cell(image)="{ rowSelected, item}">
+                                    <template #cell(answers)="{ item}">
                                         <div>
-                                            <img style="max-height: 70px; max-width: 70px" v-if="item.image" :src="'data:image/jpeg;base64,'+item.image.data">
-                                            <img style="max-height: 70px; max-width: 70px" v-else src="../../assets/default.png">
+                                            Ilość odpowiedzi {{item.answers.length}}
                                         </div>
                                     </template>
                                     <template #cell(actions)="{ item }">
                                         <div>
                                             <b-button @click="deleteElement(item.id)" class="mr-2" variant="outline-danger">Usuń</b-button>
-                                            <b-button :to="'/admin/news/'+item.id" variant="outline-primary">Edytuj</b-button>
+                                            <b-button :to="'/admin/quiz/'+item.id" variant="outline-primary">Edytuj</b-button>
                                         </div>
                                     </template>
                                 </b-table>
                                 <div class="w-100 d-flex justify-content-end">
-                                <b-button :to="'/admin/news/create'" variant="outline-light">Dodaj nowy</b-button>
+                                    <b-button class="ma-auto" :to="'/admin/quiz/create'" variant="light">Dodaj nowy</b-button>
                                 </div>
+
+
                             </b-card-text>
                         </b-card>
                     </div>
@@ -47,7 +48,7 @@
 </template>
 
 <script>
-    import Request from '../../request';
+    import Request from '../../../request';
     export default {
         computed:{
             isAdmin(){
@@ -56,6 +57,7 @@
             items(){
                 return this.data.map((item) => {
                     delete item.body;
+                    delete item.description;
                     item.actions = '';
                     return item;
                 }).reverse();
@@ -78,7 +80,7 @@
                 this.$confirm('Usuwanie elementu', 'Czy na pewno chcesz usunąć ten element', null).then(() => {
                     Request({
                         method: 'DELETE',
-                        url: '/news/'+id
+                        url: '/api/quizy/'+id
                     }).then(() => {
                         this.getData();
                     })
@@ -87,7 +89,7 @@
             getData(){
                 Request({
                     method: 'get',
-                    url: '/news',
+                    url: '/api/quizy',
                 }).then(res => {
                     this.data = res;
                 })
@@ -95,6 +97,7 @@
         },
     };
 </script>
+
 <style lang="scss">
     .table-white-text{
         td{

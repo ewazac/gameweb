@@ -7,16 +7,16 @@
                     <b-nav-item href="/Games">
                         <img class="GameWeb" src="./assets/logo.png" alt="GameWeb" />
                     </b-nav-item>
-                    <b-nav-item v-if="currentLoggedIn === true" href="/News">
+                    <b-nav-item href="/News">
                         News
                     </b-nav-item>
-                    <b-nav-item v-if="currentLoggedIn === true" href="/Quiz">
+                    <b-nav-item href="/Quiz">
                         Quiz
                     </b-nav-item>
-                    <b-nav-item v-if="currentLoggedIn === true" href="/Competition">
+                    <b-nav-item href="/Competition">
                         Konkurs
                     </b-nav-item>
-                    <b-nav-item v-if="currentLoggedIn === true" href="/Recommended">
+                    <b-nav-item href="/Recommended">
                         Polecane
                     </b-nav-item>
                 </b-navbar-nav>

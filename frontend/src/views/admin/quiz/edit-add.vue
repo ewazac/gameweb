@@ -11,13 +11,13 @@
                     <div class="col-md-9" :class="{'col-md-12': !isAdmin}">
                         <div class="w-100">
                             <b-card
-                                    title="Newsy"
+                                    title="Quiz"
                                     tag="article"
                                     class="mb-2 w-100">
                                 <b-card-text>
                                     <b-form-textarea
                                             id="textarea"
-                                            v-model="data.title"
+                                            v-model="data.name"
                                             placeholder="Wpisz tytuł"
                                             rows="3"
                                             max-rows="6"
@@ -31,16 +31,26 @@
                                             class="my-2"
                                             max-rows="6"
                                     ></b-form-textarea>
-                                    <b-form-file
-                                            @change="fileInput($event)"
-                                            class="my-2"
-                                            placeholder="Dodaj obrazek"
-                                            drop-placeholder="Przeciągnij plik tutaj"
-                                    ></b-form-file>
                                     <ckeditor :editor="editor" v-model="data.body" :config="editorConfig"></ckeditor>
-                                    <div class="w-100 d-flex justify-content-end mt-5">
-                                     <b-button @click="saveElement()" variant="outline-success">Zapisz</b-button>
+                                    <div v-for="(answer, index) in data.answers" :key="index">
+                                        <div class="row my-3">
+                                            <div class="col-md-1">
+                                                <b-form-checkbox @change="($event)? unselectAnswers(index) : null" v-model="answer.proper"></b-form-checkbox>
+                                            </div>
+                                            <div class="col-md-10">
+                                                <b-form-input v-model="answer.answer" placeholder="Wpisz treść odpowiedzi"></b-form-input>
+                                            </div>
+                                            <div class="col-md-1 d-flex justify-center align-center">
+                                                <b-icon @click="data.answers.splice(index, 1)" style="font-size: 20px; cursor: pointer" icon="trash-2" variant="danger"></b-icon>
+                                            </div>
+                                        </div>
                                     </div>
+                                    <b-button @click="data.answers.push({proper: false, answer: ''})" variant="success">Dodaj odpowiedź</b-button>
+
+                                    <div class="w-100 d-flex justify-content-end mt-5">
+                                        <b-button @click="saveElement()" variant="outline-success">Zapisz</b-button>
+                                    </div>
+
                                 </b-card-text>
                             </b-card>
                         </div>
@@ -51,7 +61,7 @@
     </div>
 </template>
 <script>
-    import News from '../../models/news';
+    import Quiz from '../../../models/Quiz';
     import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
     export default {
@@ -60,7 +70,7 @@
         },
         data:() => {
             return{
-                data: new News(),
+                data: new Quiz(),
                 editor: ClassicEditor,
                 editorData: '<p>Content of the editor.</p>',
                 editorConfig: {
@@ -74,17 +84,20 @@
         },
         mounted(){
             if(this.$route.params.id){
-                this.data.getNewsById(this.$route.params.id).then(res => {
-                    this.data = new News(res);
+                this.data.getElementById(this.$route.params.id).then(res => {
+                    this.data = new Quiz(res);
                 });
             }
         },
         methods:{
-            fileInput(event){
-                this.data.image = event.target.files[0]
+            unselectAnswers(seledted_id){
+                this.data.answers.forEach((item, index) => {
+                    if(index != seledted_id){
+                        this.data.answers[index].proper = false;
+                    }
+                })
             },
             saveElement(){
-                console.log(this.data);
                 this.data.save().then(() => {
                     this.$router.go(-1);
                 })
