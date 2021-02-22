@@ -2,6 +2,7 @@ package com.example.demo.services;
 
 import com.example.demo.controllers.InvalidOldPasswordException;
 import com.example.demo.exeption.EntityNotFoundException;
+import com.example.demo.model.dao.News;
 import com.example.demo.model.dao.User;
 import com.example.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +37,17 @@ public class UserService {
             mailService.sendMail("restartPassword", user.getEmail(), context);
         });
     }
+
+    public User updateUser(User user) {
+        String currentUser = getCurrentUser().getId();
+        User userDb = getById(currentUser);
+        userDb.setNick(user.getNick());
+        userDb.setLastName(user.getLastName());
+        userDb.setFirstName(user.getFirstName());
+        return userRepository.save(userDb);
+    }
+
+
 
     public List<User> getAll() {
         return userRepository.findAll();
@@ -78,17 +90,17 @@ public class UserService {
     }
 
 
-    public void addNick(String nick) {
-        User user = getCurrentUser();
-        user.setNick(nick);
-        userRepository.save(user);
-    }
-
-    public void changeNick(String newNick) {
-        User user = getCurrentUser();
-        user.setNick(newNick);
-        userRepository.save(user);
-    }
+//    public void addNick(String nick) {
+//        User user = getCurrentUser();
+//        user.setNick(nick);
+//        userRepository.save(user);
+//    }
+//
+//    public void changeNick(String newNick) {
+//        User user = getCurrentUser();
+//        user.setNick(newNick);
+//        userRepository.save(user);
+//    }
 
     public void changeRestartPassword(String activatedCode, String password) throws Throwable {
         User user = userRepository.findByActivateCode(activatedCode).orElseThrow(() -> new EntityNotFoundException("Cannot find user by activated code"));
@@ -97,15 +109,15 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void changeFirstName(String newName) {
-        User user = getCurrentUser();
-        user.setFirstName(newName);
-        userRepository.save(user);
-    }
-
-    public void changeLastName(String newLastName) {
-        User user = getCurrentUser();
-        user.setLastName(newLastName);
-        userRepository.save(user);
-    }
+//    public void changeFirstName(String newName) {
+//        User user = getCurrentUser();
+//        user.setFirstName(newName);
+//        userRepository.save(user);
+//    }
+//
+//    public void changeLastName(String newLastName) {
+//        User user = getCurrentUser();
+//        user.setLastName(newLastName);
+//        userRepository.save(user);
+//    }
 }

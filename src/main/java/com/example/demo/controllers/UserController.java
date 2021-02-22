@@ -3,6 +3,7 @@ package com.example.demo.controllers;
 
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.model.dao.User;
+import com.example.demo.model.dto.NewsDto;
 import com.example.demo.model.dto.RestartDto;
 import com.example.demo.model.dto.UserDto;
 import com.example.demo.services.UserService;
@@ -11,10 +12,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.bson.types.Binary;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.Arrays;
 
 
 @AllArgsConstructor
@@ -27,6 +30,7 @@ public class UserController {
 
     private final UserService userService;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @GetMapping()
     public User getUser() {
@@ -61,24 +65,10 @@ public class UserController {
         userService.changePassword(newPassword, oldPassword);
     }
 
-    @PostMapping("/addNick")
-    public void addNick(String nick) {
-        userService.addNick(nick);
-    }
-
-    @PutMapping("/changeNick")
-    public void changeNick(String newNick) {
-        userService.changeNick(newNick);
-    }
-
-    @PutMapping("/changeFirstName")
-    public void changeFirstName(String newFirstName) {
-        userService.changeFirstName(newFirstName);
-    }
-
-    @PutMapping("/changeLastName")
-    public void changeLastName(String newLastName) {
-        userService.changeLastName(newLastName);
+    @PatchMapping("/updateUser/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public UserDto updateUser(@RequestBody UserDto userDto) {
+        return userMapper.toDto(userService.updateUser(userMapper.toDaoWithoutPassword(userDto)));
     }
 
     @PostMapping("/restart")

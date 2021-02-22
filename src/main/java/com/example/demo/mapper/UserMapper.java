@@ -27,6 +27,7 @@ public class UserMapper {
                 .email(userDto.getEmail())
                 .newsletter(userDto.isNewsletter())
                 .firstName(userDto.getFirstName())
+                .nick(userDto.getNick())
                 .lastName(userDto.getLastName())
                 .password(passwordEncoder.encode(userDto.getPassword()))
                 .roles(Arrays.asList("USER"))
@@ -43,7 +44,24 @@ public class UserMapper {
                 .lastName(user.getLastName())
                 .newsletter(user.isNewsletter())
                 .password(user.getPassword())
+                .nick(user.getNick())
                 .roles(user.getRoles())
+                .build();
+    }
+
+    public User toDaoWithoutPassword(UserDto userDto) {
+
+        return User.builder()
+                .categories(userDto.getCategories())
+                .id(UUID.randomUUID().toString())
+                .avatar(userDto.getAvatar())
+                .email(userDto.getEmail())
+                .newsletter(userDto.isNewsletter())
+                .firstName(userDto.getFirstName())
+                .nick(userDto.getNick())
+                .lastName(userDto.getLastName())
+                .password(userDto.getPassword())
+                .roles(Arrays.asList("USER"))
                 .build();
     }
 

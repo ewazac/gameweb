@@ -29,4 +29,5 @@ public class Forum {
     private String createdBy;
     @CreatedDate
     private LocalDate createdDate;
+
 }

@@ -29,7 +29,6 @@ import java.util.Optional;
 public class NewsController {
 
     NewsRepository newsRepository;
-    UserRepository userRepository;
 
     NewsService newsService;
     NewsMapper newsMapper;
