@@ -4,6 +4,7 @@ package com.example.demo.controllers;
 import com.example.demo.model.dao.News;
 import com.example.demo.services.FavoritesService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,6 +35,12 @@ public class FavoritesController {
     @PostMapping("/game/{gameId}")
     public void addGameToFavourites(@PathVariable String gameId) {
         favoritesService.addGameToFavourite(gameId);
+    }
+
+    @DeleteMapping("/{favouriteId}")
+    @PreAuthorize("isAuthenticated()")
+    public void deleteFromFavourites(@PathVariable String favouriteId) {
+        favoritesService.deleteFromFavourite(favouriteId);
     }
 
 }

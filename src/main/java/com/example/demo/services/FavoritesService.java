@@ -47,4 +47,9 @@ public class FavoritesService {
         return gamesIds;
     }
 
+    public void deleteFromFavourite(String favouriteId) {
+        favouritesRepository.deleteById(favouriteId);
+    }
+
+
 }
