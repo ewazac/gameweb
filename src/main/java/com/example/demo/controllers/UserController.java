@@ -3,7 +3,6 @@ package com.example.demo.controllers;
 
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.model.dao.User;
-import com.example.demo.model.dto.NewsDto;
 import com.example.demo.model.dto.RestartDto;
 import com.example.demo.model.dto.UserDto;
 import com.example.demo.services.UserService;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.Arrays;
 
 
 @AllArgsConstructor
