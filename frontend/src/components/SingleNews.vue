@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div class="w-100">
+        <div class="w-100" v-if="news">
             <img class="w-100" v-if="news.image" :src="'data:image/jpeg;base64,'+news.image.data" style="max-height: 300px; object-fit: cover">
             <img class="w-100" v-else src="../assets/default.png" style="max-height: 300px; object-fit: cover">
             <div class="row text-left">
@@ -13,13 +13,12 @@
 
                 </div>
             </div>
-            <div class="my-5" v-html="news.content" style="color: black"></div>
+            <div class="my-5" v-html="news.body" style="color: black"></div>
         </div>
     </div>
 </template>
 <script>
     import Request from '../request'
-    // import {content} from '../assets/example_html_content'
     export default {
         data:() => {
             return {
@@ -32,12 +31,6 @@
         },
         methods:{
             getData(){
-                Request({
-                    url:'/news/getNewsBody/'+this.$route.params.id,
-                    method:'get',
-                }).then(res => {
-                    console.log(res, 'BODY NEWS');
-                })
                 Request({
                     url:'/news',
                     method:'get',

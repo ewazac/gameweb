@@ -8,6 +8,7 @@ import Users from './users';
 import AdminRoutes from './admin';
 import NewsEditAdd from '../views/admin/news-edit-add';
 import Quizes from '../router/quiz';
+import Store from '../store/index'
 Vue.use(VueRouter)
 
 const routes = [/*
@@ -95,6 +96,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   /*const publicPages = ['/login', '/Register', '/games', '/game/!*', '/reset-password'];*/
   /*const authRequired = !publicPages.includes(to.path);*/
+  Store.commit('app/SET_BREADCRUMBS', []);
   var authRequired = to.meta.auth != false;
   const loggedIn = localStorage.getItem('user');
   console.log(authRequired, 'AUTH');

@@ -13,6 +13,9 @@
                             <b-card
                                     class="mb-2"
                             >
+                                <div style="position: absolute; top: 10px; right: 10px">
+                                    <b-icon @click="item.toggleFavourite()" scale="2" style="cursor: pointer" icon="star-fill" variant="info"></b-icon>
+                                </div>
                                 <img v-if="item.image" :src="'data:image/jpeg;base64,'+item.image.data">
                                 <img v-else src="../assets/default.png">
                                 <div class="p-3" style="color: whitesmoke">
@@ -33,6 +36,7 @@
 </template>
 <script>
     import Request from '../request';
+    import News from '../models/news'
     export default {
         name: 'Home',
         beforeCreate: function () {
@@ -52,7 +56,13 @@
                     url:'/news',
                     method:'get',
                 }).then(res => {
-                    this.news = res.reverse();
+                    this.news = res.reverse().map(item => {
+                        return new News(item);
+                    });
+                })
+                Request({
+                    url:'/fav',
+                    method:'get'
                 })
             },
         },

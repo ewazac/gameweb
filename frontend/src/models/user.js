@@ -1,4 +1,5 @@
 import Request from '../request';
+import store from '../store/index';
 export default class User {
     constructor(obj) {
         if(obj){
@@ -23,18 +24,25 @@ export default class User {
 
         })
     }
-    updateFirstLastName(){
+    updateUser(){
+        var clone = Object.assign({}, this);
+        delete clone.avatar;
+        delete clone.roles;
+        delete clone.password;
+        (clone.newsletter == 1 || clone.newsletter == true)? clone.newsletter = true : clone.newsletter = false;
         Request({
-            url:'/users/changeFirstName?newFirstName='+this.firstName,
-            method:'put',
-            data: {newNick: this.firstName}
-        }).then(() =>{
-
+            url:'/users/updateUser/'+this.id,
+            method:'patch',
+            data: clone
+        }).then((res) =>{
+            store.commit('auth/loginSuccess', res);
+            localStorage.setItem('user', JSON.stringify(res));
         })
+    }
+    changeNewsletter(){
         Request({
-            url:'/users/changeLastName?newFirstName='+this.lastName,
-            method:'put',
-            data: {newNick: this.lastName}
+            url:'/users/newsletter',
+            method:'patch',
         }).then(() =>{
 
         })

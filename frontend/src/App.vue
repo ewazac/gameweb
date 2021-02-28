@@ -10,9 +10,11 @@
                     <b-nav-item href="/News">
                         News
                     </b-nav-item>
-                    <b-nav-item href="/Quiz">
+                    <router-link to="/quizy">
+                        <b-nav-item  to="/quizy">
                         Quiz
-                    </b-nav-item>
+                        </b-nav-item>
+                    </router-link>
                     <b-nav-item href="/Competition">
                         Konkurs
                     </b-nav-item>
@@ -21,6 +23,10 @@
                     </b-nav-item>
                 </b-navbar-nav>
                 <b-navbar-nav>
+                    <b-nav-item href="/favourites" id="fav" style="position: relative">
+                        <div style="position: absolute; top: -8px; right: -8px; padding: 3px 7px; font-size: 11px; border-radius: 100%; background-color: red">{{favourites.length}}</div>
+                        <b-icon icon="suit-heart-fill" aria-hidden="fav"></b-icon>
+                    </b-nav-item>
                     <b-nav-item href="/search" id="search-icon-id">
                         <b-icon icon="search" aria-hidden="search"></b-icon>
                     </b-nav-item>
@@ -40,19 +46,29 @@
         </b-navbar>
         <messages></messages>
         <div class="rest">
+            <my-breadcrumbs></my-breadcrumbs>
+
             <router-view />
         </div>
     </div>
 </template>
 
 <script>
+    import MyBreadcrumbs from './components/breadcrumb';
     import Messages from './views/messages/messages';
     export default {
         name: "app",
         components:{
+            MyBreadcrumbs,
             Messages
         },
+        created(){
+            this.$store.dispatch('app/getFavourites');
+        },
         computed: {
+            favourites(){
+                return this.$store.getters['app/get_favourites'];
+            },
             currentLoggedIn () {
                 return this.$store.state.auth.status.loggedIn;
             },

@@ -15,7 +15,14 @@ export default class Quiz {
                 url:'/api/quizy',
                 method:'get'
             }).then(res => {
-                resolve(res.find(x => x.id == id));
+                var item = res.find(x => x.id == id);
+                resolve(item);
+                Request({
+                    url:'/api/quizy/getQuizBody/'+item.id,
+                    method:'get',
+                }).then(res => {
+                    console.log(res);
+                })
             })
         })
 

@@ -1,7 +1,6 @@
 import AuthService from '../services/auth.header';
 import Request from '../request';
-
-const user = JSON.parse(localStorage.getItem('user'));
+const user = (typeof localStorage.getItem('user') == 'string')? JSON.parse(localStorage.getItem('user')) : localStorage.getItem('user');
 var isAdmin = () => {
   return user.roles.find(x => x == 'ADMIN') != null;
 }

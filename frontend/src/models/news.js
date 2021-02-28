@@ -1,4 +1,5 @@
 import Request from '../request'
+import store from '../store'
 export default class News {
     constructor(data = null) {
         if(data){
@@ -44,6 +45,15 @@ export default class News {
             }).catch(e => {
                 reject(e);
             })
+        })
+    }
+    toggleFavourite(){
+        Request({
+            url: '/fav/'+this.id,
+            method: 'post',
+        }).then(() => {
+            store.dispatch('app/getFavourites');
+            store.commit('app/ADD_MESSAGE', {text: 'Udało się dodać do ulubionych'});
         })
     }
 }

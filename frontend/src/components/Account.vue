@@ -130,10 +130,11 @@
               <b-card-text class="card-text-dark">
                 <b-form-checkbox
                         id="checkbox-1"
-                        v-model="currentUser.newsletter_agree"
+                        @change="handleChange()"
+                        v-model="currentUser.newsletter"
                         name="checkbox-1"
                         value="1"
-                        unchecked-value="0"
+                        :unchecked-value="false"
                 >
                   Wyrażam zgodę na wysyłanie newslettera.
                 </b-form-checkbox>
@@ -150,7 +151,7 @@
   import axios from "axios";
 
   const API_URL = "https://gameweb21.herokuapp.com/";
-  // import User from '../models/user'
+  import User from '../models/user'
   export default {
     name: "Account",
     beforeCreate: function () {
@@ -163,7 +164,7 @@
     },
     data() {
       return {
-        currentUser: JSON.parse(localStorage.getItem("user")),
+        currentUser: new User(JSON.parse(localStorage.getItem("user"))),
         avatar: "",
         dispatched: false,
         exist: false,
@@ -205,7 +206,6 @@
         }
       },
       subscribeToNewsletter() {
-        console.log(this.categories, this.selected);
         axios
                 .post(API_URL + "newsletter", this.selected, {
                   withCredentials: true,
@@ -222,7 +222,7 @@
                 });
       },
       handleChange(){
-        this.currentUser.updateFirstLastName();
+        this.currentUser.updateUser();
         this.edited_field = null;
       },
       validatePasswords(){
@@ -297,7 +297,7 @@
       }
       this.getAvatar();
       axios
-              .get(API_URL + "getAllCategories", {
+              .patch(API_URL + "getAllCategories", {
                 withCredentials: true,
               })
               .then((response) => {
