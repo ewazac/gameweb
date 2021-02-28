@@ -12,11 +12,12 @@ public class QuizMapper {
 
     public Quiz toDao(QuizDto quizDto) {
         return Quiz.builder()
-                .answers(quizDto.getAnswers())
-                .description(quizDto.getDescription())
+                .quizList((quizDto.getAnswerList()))
+                //.description(quizDto.getDescription())
                 .id(quizDto.getId())
                 .name(quizDto.getName())
                 .body(quizDto.getBody())
+
                 .build();
     }
 
@@ -24,8 +25,8 @@ public class QuizMapper {
         return QuizDto.builder()
                 .name(quiz.getName())
                 .id(quiz.getId())
-                .description(quiz.getDescription())
-                .answers(quiz.getAnswers())
+                //.description(quiz.getDescription())
+                .answerList(quiz.getQuizList())
                 .body(quiz.getBody())
                 .build();
     }
