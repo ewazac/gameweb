@@ -3,6 +3,7 @@ package com.example.demo.model.dao;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
 
 import java.time.LocalDateTime;
 
@@ -11,8 +12,15 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Answer {
 
+
+    @Id
+    public String id;
     private String message;
     private LocalDateTime createdDate;
     private String username;
+    private String description;
+    private String name;
+    private String body;
+
 
 }

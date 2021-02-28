@@ -44,10 +44,9 @@ public class UserService {
         userDb.setNick(user.getNick());
         userDb.setLastName(user.getLastName());
         userDb.setFirstName(user.getFirstName());
+        userDb.setNewsletter(!userDb.isNewsletter());
         return userRepository.save(userDb);
     }
-
-
 
     public List<User> getAll() {
         return userRepository.findAll();
@@ -86,21 +85,7 @@ public class UserService {
         User user = getCurrentUser();
         user.setNewsletter(!user.isNewsletter());
         userRepository.save(user);
-
     }
-
-
-//    public void addNick(String nick) {
-//        User user = getCurrentUser();
-//        user.setNick(nick);
-//        userRepository.save(user);
-//    }
-//
-//    public void changeNick(String newNick) {
-//        User user = getCurrentUser();
-//        user.setNick(newNick);
-//        userRepository.save(user);
-//    }
 
     public void changeRestartPassword(String activatedCode, String password) throws Throwable {
         User user = userRepository.findByActivateCode(activatedCode).orElseThrow(() -> new EntityNotFoundException("Cannot find user by activated code"));
@@ -109,15 +94,9 @@ public class UserService {
         userRepository.save(user);
     }
 
-//    public void changeFirstName(String newName) {
-//        User user = getCurrentUser();
-//        user.setFirstName(newName);
-//        userRepository.save(user);
-//    }
-//
-//    public void changeLastName(String newLastName) {
-//        User user = getCurrentUser();
-//        user.setLastName(newLastName);
-//        userRepository.save(user);
-//    }
+    public void addPoint() {
+        User currentUser = getCurrentUser();
+        currentUser.setPoint(currentUser.getPoint() + 1);
+        userRepository.save(currentUser);
+    }
 }

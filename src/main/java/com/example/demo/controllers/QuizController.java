@@ -33,11 +33,11 @@ public class QuizController {
         return quizMapper.toListDto(quizService.getAll());
     }
 
-//    @PutMapping("/{id}")
-//    @PreAuthorize("hasRole('ADMIN')")
-//    public QuizDto updateQuiz(@RequestBody QuizDto quizDto, @PathVariable String id) {
-//        return quizMapper.toDto(quizService.update(quizMapper.toDao(quizDto), id));
-//    }
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public QuizDto updateQuiz(@RequestBody QuizDto quizDto, @PathVariable String id) {
+        return quizMapper.toDto(quizService.update(quizMapper.toDao(quizDto), id));
+    }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
