@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -20,11 +21,12 @@ public class QuizService {
 
     public Quiz save(Quiz quiz) { return quizRepository.save(quiz);}
 
+
     public Quiz update(Quiz quiz, String id) {
         Quiz quizDb = getById(id);
         quizDb.setName(quiz.getName());
-        quizDb.setAnswers(quiz.getAnswers());
-        quizDb.setDescription(quiz.getDescription());
+        quizDb.setQuizList(quiz.getQuizList());
+        quizDb.setBody(quiz.getBody());
         return save(quizDb);
     }
 
@@ -40,10 +42,5 @@ public class QuizService {
         Quiz quiz = getById(quizId);
         return quiz.getBody();
     }
-
-
-
-
-
 
 }

@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -22,10 +23,14 @@ public class Quiz {
     @Id
     public String id;
     public String name;
-    public String description;
-    public List<Option> answers;
+    //public String description;
+    //public List<Option> answers;
     @CreatedDate
     private LocalDate createdDate;
     private String body;
+    private List<AnswerList> quizList;
+
+
+
 
 }
