@@ -49,7 +49,7 @@ public class GamesController {
         return gameService.findByGroupId(groupId);
     }
 
-    @DeleteMapping("{groupId")
+    @DeleteMapping("{groupId}")
     public void deleteByGroupId(@PathVariable String groupId) {
         gameService.deleteGroupById(groupId);
     }
