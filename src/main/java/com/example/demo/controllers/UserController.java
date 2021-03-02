@@ -63,7 +63,7 @@ public class UserController {
         userService.changePassword(newPassword, oldPassword);
     }
 
-    @PatchMapping("/updateUser/{id}")
+    @PatchMapping("/updateUser")
     @PreAuthorize("isAuthenticated()")
     public UserDto updateUser(@RequestBody UserDto userDto) {
         return userMapper.toDto(userService.updateUser(userMapper.toDaoWithoutPassword(userDto)));

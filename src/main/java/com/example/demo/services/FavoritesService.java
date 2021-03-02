@@ -47,9 +47,19 @@ public class FavoritesService {
         return gamesIds;
     }
 
-    public void deleteFromFavourite(String favouriteId) {
-        favouritesRepository.deleteById(favouriteId);
+//    public void deleteFromFavourite(String favouriteId) {
+//        favouritesRepository.deleteById(favouriteId);
+//    }
+
+    public void deleteNewsFromFavourite(String newsId) {
+        favouritesRepository.deleteByNewsId(newsId);
     }
+
+    public void deleteGameFromFavourite(String gameId) {
+        favouritesRepository.deleteByGameId(gameId);
+    }
+
+
 
 
 }
