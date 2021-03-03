@@ -1,24 +1,25 @@
 package com.example.demo.model.dto;
 
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
-@Getter
 public class ReviewDto {
 
     @NotBlank
-    private String title;
+    public String title;
     @NotBlank
-    private String description;
-    private Float stars;
-    private String gameId;
-    private LocalDate createdDate;
-    private String id;
+    public String description;
+    public Float stars;
+    public String gameId;
+    public LocalDate createdDate;
+    public String id;
 
 
 }
