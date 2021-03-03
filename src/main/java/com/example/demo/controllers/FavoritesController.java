@@ -43,22 +43,11 @@ public class FavoritesController {
         favoritesService.addGameToFavourite(gameId);
     }
 
-//    @DeleteMapping("/{favouriteId}")
-//    @PreAuthorize("isAuthenticated()")
-//    public void deleteFromFavourites(@PathVariable String favouriteId) {
-//        favoritesService.deleteFromFavourite(favouriteId);
-//    }
-
-    @DeleteMapping("/news/{newsId}")
+    @DeleteMapping("/{favouriteId}")
     @PreAuthorize("isAuthenticated()")
-    public void deleteNewsFromFavourites(@PathVariable String newsId) {
-        favoritesService.deleteNewsFromFavourite(newsId);
+    public void deleteFromFavourites(@PathVariable String favouriteId) {
+        favoritesService.deleteFromFavourite(favouriteId);
     }
 
-    @DeleteMapping("/game/{gameId}")
-    @PreAuthorize("isAuthenticated()")
-    public void deleteGameFromFavourites(@PathVariable String gameId) {
-        favoritesService.deleteGameFromFavourite(gameId);
-    }
 
 }
