@@ -19,12 +19,12 @@ public class FavoritesController {
     private final FavoritesService favoritesService;
 
     @PostMapping("{newsId}")
-    public Favourites addToFavorites(@PathVariable String newsId) {
+    public Favourites addNewsToFavorites(@PathVariable String newsId) {
         return favoritesService.addToFavourite(newsId);
     }
 
     @GetMapping()
-    public List<News> getFavourites() {
+    public List<News> getFavouriteNews() {
         return favoritesService.getFavoritesNewsForUser();
     }
 
