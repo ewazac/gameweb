@@ -29,10 +29,10 @@ public class GameService {
         gamesRepository.save(game);
     }
 
-    public void save(List<Game> games) {
+    public List<Game> save(List<Game> games) {
         String groupId = UUID.randomUUID().toString();
         games.forEach(game -> game.setGroupId(groupId));
-        gamesRepository.saveAll(games);
+        return gamesRepository.saveAll(games);
     }
 
     public List<Game> findByGroupId(String groupId) {

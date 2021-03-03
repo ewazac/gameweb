@@ -23,19 +23,14 @@ public class Game {
     @Id
     public String id;
     private String name;
-    private String category;
     private final String description;
-    private final String platform;
     private Binary gameImage;
     @DBRef
     private Set<User> users;
     private String groupId;
     private long counter;
-
     @CreatedDate
     private LocalDate createdDate;
-
-
 
 
 

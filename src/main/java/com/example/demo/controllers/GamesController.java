@@ -35,8 +35,8 @@ public class GamesController {
     private final GameService gameService;
 
     @PostMapping
-    public void saveGames(@RequestBody List<Game> games) {
-        gameService.save(games);
+    public List<Game> saveGames(@RequestBody List<Game> games) {
+        return gameService.save(games);
     }
 
     @PatchMapping("{gameId}")
