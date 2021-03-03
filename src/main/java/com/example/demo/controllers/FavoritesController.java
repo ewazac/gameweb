@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 
+import com.example.demo.model.dao.Favourites;
 import com.example.demo.model.dao.News;
 import com.example.demo.services.FavoritesService;
 import lombok.RequiredArgsConstructor;
@@ -18,13 +19,18 @@ public class FavoritesController {
     private final FavoritesService favoritesService;
 
     @PostMapping("{newsId}")
-    public void addToFavorites(@PathVariable String newsId) {
-        favoritesService.addToFavourite(newsId);
+    public Favourites addToFavorites(@PathVariable String newsId) {
+        return favoritesService.addToFavourite(newsId);
     }
 
     @GetMapping()
     public List<News> getFavourites() {
         return favoritesService.getFavoritesNewsForUser();
+    }
+
+    @GetMapping("/news/allFav")
+    public List<Favourites> getAllFavourites() {
+        return favoritesService.getAllFavourites();
     }
 
     @GetMapping("/game")

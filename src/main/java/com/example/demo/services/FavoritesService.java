@@ -18,10 +18,10 @@ public class FavoritesService {
     private final UserService userService;
     private final NewsService newsService;
 
-    public void addToFavourite(String newsId) {
+    public Favourites addToFavourite(String newsId) {
         User currentUser = userService.getCurrentUser();
         News news = newsService.getById(newsId);
-        favouritesRepository.save(new Favourites(null, currentUser.getId(), news.getId(), null));
+        return favouritesRepository.save(new Favourites(null, currentUser.getId(), news.getId(), null));
     }
 
     public List<News> getFavoritesNewsForUser() {
@@ -31,6 +31,11 @@ public class FavoritesService {
                 .filter(favourite -> favourite.getNewsId() != null)
                 .map(Favourites::getNewsId).collect(Collectors.toList());
         return newsService.getNews(newsIds);
+    }
+
+    public List<Favourites> getAllFavourites() {
+        User currentUser = userService.getCurrentUser();
+        return favouritesRepository.findByUserId(currentUser.getId());
     }
 
     public void addGameToFavourite(String gameId) {
