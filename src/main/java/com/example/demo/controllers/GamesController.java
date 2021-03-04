@@ -40,8 +40,8 @@ public class GamesController {
     }
 
     @PatchMapping("{gameId}")
-    public void vote(@PathVariable String gameId) {
-        gameService.vote(gameId);
+    public void vote(@PathVariable String gameId, @RequestParam String groupId) {
+        gameService.vote(gameId, groupId);
     }
 
     @GetMapping({"{groupId}"})
@@ -52,6 +52,16 @@ public class GamesController {
     @DeleteMapping("{groupId}")
     public void deleteByGroupId(@PathVariable String groupId) {
         gameService.deleteGroupById(groupId);
+    }
+
+    @PatchMapping("/recommended")
+    public Game findRecommendedGame(@RequestParam String groupId) {
+        return gameService.findRecommendedGame(groupId);
+    }
+
+    @GetMapping("/recommended")
+    public List<Game> findRecommendedGamesList() {
+        return gameService.findRecommendedGamesList();
     }
 
     @GetMapping

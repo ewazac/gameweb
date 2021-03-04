@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 // connector between the model and MongoDB
 public interface GamesRepository extends MongoRepository<Game, String > {
@@ -17,4 +18,8 @@ public interface GamesRepository extends MongoRepository<Game, String > {
 
 
     void deleteByGroupId(String groupId);
+
+    Optional<Game> findByIdAndGroupId(String gameId, String groupId);
+
+    List<Game> findByRecommendedIsTrue();
 }
