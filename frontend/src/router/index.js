@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-//import Home from '../views/Home.vue'
+import Forum from '../views/Forum.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Search from '../components/Search'
@@ -11,12 +11,19 @@ import Quizes from '../router/quiz';
 import Store from '../store/index'
 Vue.use(VueRouter)
 
-const routes = [/*
+const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },*/
+    path: '/forum',
+    name: 'Forum',
+    component: Forum,
+    meta:{auth: true}
+  },
+  {
+    path: '/thread',
+    name: 'Thread',
+    component: () => import('../components/Thread.vue'),
+    meta:{auth: true}
+  },
   {
     path: '/games',
     name: 'Games',

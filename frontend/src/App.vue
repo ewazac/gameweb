@@ -21,6 +21,9 @@
                     <b-nav-item href="/Recommended">
                         Polecane
                     </b-nav-item>
+                    <b-nav-item href="/forum">
+                        Forum
+                    </b-nav-item>
                 </b-navbar-nav>
                 <b-navbar-nav>
                     <b-nav-item href="/favourites" id="fav" style="position: relative">

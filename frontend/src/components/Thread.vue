@@ -11,21 +11,21 @@
             <p>Napisz nową wiadomość:</p>
             <b-form-textarea
                 v-model="answer"
-                type="answer"
+                type="text"
                 class="form-control"
                 name="answer"
                 required
             />
             <button class="button" type="submit">Dodaj</button>
         </form>
-        <div v-if="admin">
+        <div v-if="isAdmin">
             <div class="answers" v-for="answers in thread" :key="answers.username">
                 <div class="details">
-                    <p> Użytkownik: {{ answers.username }} Dodano: {{ answers.createdDate }} </p>
+                    <p> Użytkownik:{{ answers.username }} Dodano: {{ answers.createdDate }} </p>
                     <span @click='handleDelete(answers.message)'>Usuń</span>
                 </div>
                 <div class="message">
-                    <h5> {{ answers.message }}</h5>
+                    <span> {{ answers.message }}</span>
                 </div>
                 
             </div>
@@ -36,7 +36,7 @@
                     <p> Użytkownik: {{ answers.username }} Dodano: {{ answers.createdDate }} </p>
                 </div>
                 <div class="message">
-                    <h5> {{ answers.message }}</h5>
+                    <span> {{ answers.message }} </span>
                 </div>
             </div>
         </div>
@@ -104,7 +104,7 @@ export default {
             const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
             const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
             const dateTime = date +'T'+ time;*/
-            axios.patch("https://gameweb21.herokuapp.com/api/forums/"+this.id, {message: this.answer}, {withCredentials:true}).then((result) => {
+            axios.patch("https://gameweb21.herokuapp.com/api/forums/"+this.id, {message:this.answer, username:this.currentUser.nick}, {withCredentials:true}).then((result) => {
                 this.$router.go(0);
                 console.log(result)
             }).catch((err) => {
@@ -198,5 +198,10 @@ span {
 .ThreadMessage {
     padding: 1rem;
     width: 100%;
+}
+.message span {
+    font-size: 1.5rem;
+    font-weight: 450;
+    white-space: pre;
 }
 </style>
