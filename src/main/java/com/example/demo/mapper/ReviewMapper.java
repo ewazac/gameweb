@@ -2,6 +2,7 @@ package com.example.demo.mapper;
 
 import com.example.demo.model.dao.Review;
 import com.example.demo.model.dto.ReviewDto;
+import com.example.demo.services.UserService;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.stream.Collectors;
 @Component
 public class ReviewMapper {
 
+
     public ReviewDto toDto(Review review) {
         return ReviewDto.builder()
                 .description(review.getDescription())
@@ -17,6 +19,7 @@ public class ReviewMapper {
                 .title(review.getTitle())
                 .gameId(review.getGameId())
                 .id(review.getId())
+                .nick(review.getNick())
                 .build();
     }
 
@@ -27,6 +30,7 @@ public class ReviewMapper {
                 .description(reviewDto.getDescription())
                 .stars(reviewDto.getStars())
                 .title(reviewDto.getTitle())
+                .nick(reviewDto.getNick())
                 .build();
     }
 

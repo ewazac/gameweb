@@ -1,7 +1,9 @@
 package com.example.demo.model.dto;
 
 
+import com.example.demo.model.dao.User;
 import lombok.*;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
@@ -20,6 +22,9 @@ public class ReviewDto {
     public String gameId;
     public LocalDate createdDate;
     public String id;
+    private String nick;
+
+
 
 
 }

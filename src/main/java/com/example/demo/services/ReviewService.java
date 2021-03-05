@@ -2,6 +2,7 @@ package com.example.demo.services;
 
 import com.example.demo.exeption.EntityNotFoundException;
 import com.example.demo.model.dao.Review;
+import com.example.demo.model.dao.User;
 import com.example.demo.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,9 +14,14 @@ import java.util.List;
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
+    private final UserService userService;
 
     public Review save(Review review) {
-        return reviewRepository.save(review);
+        User currentUser = userService.getCurrentUser();
+        review.setNick(currentUser.getNick());
+        Review save = reviewRepository.save(review);
+        userService.addPoint();
+        return save;
     }
 
     public Review update(Review review, String reviewId) {
@@ -42,4 +48,7 @@ public class ReviewService {
         return reviewRepository.findByGameId(gameId);
     }
 
+    public List<Review> findReviewsByStars() {
+        return reviewRepository.findFirst20OrderByStars();
+    }
 }

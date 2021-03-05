@@ -20,7 +20,6 @@ public class ForumService {
         return forumRepository.findAll();
     }
 
-
     public Forum save(Forum forum) {
         return forumRepository.save(forum);
     }
