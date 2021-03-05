@@ -4,7 +4,7 @@
             <img class="w-100" v-if="news.image" :src="'data:image/jpeg;base64,'+news.image.data" style="max-height: 300px; object-fit: cover">
             <img class="w-100" v-else src="../assets/default.png" style="max-height: 300px; object-fit: cover">
             <div class="row text-left">
-                <div class="col-md-12">
+                <div class="col-md-12" style="color: mediumaquamarine">
                     <h1 class="text-left">{{news.title}}</h1>
                     <div class="d-flex justify-content-between flex-wrap w-100 align-center">
                         <h2 class="my-0">{{news.description}}</h2>
@@ -12,7 +12,7 @@
                     </div>
                 </div>
             </div>
-            <div class="my-5" v-html="news.body" style="color: black"></div>
+            <div class="my-5" v-html="news.body" style="color: whitesmoke"></div>
         </div>
     </div>
 </template>
