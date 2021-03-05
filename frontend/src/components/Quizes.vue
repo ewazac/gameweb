@@ -1,6 +1,7 @@
 <template>
     <div class="hello">
-        <div class="row">
+       <div class="container">
+          <div class="row">
             <div class="col-12">
                 <div class="w-100 d-flex align-center mb-3">
                     <div class="text-white mr-2">Ilość na stronie:</div>
@@ -33,6 +34,7 @@
                 :per-page="params.per_page" first-text="First" prev-text="Prev" next-text="Next" last-text="Last">
 
         </b-pagination>
+       </div>
     </div>
 </template>
 

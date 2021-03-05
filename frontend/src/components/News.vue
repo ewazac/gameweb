@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="news">
         <div class="hello">
             <div class="container">
                 <h2 class="text-center">News za newsem ze świata gier</h2>
@@ -69,6 +69,9 @@
     }
 </script>
 <style lang="scss">
+    .news{
+        background-color: #222;
+    }
     .card{
         justify-content: center;
         min-height: 20rem;

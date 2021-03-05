@@ -3,7 +3,6 @@
         <b-breadcrumb class="my-breadcrumbs text-muted" :items="breadcrumbs"></b-breadcrumb>
     </div>
 </template>
-
 <script>
     export default {
         data() {
