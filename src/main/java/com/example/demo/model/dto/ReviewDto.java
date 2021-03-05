@@ -3,6 +3,7 @@ package com.example.demo.model.dto;
 
 import com.example.demo.model.dao.User;
 import lombok.*;
+import org.bson.types.Binary;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import javax.validation.constraints.NotBlank;
@@ -23,6 +24,7 @@ public class ReviewDto {
     public LocalDate createdDate;
     public String id;
     private String nick;
+    private Binary image;
 
 
 

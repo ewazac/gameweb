@@ -19,6 +19,7 @@ public class ReviewMapper {
                 .title(review.getTitle())
                 .gameId(review.getGameId())
                 .id(review.getId())
+                .image(review.getImage())
                 .nick(review.getNick())
                 .build();
     }
@@ -31,6 +32,7 @@ public class ReviewMapper {
                 .stars(reviewDto.getStars())
                 .title(reviewDto.getTitle())
                 .nick(reviewDto.getNick())
+                .image(reviewDto.getImage())
                 .build();
     }
 

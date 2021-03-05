@@ -3,6 +3,7 @@ package com.example.demo.model.dao;
 
 import lombok.*;
 
+import org.bson.types.Binary;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -23,6 +24,7 @@ public class Review {
     private String description;
     private Float stars;
     private String gameId;
+    private Binary image;
     @CreatedDate
     private LocalDate createdDate;
     @CreatedBy

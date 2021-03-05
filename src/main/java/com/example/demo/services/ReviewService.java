@@ -5,8 +5,12 @@ import com.example.demo.model.dao.Review;
 import com.example.demo.model.dao.User;
 import com.example.demo.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
+import org.bson.BsonBinarySubType;
+import org.bson.types.Binary;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -22,6 +26,17 @@ public class ReviewService {
         Review save = reviewRepository.save(review);
         userService.addPoint();
         return save;
+    }
+
+    public Review addReviewImage(MultipartFile multipartFile, String reviewId) throws IOException {
+        Review review = findReviewById(reviewId);
+        review.setImage(new Binary(BsonBinarySubType.BINARY, multipartFile.getBytes()));
+        return reviewRepository.save(review);
+    }
+
+    public Binary displayReviewImage(String id) {
+        Review review = findReviewById(id);
+        return review.getImage();
     }
 
     public Review update(Review review, String reviewId) {
