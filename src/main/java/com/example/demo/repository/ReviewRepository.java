@@ -9,8 +9,6 @@ public interface ReviewRepository extends MongoRepository<Review, String> {
 
     Review findReviewByTitle(String title);
 
-    List<Review> findReviewByGameId(String gameId);
-
     List<Review> findReviewByStars(Float stars);
 
     Review findReviewByDescription(String description);
@@ -19,8 +17,9 @@ public interface ReviewRepository extends MongoRepository<Review, String> {
 
     List<Review> findByGameId(String gameId);
 
+    List<Review> findReviewByGameIdOrderByStarsDesc();
 
-
+    List<Review> findFirst20OrderByStars();
 
 
 }

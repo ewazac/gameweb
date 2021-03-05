@@ -20,11 +20,9 @@ public class ForumService {
         return forumRepository.findAll();
     }
 
-
     public Forum save(Forum forum) {
         return forumRepository.save(forum);
     }
-
 
     public Forum update(Forum forum, String id) {
         Forum forumDb = getById(id);
