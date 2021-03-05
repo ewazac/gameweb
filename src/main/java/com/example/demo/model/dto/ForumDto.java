@@ -19,5 +19,4 @@ public class ForumDto {
     private String name;
     private List<Answer> answers;
 
-
 }
