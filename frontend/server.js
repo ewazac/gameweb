@@ -14,7 +14,7 @@ app.use(cors({
 }))
 app.use(cors({
     origin: "gameweb12.herokuapp.com",
-    credentials: true
+    credentials: false
 }))
 app.use(cors({
     origin: "gameweb21.herokuapp.com",

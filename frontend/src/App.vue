@@ -1,6 +1,7 @@
 <template>
     <div class="wrapper">
         <b-navbar toggleable="lg" type="dark" variant="dark" class="fixed-top">
+            <img class="GameWeb-mobile" src="./assets/logo.png" alt="GameWeb" />
             <b-navbar-toggle class="app__toggle-menu ml-auto" target="nav-collapse"></b-navbar-toggle>
             <b-collapse id="nav-collapse" is-nav>
                 <b-navbar-nav class="mr-auto align-items-baseline">
@@ -12,10 +13,10 @@
                     </b-nav-item>
                     <router-link to="/quizy">
                         <b-nav-item  to="/quizy">
-                        Quiz
+                            Quiz
                         </b-nav-item>
                     </router-link>
-                    <b-nav-item href="/Competition">
+                    <b-nav-item href="/competitions">
                         Konkurs
                     </b-nav-item>
                     <b-nav-item href="/Recommended">
@@ -26,9 +27,12 @@
                     </b-nav-item>
                 </b-navbar-nav>
                 <b-navbar-nav>
-                    <b-nav-item href="/favourites" id="fav" style="position: relative">
-                        <div style="position: absolute; top: -8px; right: -8px; padding: 3px 7px; font-size: 11px; border-radius: 100%; background-color: red">{{favourites.length}}</div>
-                        <b-icon icon="suit-heart-fill" aria-hidden="fav"></b-icon>
+                    <b-nav-item href="/favourites" id="fav" v-if="currentLoggedIn">
+                        <div style="position: relative">
+                            <b-icon icon="suit-heart-fill" aria-hidden="fav"></b-icon>
+                            <div style="position: absolute; top: -8px; right: -8px; padding: 3px 7px; font-size: 11px; border-radius: 100%; background-color: red">{{favourites.length}}</div>
+                        </div>
+
                     </b-nav-item>
                     <b-nav-item href="/search" id="search-icon-id">
                         <b-icon icon="search" aria-hidden="search"></b-icon>
@@ -53,6 +57,11 @@
 
             <router-view />
         </div>
+        <div class="loading-holder" v-if="loading">
+            <div class="loading">
+                <div class="loader"></div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -66,9 +75,14 @@
             Messages
         },
         created(){
-            this.$store.dispatch('app/getFavourites');
+            if(this.currentLoggedIn){
+                this.$store.dispatch('app/getFavourites');
+            }
         },
         computed: {
+            loading(){
+                return this.$store.getters['app/loading'];
+            },
             favourites(){
                 return this.$store.getters['app/get_favourites'];
             },

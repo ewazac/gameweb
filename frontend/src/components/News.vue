@@ -1,5 +1,5 @@
 <template>
-    <div class="news">
+    <div>
         <div class="hello">
             <div class="container">
                 <h2 class="text-center">News za newsem ze świata gier</h2>
@@ -13,7 +13,7 @@
                             <b-card
                                     class="mb-2"
                             >
-                                <div style="position: absolute; top: 10px; right: 10px">
+                                <div style="position: absolute; top: 10px; right: 10px" v-if="currentLoggedIn">
                                     <b-icon @click="item.toggleFavourite()" scale="2" style="cursor: pointer" icon="star-fill" variant="info"></b-icon>
                                 </div>
                                 <img v-if="item.image" :src="'data:image/jpeg;base64,'+item.image.data">
@@ -47,6 +47,11 @@
                 news:null
             }
         },
+        computed:{
+            currentLoggedIn () {
+                return this.$store.state.auth.status.loggedIn;
+            },
+        },
         created(){
             this.getData();
         },
@@ -69,9 +74,6 @@
     }
 </script>
 <style lang="scss">
-    .news{
-        background-color: #222;
-    }
     .card{
         justify-content: center;
         min-height: 20rem;

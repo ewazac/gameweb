@@ -9,21 +9,23 @@ import AdminRoutes from './admin';
 import NewsEditAdd from '../views/admin/news-edit-add';
 import Quizes from '../router/quiz';
 import Store from '../store/index'
+import Favourites from '../views/users/favourites';
+import Contest from '../router/contest';
 Vue.use(VueRouter)
 
 const routes = [
-  {
-    path: '/forum',
-    name: 'Forum',
-    component: Forum,
-    meta:{auth: true}
-  },
-  {
-    path: '/thread',
-    name: 'Thread',
-    component: () => import('../components/Thread.vue'),
-    meta:{auth: true}
-  },
+    {
+        path: '/forum',
+        name: 'Forum',
+        component: Forum,
+        meta:{auth: true}
+    },
+    {
+        path: '/thread',
+        name: 'Thread',
+        component: () => import('../components/Thread.vue'),
+        meta:{auth: true}
+    },
   {
     path: '/games',
     name: 'Games',
@@ -79,6 +81,12 @@ const routes = [
     meta:{auth: true}
   },
   {
+    path: '/favourites',
+    name: 'Ulubione',
+    component: Favourites,
+    meta:{auth: true}
+  },
+  {
     path: '/search',
     name: 'Search',
     component: Search,
@@ -91,6 +99,9 @@ const routes = [
   },
 ]
 Quizes.forEach(item => {
+  routes.push(item);
+})
+Contest.forEach(item => {
   routes.push(item);
 })
 const router = new VueRouter({
@@ -106,7 +117,6 @@ router.beforeEach((to, from, next) => {
   Store.commit('app/SET_BREADCRUMBS', []);
   var authRequired = to.meta.auth != false;
   const loggedIn = localStorage.getItem('user');
-  console.log(authRequired, 'AUTH');
   if (authRequired && !loggedIn) {
     next('/login');
   } else {

@@ -1,7 +1,7 @@
 <template>
     <div class="messages">
-        <div>
-            <b-alert :key="index" show :variant="message.type" v-for="(message, index) in messages">{{message.text}}</b-alert>
+        <div @click="removeMessage(message.id)" v-for="(message, index) in messages" :key="index">
+            <b-alert show :variant="message.type" >{{message.text}}</b-alert>
         </div>
     </div>
 </template>
@@ -16,6 +16,11 @@
         computed:{
             messages(){
                 return this.$store.getters['app/messages'];
+            },
+        },
+        methods:{
+            removeMessage(id){
+               this.$store.commit('app/REMOVE_MESSAGE', id);
             }
         }
     }

@@ -32,20 +32,30 @@
                                             max-rows="6"
                                     ></b-form-textarea>
                                     <ckeditor :editor="editor" v-model="data.body" :config="editorConfig"></ckeditor>
-                                    <div v-for="(answer, index) in data.answers" :key="index">
-                                        <div class="row my-3">
-                                            <div class="col-md-1">
-                                                <b-form-checkbox @change="($event)? unselectAnswers(index) : null" v-model="answer.proper"></b-form-checkbox>
+                                    <b-button class="mt-3" @click="data.answerList.push({question: '', option:[]})" variant="success">Dodaj zagadkę</b-button>
+                                    <div :key="index_question" class="w-100" v-for="(item,index_question) in data.answerList">
+                                        <b-card class="mb-2 h-100">
+                                            <b-form-input v-model="item.question" placeholder="Wpisz treść pytania"></b-form-input>
+                                            <div v-for="(answer, index) in item.option" :key="index">
+                                                <div class="row my-3">
+                                                    <div class="col-md-1">
+                                                        <b-form-checkbox @change="($event)? unselectAnswers(index) : null" v-model="answer.proper"></b-form-checkbox>
+                                                    </div>
+                                                    <div class="col-md-10">
+                                                        <b-form-input v-model="answer.answer" placeholder="Wpisz treść odpowiedzi"></b-form-input>
+                                                    </div>
+                                                    <div class="col-md-1 d-flex justify-center align-center">
+                                                        <b-icon @click="item.option.splice(index, 1)" style="font-size: 20px; cursor: pointer" icon="trash-2" variant="danger"></b-icon>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="col-md-10">
-                                                <b-form-input v-model="answer.answer" placeholder="Wpisz treść odpowiedzi"></b-form-input>
+                                            <div class="my-3">
+                                                <b-button @click="item.option.push({value: '', proper: false})" variant="success">Dodaj odpowiedź</b-button>
+                                                <b-button class="ml-3" @click="data.answerList.splice(index_question, 1)" variant="danger">usuń pytanie</b-button>
                                             </div>
-                                            <div class="col-md-1 d-flex justify-center align-center">
-                                                <b-icon @click="data.answers.splice(index, 1)" style="font-size: 20px; cursor: pointer" icon="trash-2" variant="danger"></b-icon>
-                                            </div>
-                                        </div>
+                                            <!--<b-button class="games__button" @click="handleDetails(item.appId)"> Zobacz więcej </b-button>-->
+                                        </b-card>
                                     </div>
-                                    <b-button @click="data.answers.push({proper: false, answer: ''})" variant="success">Dodaj odpowiedź</b-button>
 
                                     <div class="w-100 d-flex justify-content-end mt-5">
                                         <b-button @click="saveElement()" variant="outline-success">Zapisz</b-button>
@@ -83,7 +93,7 @@
 
         },
         mounted(){
-            if(this.$route.params.id){
+            if(this.$route.params.id && this.$route.params.id != 'create'){
                 this.data.getElementById(this.$route.params.id).then(res => {
                     this.data = new Quiz(res);
                 });
@@ -91,9 +101,9 @@
         },
         methods:{
             unselectAnswers(seledted_id){
-                this.data.answers.forEach((item, index) => {
+                this.data.answerList.forEach((item, index) => {
                     if(index != seledted_id){
-                        this.data.answers[index].proper = false;
+                        this.data.answerList[index].proper = false;
                     }
                 })
             },

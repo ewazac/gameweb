@@ -18,7 +18,17 @@ Vue.use(Confirm);
 Vue.use(require('vue-moment'));
 Vue.config.productionTip = false
 import CKEditor from '@ckeditor/ckeditor5-vue2';
-
+Vue.mixin({
+  methods:{
+    isMobile(){
+      let check = false;
+      if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+        return true;
+      }
+      return check;
+    }
+  }
+})
 Vue.use( CKEditor );
 
 new Vue({

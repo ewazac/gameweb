@@ -133,6 +133,12 @@ export default {
 <style lang="scss" scoped>
 .thread {
     margin: 3rem;
+    @media screen and(max-width: 1200px){
+        margin: 10px;
+        span{
+            font-size: 12px !important;
+        }
+    }
     color: white;
 }
 h3 {
@@ -202,6 +208,6 @@ span {
 .message span {
     font-size: 1.5rem;
     font-weight: 450;
-    white-space: pre;
+    white-space: pre-line;
 }
 </style>

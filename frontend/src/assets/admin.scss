@@ -9,8 +9,12 @@
 }
 
 #sidebar-wrapper {
-  min-height: 100vh;
-  margin-left: -15rem;
+  @media screen and(min-width: 992px){
+    min-height: 100vh;
+  }
+  @media screen and(max-width: 992px){
+    margin-bottom: 20px;
+  }
   -webkit-transition: margin .25s ease-out;
   -moz-transition: margin .25s ease-out;
   -o-transition: margin .25s ease-out;

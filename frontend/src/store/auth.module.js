@@ -2,7 +2,11 @@ import AuthService from '../services/auth.header';
 import Request from '../request';
 const user = (typeof localStorage.getItem('user') == 'string')? JSON.parse(localStorage.getItem('user')) : localStorage.getItem('user');
 var isAdmin = () => {
-  return user.roles.find(x => x == 'ADMIN') != null;
+  if(user && user.roles){
+    return user.roles.find(x => x == 'ADMIN') != null;
+  }else{
+    return false;
+  }
 }
 const initialState = user
     ? { status: { loggedIn: true }, user, isAdmin: isAdmin(user) }

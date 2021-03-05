@@ -33,7 +33,7 @@
                 <div class="row align-center mt-2">
                   <div class="col-md-2 align-center">Imię i nazwisko:</div>
                   <div class="col-md-10" v-if="edited_field != 'name'">{{currentUser.firstName}} {{currentUser.lastName}} <i @click="edited_field = 'name'" class="bi bi-pencil-square"></i></div>
-                  <div v-else class="d-flex col-md-10 transition">
+                  <div v-else class="d-flex flex-wrap col-md-10 transition">
                     <b-form-input
                             class="input mx-1"
                             type="text"
@@ -54,7 +54,7 @@
                 <div class="row align-center mt-2">
                   <div class="col-md-2 align-center">Nick:</div>
                   <div class="col-md-10" v-if="edited_field != 'nick'"><span v-if="currentUser.nick">{{currentUser.nick}}</span><span v-else class="text-muted">Brak nick'u</span><i @click="edited_field = 'nick'" class="bi bi-pencil-square ml-2"></i></div>
-                  <div v-else class="d-flex col-md-10 transition">
+                  <div v-else class="d-flex flex-wrap col-md-10 transition">
                     <b-form-input
                             placeholder="Nick"
                             class="input mx-1"
@@ -73,12 +73,12 @@
                 <div class="row align-center mt-2">
                   <div class="col-md-2 align-center">Hasło:</div>
                   <div class="col-md-10" v-if="edited_field != 'password'">.....<i @click="edited_field = 'password'" class="bi bi-pencil-square ml-2"></i></div>
-                  <div v-else class="d-flex col-md-10 transition">
-                    <div>
+                  <div v-else class="d-flex flex-wrap col-md-10 transition">
+                    <div :style="{'margin-right': (isMobile())? '0px' : '20px', 'margin-top': (isMobile())? '20px' : '0px'}">
                       <b-form-input
                               style="max-width: 150px"
                               placeholder="Stare hasło"
-                              class="input mx-1"
+                              class="input"
                               type="password"
                               v-model="currentUser.oldpassword"
                               :state="validatePasswords()"
@@ -89,10 +89,10 @@
 <!--                      <b-form-invalid-feedback id="old_password">This is a required field and must be at least 4 characters.</b-form-invalid-feedback>-->
                     </div>
 
-                    <div class="mx-1" style="min-width: 200px">
+                    <div style="min-width: 200px" >
                       <b-form-input
                               placeholder="Nowe hasło"
-                              class="input mx-1"
+                              class="input"
                               type="password"
                               :state="validatePasswords()"
                               v-model="currentUser.newpassword"
@@ -103,7 +103,7 @@
                       <b-form-invalid-feedback id="new_password">Hasło powinno mieć conajmniej 4 litery. Hasła powinny do siebie pasować.</b-form-invalid-feedback>
                       <b-form-input
                               placeholder="Powtórz nowe hasło"
-                              class="input mx-1 mt-2"
+                              class="input  mt-2"
                               type="password"
                               :state="validatePasswords()"
                               v-model="currentUser.newpassword_confirmation"
@@ -133,8 +133,8 @@
                         @change="handleChange()"
                         v-model="currentUser.newsletter"
                         name="checkbox-1"
-                        value="1"
                         :unchecked-value="false"
+                        :checked-value="true"
                 >
                   Wyrażam zgodę na wysyłanie newslettera.
                 </b-form-checkbox>
@@ -222,8 +222,10 @@
                 });
       },
       handleChange(){
-        this.currentUser.updateUser();
-        this.edited_field = null;
+        this.$nextTick(() => {
+          this.currentUser.updateUser();
+          this.edited_field = null;
+        })
       },
       validatePasswords(){
         if(!this.sending) return null;
@@ -297,7 +299,7 @@
       }
       this.getAvatar();
       axios
-              .patch(API_URL + "getAllCategories", {
+              .get(API_URL + "getAllCategories", {
                 withCredentials: true,
               })
               .then((response) => {

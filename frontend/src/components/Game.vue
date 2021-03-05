@@ -1,15 +1,16 @@
 <template>
     <div class="container">
         <b-row class="game" align-h="around" align-v="center">
-            <div class="col-4 text-center">
+            <div class="col-md-4 text-center">
                 <b-img
-                        class="gameImage"
+                        class="gameImage w-100"
+                        style="max-width: 100%"
                         :src="game.icon"
                         :alt="game.title"
                 >
                 </b-img>
             </div>
-            <div class="col-6 text-center">
+            <div class="col-md-6 text-center">
                 <h1>{{ game.title }}</h1>
             </div>
         </b-row>
@@ -215,7 +216,6 @@
     .game {
         margin-top: 20px;
         min-height: 250px;
-        max-height: 300px;
         background-color: #222;
         padding-bottom: 10px;
         padding-top: 10px;

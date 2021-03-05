@@ -11,22 +11,22 @@
                 </div>
             </div>
             <b-card
-                    v-for="(item,index) in data"
+                    v-for="(item,index) in data.answerList"
                     :key="index"
                     style="box-shadow: none !important;"
                     class="mt-5"
             >
                 <div class="d-flex w-100" style="font-size: 24px">
                     <div class="mr-4 text-muted">
-                        {{index + 1}} / {{data.length}}
+                        {{index + 1}} / {{data.answerList.length}}
                     </div>
-                    <div>{{stripHtml(item.body)}}</div>
+                    <div>{{stripHtml(item.question)}}</div>
                 </div>
 
                 <b-form-group class="my-radio-group" label="Wybierz jedną odpowiedź" v-if="!showAnswer">
                     <b-form-radio-group
                             v-model="userAnswers[index]"
-                            :options="item.options"
+                            :options="item.option"
                             :state="userAnswers[index] != null"
                             stacked
                     >
@@ -35,11 +35,11 @@
                 </b-form-group>
                 <div v-if="showAnswer" class="my-4">
                     <div class="font-weight-bold">Twoja odpowiedź: {{userAnswers[index]}}</div>
-                    <div class="font-weight-bold" :class="{'text-danger': item.options.find(x => x.proper == true).value != userAnswers[index], 'text-success': item.options.find(x => x.proper == true).value == userAnswers[index]}">Poprawna odpowiedź {{item.options.find(x => x.proper == true).value}}</div>
+                    <div class="font-weight-bold" :class="{'text-danger': item.option.find(x => x.proper == true).value != userAnswers[index], 'text-success': item.option.find(x => x.proper == true).value == userAnswers[index]}">Poprawna odpowiedź {{item.option.find(x => x.proper == true).value}}</div>
                 </div>
             </b-card>
             <div class="w-100 mt-5" v-if="showAnswer">
-                <b-alert show><span class="font-weight-bold">{{correctAnswers}} / {{data.length}}</span> poprawnych odpowiedzi</b-alert>
+                <b-alert show><span class="font-weight-bold">{{correctAnswers}} / {{data.answerList.length}}</span> poprawnych odpowiedzi</b-alert>
             </div>
             <b-button variant="success" class="w-100 py-3 my-5" @click="submit()">Poznaj swój wynik</b-button>
         </div>
@@ -65,30 +65,30 @@
         computed:{
             correctAnswers(){
                 var count = 0;
-                this.data.forEach((item,index) => {
-                    if(item.options.find(x => x.proper).value == this.userAnswers[index]) count = count +1 ;
+                this.data.answerList.forEach((item,index) => {
+                    if(item.option.find(x => x.proper).value == this.userAnswers[index]) count = count +1 ;
                 })
                 return count;
             },
-            data(){
-                var arr = [];
-                var i = 0;
-                while(i < 3){
-                    i = i + 1;
-                    arr.push(Object.assign({}, this.item))
-                }
-                arr.map(item => {
-                    var options = item.answers.map(answer => {
-                        return {
-                            text: answer.answer,
-                            value: answer.answer,
-                            proper: answer.proper
-                        }
+            data() {
+                var item = Object.assign({}, this.item);
+                if(item.answerList){
+                    item.answerList = item.answerList.map(question_item => {
+                        question_item.option = question_item.option.map(answer => {
+                            return{
+                                text: answer.answer,
+                                value: answer.answer,
+                                proper: answer.proper
+                            }
+                        })
+                        return question_item
                     })
-                    item.options = options;
-                    return item;
-                })
-                return arr;
+                }else{
+                    item.answerList = [];
+                }
+
+
+                return item;
             }
         },
         methods:{
@@ -97,7 +97,7 @@
             },
             submit(){
                 this.submitted = true;
-                if(Object.keys(this.userAnswers).length == this.data.length){
+                if(Object.keys(this.userAnswers).length == this.data.answerList.length){
                     this.showAnswer = true;
                 }
             },

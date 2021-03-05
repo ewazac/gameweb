@@ -7,15 +7,16 @@ export default class Quiz {
             }
         }
         if(!this.body) this.body = '';
-        if(!this.answers) this.answers= [];
+        if(!this.answerList) this.answerList= [];
     }
     getElementById(id){
         return new Promise((resolve) => {
             Request({
                 url:'/api/quizy',
-                method:'get'
+                method:'get',
             }).then(res => {
                 var item = res.find(x => x.id == id);
+                if(item.answerList == null) item.answerList = [];
                 resolve(item);
                 Request({
                     url:'/api/quizy/getQuizBody/'+item.id,

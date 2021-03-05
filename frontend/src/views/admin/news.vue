@@ -15,25 +15,28 @@
                                 class="mb-2 w-100"
                         >
                             <b-card-text>
-                                <b-table striped hover :items="items" class="table-white-text">
-                                    <template #cell(id)="{ rowSelected, item}">
-                                        <div v-chunk class="text--primary">
-                                            {{item.id}}
-                                        </div>
-                                    </template>
-                                    <template #cell(image)="{ rowSelected, item}">
-                                        <div>
-                                            <img style="max-height: 70px; max-width: 70px" v-if="item.image" :src="'data:image/jpeg;base64,'+item.image.data">
-                                            <img style="max-height: 70px; max-width: 70px" v-else src="../../assets/default.png">
-                                        </div>
-                                    </template>
-                                    <template #cell(actions)="{ item }">
-                                        <div>
-                                            <b-button @click="deleteElement(item.id)" class="mr-2" variant="outline-danger">Usuń</b-button>
-                                            <b-button :to="'/admin/news/'+item.id" variant="outline-primary">Edytuj</b-button>
-                                        </div>
-                                    </template>
-                                </b-table>
+                                <div class="table-responsive">
+                                    <b-table striped hover :items="items" class="table-white-text ">
+                                        <template #cell(id)="{ rowSelected, item}">
+                                            <div v-chunk class="text--primary">
+                                                {{item.id}}
+                                            </div>
+                                        </template>
+                                        <template #cell(image)="{ rowSelected, item}">
+                                            <div>
+                                                <img style="max-height: 70px; max-width: 70px" v-if="item.image" :src="'data:image/jpeg;base64,'+item.image.data">
+                                                <img style="max-height: 70px; max-width: 70px" v-else src="../../assets/default.png">
+                                            </div>
+                                        </template>
+                                        <template #cell(actions)="{ item }">
+                                            <div>
+                                                <b-button @click="deleteElement(item.id)" class="mr-2" variant="outline-danger">Usuń</b-button>
+                                                <b-button :to="'/admin/news/'+item.id" variant="outline-primary">Edytuj</b-button>
+                                            </div>
+                                        </template>
+                                    </b-table>
+                                </div>
+
                                 <div class="w-100 d-flex justify-content-end">
                                 <b-button :to="'/admin/news/create'" variant="outline-light">Dodaj nowy</b-button>
                                 </div>

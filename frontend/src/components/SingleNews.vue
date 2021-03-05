@@ -10,7 +10,6 @@
                         <h2 class="my-0">{{news.description}}</h2>
                         <div class="text-muted font-weight-bold">{{news.createdDate | moment("YYYY-MM-DD")}}</div>
                     </div>
-
                 </div>
             </div>
             <div class="my-5" v-html="news.body" style="color: black"></div>
@@ -26,7 +25,6 @@
             }
         },
         created(){
-            document.body.className = "";
             this.getData();
         },
         methods:{

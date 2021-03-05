@@ -1,7 +1,7 @@
 <template>
   <div class="main">
       <div class="search-wrapper">
-            <input type="text" v-model="search" placeholder="Wyszukaj wątek.."/>
+            <input type="text" v-model="search" class="form-control w-100 py-2" placeholder="Wyszukaj wątek.."/>
         </div>  
     <div class="forum">
       <div class="newThread">
@@ -239,7 +239,9 @@ export default{
 <style lang="scss" scoped>
 .main {
   color: white;
-  padding: 0 10rem 10rem 10rem;
+  @media screen and (min-width: 1200px) {
+    padding: 0 10rem 10rem 10rem;
+  }
 }
 .forum {
   background-color: #222;
@@ -282,11 +284,17 @@ export default{
   min-width: 80%;
   display: flex;
   padding: 1rem;
+  @media screen and (max-width: 1200px) {
+    padding: 10px;
+  }
 }
 .Descriptionu {
   width: 100%;
   display: flex;
   padding: 1rem;
+  @media screen and (max-width: 1200px) {
+    padding: 10px;
+  }
 }
 .ADD {
   padding: 1rem;
@@ -318,7 +326,7 @@ export default{
 }
 input,
 textarea {
-  margin: 0 0 0 auto;
+  margin: auto;
   max-width: 80%;
 }
 button.page-link {
@@ -335,9 +343,19 @@ button.page-link {
 }
 .search-wrapper {
     text-align: right;
+  @media screen and (min-width: 1200px) {
     margin: 1rem 2rem 1rem 2rem;
+  }
+
 }
 .search-wrapper input{
+    margin-top: 10px;
+  margin-bottom: 10px;
     width: 30%;
 }
+  .main{
+    div,h1,h2,h3,h4,h5,label,button{
+      font-size: 12px !important;
+    }
+  }
 </style>

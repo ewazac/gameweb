@@ -31,7 +31,10 @@
         <b-link class="login__link" href="/Register">Nie masz konta? Zarejestruj się!</b-link>
         <hr />
         <div>
-          <b-button class="login__button" type="submit">Login</b-button>
+          <div class="w-100 d-flex justify-center my-2" v-if="loading" >
+            <b-spinner variant="primary"></b-spinner>
+          </div>
+          <b-button :disabled="loading" class="login__button" type="submit">Login</b-button>
         </div>
       </div>
     </form>
@@ -75,9 +78,11 @@
           if (this.user.username && this.user.password) {
             this.$store.dispatch("auth/login", this.user).then(
                     () => {
+                      console.log('LOGGED');
                       this.$router.push("/account");
                     },
                     (error) => {
+                      console.log('NOT LOGGED', error);
                       this.errorMessage = "Niepoprawne hasło lub login";
                       this.loading = false;
                       this.message =

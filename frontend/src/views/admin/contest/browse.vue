@@ -10,34 +10,20 @@
                 <div class="col-md-9" :class="{'col-md-12': !isAdmin}">
                     <div class="w-100">
                         <b-card
-                                title="Quizy"
+                                title="Konkursy"
                                 tag="article"
                                 class="mb-2 w-100 text-white"
                         >
                             <b-card-text>
-                                <div class="table-responsive">
-                                    <b-table striped hover :items="items" class="table-white-text">
-                                        <template #cell(id)="{ rowSelected, item}">
-                                            <div v-chunk class="text--primary">
-                                                {{item.id}}
-                                            </div>
-                                        </template>
-                                        <template #cell(answerList)="{ item}">
-                                            <div>
-                                                Ilość odpowiedzi <span v-if="item.answerList">{{item.answerList.length}}</span><span v-else>0</span>
-                                            </div>
-                                        </template>
-                                        <template #cell(actions)="{ item }">
-                                            <div>
-                                                <b-button @click="deleteElement(item.id)" class="mr-2" variant="outline-danger">Usuń</b-button>
-                                                <b-button :to="'/admin/quiz/'+item.id" variant="outline-primary">Edytuj</b-button>
-                                            </div>
-                                        </template>
-                                    </b-table>
-                                </div>
-
+                                <b-table :fields="fields" striped hover :items="data" class="table-white-text">
+                                    <template #cell(actions)="{ item }">
+                                        <div>
+                                            <b-button @click="deleteElement(item.group_id)" class="mr-2" variant="outline-danger">Usuń</b-button>
+                                        </div>
+                                    </template>
+                                </b-table>
                                 <div class="w-100 d-flex justify-content-end">
-                                    <b-button class="ma-auto" :to="'/admin/quiz/create'" variant="light">Dodaj nowy</b-button>
+                                    <b-button class="ma-auto" :to="'/admin/contest/create'" variant="light">Dodaj nowy</b-button>
                                 </div>
 
 
@@ -56,18 +42,21 @@
         computed:{
             isAdmin(){
                 return this.$store.getters['auth/isAdmin'];
-            },
-            items(){
-                return this.data.map((item) => {
-                    delete item.body;
-                    delete item.description;
-                    item.actions = '';
-                    return item;
-                }).reverse();
             }
         },
         data() {
             return {
+                fields:[{
+                    key: 'group_id',
+                    label: 'ID grupy'
+                },{
+                    key: 'count',
+                    label: 'Ilość gier'
+                },
+                    {
+                        key: 'actions',
+                        label: 'Akcje'
+                    }],
                 currentUser: JSON.parse(localStorage.getItem("user")),
                 data: []
             };
@@ -83,7 +72,7 @@
                 this.$confirm('Usuwanie elementu', 'Czy na pewno chcesz usunąć ten element', null).then(() => {
                     Request({
                         method: 'DELETE',
-                        url: '/api/quizy/'+id
+                        url: '/games/'+id
                     }).then(() => {
                         this.getData();
                     })
@@ -91,11 +80,18 @@
             },
             getData(){
                 Request({
-                    method: 'get',
-                    url: '/api/quizy',
+                    url: '/games',
+                    method: 'get'
                 }).then(res => {
-                    this.data = res;
+                    this.data = [];
+                    for(var i in res){
+                        this.data.push({
+                            group_id: i,
+                            count: res[i].length
+                        })
+                    }
                 })
+
             }
         },
     };

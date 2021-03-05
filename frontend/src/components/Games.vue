@@ -25,6 +25,9 @@
 <!--              img-top-->
 <!--      >-->
 <!--        <b-card-text v-if="item.summary">{{ item.summary.slice(0,150) }}...</b-card-text>-->
+              <div style="position: absolute; top: 10px; right: 10px" v-if="currentLoggedIn">
+                  <b-icon @click="item.toggleFavourite()" scale="2" style="cursor: pointer" icon="star-fill" variant="info"></b-icon>
+              </div>
             <b-button class="games__button" @click="handleDetails(item.appId)"> Zobacz więcej </b-button>
           </b-card>
         </div>
@@ -42,7 +45,7 @@
 <script>
   import axios from "axios";
   import {paginate} from "../helpers";
-
+    import Game from '../models/game';
   export default {
     name: 'Home',
     beforeCreate: function () {
@@ -63,6 +66,9 @@
       }
     },
     computed:{
+        currentLoggedIn () {
+            return this.$store.state.auth.status.loggedIn;
+        },
       items(){
         return paginate(this.games, this.params.per_page, this.params.page);
       }
@@ -76,7 +82,9 @@
     mounted() {
       axios.get('https://gameweb12.herokuapp.com/api/apps/?category=GAME')
               .then((result) => {
-                this.games = result.data.results;
+                this.games = result.data.results.map(item => {
+                    return new Game(null,null,null,null,item);
+                });
                 this.params.total_rows =this.games.length;
               }).catch((err) => {
         console.log(err)

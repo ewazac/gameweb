@@ -6,15 +6,16 @@ export const app = {
     state: {
         messages:[],
         breadcrumbs: [],
-        favourites: []
+        favourites: [],
+        app_loading: false
     },
     actions: {
         getFavourites({commit}){
             var jar = [];
-            jar.push(Request({
-                url:'/fav',
-                method:'get'
-            }))
+              jar.push(Request({
+                  url:'/fav',
+                  method:'get'
+              }))
             jar.push(Request({
                 url: '/fav/game',
                 method: 'get'
@@ -27,6 +28,7 @@ export const app = {
                 })
                 array = newses;
                 var games = res[1].map(item => {
+                    if(typeof item == 'object')
                     item.type = 'game';
                     return item;
                 })
@@ -50,6 +52,7 @@ export const app = {
             state.favourites = data;
         },
         ADD_MESSAGE(state, data) {
+            if(!data.id) data.id = makeid(40);
             state.messages.push(data);
         },
         SET_BREADCRUMBS(state, data) {
@@ -61,13 +64,23 @@ export const app = {
             state.breadcrumbs = data;
         },
         REMOVE_MESSAGE(state, id) {
+            console.log('ID', id);
             var index = state.messages.findIndex(x => x.id == id);
             if(index != -1){
                 state.messages.splice(index, 1);
             }
+        },
+        START_LOADING(state){
+            state.app_loading = true
+        },
+        STOP_LOADING(state){
+            state.app_loading = false
         }
     },
     getters:{
+        loading: state => {
+            return state.app_loading;
+        },
         messages: state => {
             return state.messages;
         },

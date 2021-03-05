@@ -31,7 +31,7 @@ export default class User {
         delete clone.password;
         (clone.newsletter == 1 || clone.newsletter == true)? clone.newsletter = true : clone.newsletter = false;
         Request({
-            url:'/users/updateUser/'+this.id,
+            url:'/users/updateUser',
             method:'patch',
             data: clone
         }).then((res) =>{
