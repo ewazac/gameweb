@@ -3,6 +3,7 @@ package com.example.demo.model.dao;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.bson.types.Binary;
 import org.springframework.data.annotation.Id;
 
 import java.time.LocalDateTime;
@@ -21,6 +22,6 @@ public class Answer {
     private String description;
     private String name;
     private String body;
-
+    private Binary avatar;
 
 }
