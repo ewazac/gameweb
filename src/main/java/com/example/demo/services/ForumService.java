@@ -25,7 +25,6 @@ public class ForumService {
         return forumRepository.save(forum);
     }
 
-
     public Forum update(Forum forum, String id) {
         Forum forumDb = getById(id);
         forumDb.setName(forum.getName());

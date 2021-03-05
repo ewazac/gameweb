@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.bson.types.Binary;
 
 import java.util.List;
 
@@ -17,5 +18,6 @@ public class ForumDto {
     private String id;
     private String name;
     private List<Answer> answers;
+
 
 }

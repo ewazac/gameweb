@@ -5,13 +5,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.bson.types.Binary;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 
 @Data
@@ -26,8 +29,9 @@ public class Forum {
     private String name;
     private List<Answer> answers;
     @CreatedBy
-    private String createdBy;
+    private List<String> createdBy;
     @CreatedDate
     private LocalDate createdDate;
+
 
 }
