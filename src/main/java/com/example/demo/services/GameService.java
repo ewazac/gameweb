@@ -30,6 +30,7 @@ public class GameService {
     public List<Game> save(List<Game> games) {
         String groupId = UUID.randomUUID().toString();
         games.forEach(game -> game.setGroupId(groupId));
+        games.forEach(game -> game.setCounter(0));
         return gamesRepository.saveAll(games);
     }
 
