@@ -31,6 +31,7 @@ public class MailService {
     private final TemplateRepository templateRepository;
 
 
+
     public void sendMail(String templateName, String receiver, Context context) {
         Template template = templateRepository.findByName(templateName).orElseThrow(() -> new EntityNotFoundException("Template not found."));
         String body = templateEngine.process(template.getBody(), context);
