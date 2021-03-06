@@ -23,7 +23,7 @@ public class Game {
     @Id
     public String id;
     private String name;
-    private String gameId;
+    private String appId;
     private final String description;
     private Binary gameImage;
     @DBRef
