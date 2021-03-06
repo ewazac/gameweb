@@ -30,5 +30,6 @@ public class Review {
     @CreatedBy
     private String createdBy;
     private String nick;
+    private String userId;
 
 }

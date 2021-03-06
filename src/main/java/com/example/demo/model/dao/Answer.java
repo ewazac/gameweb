@@ -19,9 +19,7 @@ public class Answer {
     private String message;
     private LocalDateTime createdDate;
     private String username;
-    private String description;
-    private String name;
-    private String body;
     private Binary avatar;
+    private String userId;
 
 }

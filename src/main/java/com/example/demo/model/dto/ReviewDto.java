@@ -22,6 +22,7 @@ public class ReviewDto {
     public String id;
     private String nick;
     private Binary image;
+    private String userId;
 
 
 }

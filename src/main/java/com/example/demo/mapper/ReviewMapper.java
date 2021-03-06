@@ -21,6 +21,7 @@ public class ReviewMapper {
                 .id(review.getId())
                 .image(review.getImage())
                 .nick(review.getNick())
+                .userId(review.getUserId())
                 .build();
     }
 
@@ -33,6 +34,7 @@ public class ReviewMapper {
                 .title(reviewDto.getTitle())
                 .nick(reviewDto.getNick())
                 .image(reviewDto.getImage())
+                .userId(reviewDto.getUserId())
                 .build();
     }
 

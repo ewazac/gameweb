@@ -23,6 +23,7 @@ public class ReviewService {
     public Review save(Review review) {
         User currentUser = userService.getCurrentUser();
         review.setNick(currentUser.getNick());
+        review.setUserId(currentUser.getId());
         Review save = reviewRepository.save(review);
         userService.addPoint();
         return save;
@@ -45,6 +46,11 @@ public class ReviewService {
         reviewDb.setStars(review.getStars());
         reviewDb.setTitle(review.getTitle());
         return reviewRepository.save(reviewDb);
+    }
+
+    public List<Review> getAllReviewsForUser() {
+        String currentUser = userService.getCurrentUser().getId();
+        return reviewRepository.findByUserId(currentUser);
     }
 
     public List<Review> findAll() {

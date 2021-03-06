@@ -75,6 +75,8 @@ public class ReviewController {
         return reviewService.findReviewsByGameId(id);
     }
 
+
+
     @GetMapping("/ranking")
     public List<Review> getRanking() {
         return reviewService.findReviewsByStars();
