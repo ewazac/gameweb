@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.*;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,37 +36,43 @@ public class ReviewController {
 
 
     @PostMapping()
+    @PreAuthorize("isAuthenticated()")
     public ReviewDto save(ReviewDto reviewDto) {
         return reviewMapper.toDto(reviewService.save(reviewMapper.toDao(reviewDto)));
     }
 
     @GetMapping("{id}")
+    @PreAuthorize("isAuthenticated()")
     public ReviewDto getReviewById(@PathVariable String id) {
         return reviewMapper.toDto(reviewService.findReviewById(id));
     }
 
     @PatchMapping(value = "/addImage/{id}")
+    @PreAuthorize("isAuthenticated()")
     public Review addReviewImage(MultipartFile multipartFile, @PathVariable String id) throws IOException {
         return reviewService.addReviewImage(multipartFile, id);
     }
 
-
     @GetMapping()
+    @PreAuthorize("isAuthenticated()")
     public List<ReviewDto> getReviews() {
         return reviewMapper.toListDto(reviewService.findAll());
     }
 
     @PutMapping("{id}")
+    @PreAuthorize("isAuthenticated()")
     public ReviewDto updateReview(@RequestBody ReviewDto reviewDto, @PathVariable String id) {
         return reviewMapper.toDto(reviewService.update(reviewMapper.toDao(reviewDto), id));
     }
 
     @DeleteMapping("{id}")
+    @PreAuthorize("isAuthenticated()")
     public void deleteReviewById(@PathVariable String id) {
         reviewService.deleteById(id);
     }
 
     @GetMapping("/game/{id}")
+    @PreAuthorize("isAuthenticated()")
     public List<Review> getReviewsByGame(@PathVariable String id) {
         return reviewService.findReviewsByGameId(id);
     }
