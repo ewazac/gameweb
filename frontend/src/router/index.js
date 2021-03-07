@@ -14,18 +14,18 @@ import Contest from '../router/contest';
 Vue.use(VueRouter)
 
 const routes = [
-    {
-        path: '/forum',
-        name: 'Forum',
-        component: Forum,
-        meta:{auth: true}
-    },
-    {
-        path: '/thread',
-        name: 'Thread',
-        component: () => import('../components/Thread.vue'),
-        meta:{auth: true}
-    },
+  {
+    path: '/forum',
+    name: 'Forum',
+    component: Forum,
+    meta:{auth: true}
+  },
+  {
+    path: '/thread',
+    name: 'Thread',
+    component: () => import('../components/Thread.vue'),
+    meta:{auth: true}
+  },
   {
     path: '/games',
     name: 'Games',

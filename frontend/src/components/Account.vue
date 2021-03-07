@@ -149,9 +149,9 @@
 
 <script>
   import axios from "axios";
-
-  const API_URL = "https://gameweb21.herokuapp.com/";
   import User from '../models/user'
+  const API_URL = "https://gameweb21.herokuapp.com/";
+
   export default {
     name: "Account",
     beforeCreate: function () {
@@ -252,7 +252,7 @@
                   },
                 })
                 .then(() => {
-                  /*this.$router.go();*/
+                  //this.$router.go();
                   this.getAvatar();
                 })
                 .catch(() => {

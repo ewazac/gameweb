@@ -18,6 +18,9 @@
             />
             <button class="button" type="submit">Dodaj</button>
         </form>
+        <b-alert v-if="alertMessage" show :variant='variant'>
+            {{ alertMessage }}
+        </b-alert>
         <div v-if="isAdmin">
             <div class="answers" v-for="answers in thread" :key="answers.username">
                 <div class="details">
@@ -56,6 +59,8 @@ export default {
             Show: false,
             firstAnswer: '',
             id: this.$router.history.current.query.thread,
+            alertMessage: null,
+            variant: null,
         }
     },
     beforeCreate: function () {
@@ -63,7 +68,7 @@ export default {
     },
     computed: {
         isAdmin(){
-                return this.$store.getters['auth/isAdmin'];
+            return this.$store.getters['auth/isAdmin'];
         }
     },
     methods: {
@@ -72,6 +77,7 @@ export default {
                 this.Show = false
             }
             else {
+                this.alertMessage = null
                 this.Show = true
             }
         },
@@ -99,13 +105,19 @@ export default {
                 console.log('nic się nie stało')
             }
         },
-        handleAnswer() {/*
-            const today = new Date();
-            const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-            const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-            const dateTime = date +'T'+ time;*/
-            axios.patch("https://gameweb21.herokuapp.com/api/forums/"+this.id, {message:this.answer, username:this.currentUser.nick}, {withCredentials:true}).then((result) => {
-                this.$router.go(0);
+        handleAnswer() {
+            let datetime = new Date().toJSON().slice(0,19);
+            axios.patch("https://gameweb21.herokuapp.com/api/forums/"+this.id, {
+                avatar: this.currentUser.avatar,
+                createdDate: datetime,
+                message: this.answer,
+                username: this.currentUser.nick
+            },)
+            .then((result) => {
+                this.thread = this.thread.concat(result.data)
+                this.answer = ''
+                this.alertMessage = "Dodałeś nową odpowiedź!"
+                this.variant = 'success'
                 console.log(result)
             }).catch((err) => {
                 console.log(err)
