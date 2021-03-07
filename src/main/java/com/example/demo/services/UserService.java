@@ -52,6 +52,7 @@ public class UserService {
         userDb.setLastName(user.getLastName());
         userDb.setFirstName(user.getFirstName());
         userDb.setNewsletter(!userDb.isNewsletter());
+        userRepository.save(userDb);
         if(userDb.isNewsletter()) {
             Executors.newCachedThreadPool().execute(() -> {
                 Context context = new Context();
