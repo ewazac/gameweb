@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import com.example.demo.controllers.UserFoundException;
 import com.example.demo.model.dao.Game;
 import com.example.demo.model.dao.User;
 import com.example.demo.repository.GamesRepository;
@@ -16,11 +17,13 @@ public class GameService {
     private final GamesRepository gamesRepository;
     private final UserService userService;
 
-    public void vote(String gameId, String groupId) {
+    public void vote(String gameId, String groupId) throws UserFoundException {
         Game game = gamesRepository.findByIdAndGroupId(gameId, groupId).orElseThrow();
         User currentUser = userService.getCurrentUser();
         if (game.getUsers() == null) {
             game.setUsers(new HashSet<>());
+        } else if(game.getUsers().contains(currentUser)) {
+            throw new UserFoundException();
         }
         game.getUsers().add(currentUser);
         game.setCounter(game.getCounter() + 1);

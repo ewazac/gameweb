@@ -40,7 +40,7 @@ public class GamesController {
     }
 
     @PatchMapping("{gameId}")
-    public void vote(@PathVariable String gameId, @RequestParam String groupId) {
+    public void vote(@PathVariable String gameId, @RequestParam String groupId) throws UserFoundException {
         gameService.vote(gameId, groupId);
     }
 
@@ -69,63 +69,11 @@ public class GamesController {
         return gameService.findLists();
     }
 
-//    GamesRepository gamesRepository;
-//    @Autowired
-//    MongoTemplate mongoTemplate;
-//
-//    @PostMapping
-//    @ResponseStatus(value = HttpStatus.CREATED)
-//    public void createGame(@Valid @RequestBody GamesDto gamesDTO) throws GameFoundException {
-//        Game games = gamesRepository.findGameByName(gamesDTO.getName());
-//        if(games != null) {
-//            throw new GameFoundException();
-//        }
-//
-//        Game game = Game.builder()
-//                .name(gamesDTO.getName())
-//                .category(gamesDTO.getCategory())
-//                .description(gamesDTO.getDescription())
-//                .platform(gamesDTO.getPlatform()).build();
-//        gamesRepository.save(game);
-//    }
-//
-//    @PostMapping(value = "uploadGameImage")
-//    @ResponseStatus(value = HttpStatus.CREATED)
-//    public void uploadImage(@RequestParam("gameimage") MultipartFile multipartFile, String name) throws IOException {
-//        Game game = gamesRepository.findGameByName(name);
-//        if(game != null) {
-//            game.setImage(new Binary(BsonBinarySubType.BINARY, multipartFile.getBytes()));
-//            gamesRepository.save(game);
-//        }
-//    }
-//
-//    @GetMapping(value = "getGameImage")
-//    public Binary getGameImage(String name) {
-//        Game game = gamesRepository.findGameByName(name);
-//        return game.getGameImage();
-//    }
-//
-//    @GetMapping(value = "/{name}")
-//    public Game getGame(@PathVariable String name) {
-//        return gamesRepository.findGameByName(name);
-//    }
-//
-//
-//
-//    @GetMapping
-//    public List<Game> getGames() {
-//        return gamesRepository.findAll();
-//    } //returns list of all games
-//
-//
-//
-//
-//    @ExceptionHandler
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    public void exceptionHandler(GameFoundException gameFoundException) {log.info("brak gry");}
-//
-//
-//    public Game getGameByName(String name) {
-//        return null;
-//    }
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public void exceptionHandler(UserFoundException userFoundException) {
+        log.info("User has voted for that game!");
+    }
+
+
 }
