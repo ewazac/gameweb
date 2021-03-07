@@ -314,6 +314,9 @@ button.page-link {
   }
 
 }
+input {
+  background-color: white;
+}
 .search-wrapper input{
     margin-top: 10px;
   margin-bottom: 10px;
