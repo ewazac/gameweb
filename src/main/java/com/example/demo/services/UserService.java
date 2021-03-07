@@ -1,6 +1,7 @@
 package com.example.demo.services;
 
 import com.example.demo.controllers.InvalidOldPasswordException;
+import com.example.demo.controllers.UserFoundException;
 import com.example.demo.exeption.EntityNotFoundException;
 import com.example.demo.model.dao.News;
 import com.example.demo.model.dao.Review;
@@ -63,9 +64,12 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User save(User user) {
-//        String email = user.getEmail();
-//        Optional<User> checkUser = userRepository.findByEmail(email);
+    public User save(User user) throws UserFoundException {
+        String email = user.getEmail();
+        Optional<User> checkUser = userRepository.findByEmail(email);
+        if(checkUser.isPresent()) {
+            throw new UserFoundException();
+        }
         return userRepository.save(user);
     }
 
