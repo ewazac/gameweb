@@ -49,11 +49,6 @@ public class ReviewController {
         return reviewService.addReviewImage(multipartFile, id);
     }
 
-    @GetMapping(value = "/reviewImage/{id}")
-    public Binary displayReviewImage(@PathVariable String id) {
-        return reviewService.displayReviewImage(id);
-    }
-
 
     @GetMapping()
     public List<ReviewDto> getReviews() {
@@ -73,13 +68,6 @@ public class ReviewController {
     @GetMapping("/game/{id}")
     public List<Review> getReviewsByGame(@PathVariable String id) {
         return reviewService.findReviewsByGameId(id);
-    }
-
-
-
-    @GetMapping("/ranking")
-    public List<Review> getRanking() {
-        return reviewService.findReviewsByStars();
     }
 
 }

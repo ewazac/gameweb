@@ -34,10 +34,6 @@ public class ReviewService {
         return reviewRepository.save(review);
     }
 
-    public Binary displayReviewImage(String id) {
-        Review review = findReviewById(id);
-        return review.getImage();
-    }
 
     public Review update(Review review, String reviewId) {
         Review reviewDb = findReviewById(reviewId);
@@ -68,7 +64,4 @@ public class ReviewService {
         return reviewRepository.findByGameId(gameId);
     }
 
-    public List<Review> findReviewsByStars() {
-        return reviewRepository.findFirst20OrderByStars();
-    }
 }

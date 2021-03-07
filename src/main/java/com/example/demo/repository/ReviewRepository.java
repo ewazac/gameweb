@@ -10,10 +10,6 @@ public interface ReviewRepository extends MongoRepository<Review, String> {
 
     List<Review> findByGameId(String gameId);
 
-    List<Review> findReviewByGameIdOrderByStarsDesc();
-
-    List<Review> findFirst20OrderByStars();
-
     List<Review> findByUserId(String userId);
 
 
