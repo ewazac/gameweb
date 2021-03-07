@@ -72,7 +72,7 @@ public class GamesController {
     }
 
     @GetMapping
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('USER')")
     public Map<String, List<Game>> findLists() {
         return gameService.findLists();
     }
