@@ -1,7 +1,7 @@
 <template>
   <div class="main">
       <div class="search-wrapper">
-            <input type="text" v-model="search" class="form-control w-100 py-2" placeholder="Wyszukaj wątek.."/>
+            <input type="text" v-model="search" placeholder="Wyszukaj wątek.."/>
         </div>  
     <div class="forum">
       <div class="newThread">
@@ -16,7 +16,7 @@
             <p>Podaj tytuł</p>
             <b-form-input
               v-model="title"
-              type="text"
+              type="title"
               class="form-control"
               placeholder="Tytuł"
               name="title"
@@ -27,7 +27,7 @@
             <p>Opis</p>
             <b-form-textarea
               v-model="answer"
-              type="text"
+              type="answer"
               class="form-control"
               placeholder="Opis"
               name="answer"
@@ -35,17 +35,17 @@
             />
           </div>
           <button class="button" type="submit">Dodaj</button>
-          <b-alert v-if="alertMessage" show variant="success">
-            {{ alertMessage }}
+          <b-alert v-if="message" show variant="success">
+            {{ message }}
           </b-alert>
         </form>
       </div>
-      <div v-if="isAdmin" class="T">
+      <div v-if="admin" class="T">
         <div class="Description">
           <h5 class="title">Nazwa</h5>
           <h5 class="AL">Liczba odpowiedzi</h5>
         </div>
-        <div class="ADD">
+        <div class="ADD" v-if="admin">
           <h5 class="ADM">Usuń Wątek</h5>
         </div>
       </div>
@@ -55,8 +55,8 @@
           <h5 class="AL">Liczba odpowiedzi</h5>
         </div>
       </div>
-      <div v-if="isAdmin">
-        <div class="thread" v-for="thread in filterdThreads" :key="thread.id">
+      <div v-if="admin">
+        <div class="thread" v-for="thread in displayedPosts" :key="thread.id">
           <div class="thr">
             <div class="Description" @click="handleDetails(thread.id)">
                 <h5 class="title">{{ thread.name }}</h5>
@@ -72,7 +72,7 @@
         </div>
       </div>
       <div v-else>
-        <div class="thread" v-for="thread in filterdThreads" :key="thread.id">
+        <div class="thread" v-for="thread in displayedPosts" :key="thread.id">
           <div class="thr">
             <div class="Descriptionu" @click="handleDetails(thread.id)">
                 <h5 class="title">{{ thread.name }}</h5>
@@ -85,40 +85,62 @@
         </div>
       </div>
     </div>
-    <div class="py-5 d-flex justify-content-center">
-      <b-pagination
-        v-model="paramsThreads.page"
-        :total-rows="paramsThreads.total"
-        :per-page="paramsThreads.per_page" first-text="First" prev-text="Prev" next-text="Next" last-text="Last">
-      </b-pagination>
-    </div>
+    <nav>
+        <ul class="pagination">
+          <li class="page-item">
+            <button
+              type="button"
+              class="page-link"
+              v-if="page != 1"
+              @click="page--"
+            >
+              Previous
+            </button>
+          </li>
+          <li class="page-item">
+            <button
+              type="button"
+              class="page-link"
+              v-for="pageNumber in pages.slice(page - 1, page + 5)"
+              :key="pageNumber"
+              @click="page = pageNumber"
+            >
+              {{ pageNumber }}
+            </button>
+          </li>
+          <li class="page-item">
+            <button
+              type="button"
+              @click="page++"
+              v-if="page < pages.length"
+              class="page-link"
+            >
+              Next
+            </button>
+          </li>
+        </ul>
+      </nav>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
-import User from '../models/user'
-import {paginate} from "../helpers";
 
 export default{
     name: "Forum",
     data() {
         return {
-            currentUser: new User(JSON.parse(localStorage.getItem("user"))),
+            currentUser: JSON.parse(localStorage.getItem("user")),
             message: null,
             threads: '',
             title: '',
             answer: '',
             show: false,
             id: '',
+            page: 1,
+            perPage: 10,
+            pages: [],
             search: '',
-            paramsThreads:{
-              per_page: 10,
-              page: 1,
-              total: 1
-            },
-            alertMessage: null,
-            variant: null,
         }
     },
     beforeCreate: function () {
@@ -133,9 +155,9 @@ export default{
         isAdmin(){
           return this.$store.getters['auth/isAdmin'];
         },
-        filterdThreads(){
-          return paginate(this.filteredList, this.paramsThreads.per_page, this.paramsThreads.page);
-        },
+        displayedPosts () {
+            return this.paginate(this.filteredList);
+        }
     },
     methods: {
         Show: function() {
@@ -143,7 +165,6 @@ export default{
                 this.show = false
             }
             else {
-                this.alertMessage = null
                 this.show = true
             }
         },
@@ -163,36 +184,48 @@ export default{
             }
         },
         handleThread() {
-            //let datetime = new Date().toJSON().slice(0,19).replace(/T/g,' ');
-            let datetime = new Date().toJSON().slice(0,19);
             axios.post("https://gameweb21.herokuapp.com/api/forums", {
-                answers: [{
-                    createdDate: datetime,
-                    message: this.answer,
-                    userId: this.currentUser.id,
-                }],
+                answers: [
+                {
+                    message: this.answer
+                }
+                ],
                 name: this.title
-                })
-                .then((result) => {
-                  this.alertMessage = "Dodano nowy wątek!"
-                  this.threads = this.threads.concat(result.data)
-                  this.answer = ''
-                  this.title = ''
-                  this.paramsThreads.total += 1;
-                  console.log(result)
-                }).catch((err) => {
-                    console.log(err)
-                });
+            }).then((result) => {
+                this.message = "Dodano nowy wątek!"
+                console.log(result)
+            }).catch((err) => {
+                console.log(err)
+            });
         },
         handleDetails(item) {
+            console.log(item)
             this.$router.push({path:'/thread', params:{thread:item}, query:{thread:item}});
         },
+        setPages () {
+            let numberOfPages = Math.ceil(this.threads.length / this.perPage);
+            for (let index = 1; index <= numberOfPages; index++) {
+                this.pages.push(index);
+            }
+        },
+        paginate (posts) {
+            let page = this.page;
+            let perPage = this.perPage;
+            let from = (page * perPage) - perPage;
+            let to = (page * perPage);
+            return posts.slice(from, to);
+        }
+    },
+    watch: {
+        threads () {
+            this.setPages();
+        }
     },
     mounted() {
         axios.get("https://gameweb21.herokuapp.com/api/forums")
         .then((result) => {
             this.threads = result.data;
-            this.paramsThreads.total = this.threads.length;
+            console.log(result.data)
         }).catch((err) => {
             console.log(err)
         });
@@ -205,9 +238,7 @@ export default{
 <style lang="scss" scoped>
 .main {
   color: white;
-  @media screen and (min-width: 1200px) {
-    padding: 0 10rem 10rem 10rem;
-  }
+  padding: 0 10rem 10rem 10rem;
 }
 .forum {
   background-color: #222;
@@ -250,17 +281,11 @@ export default{
   min-width: 80%;
   display: flex;
   padding: 1rem;
-  @media screen and (max-width: 1200px) {
-    padding: 10px;
-  }
 }
 .Descriptionu {
   width: 100%;
   display: flex;
   padding: 1rem;
-  @media screen and (max-width: 1200px) {
-    padding: 10px;
-  }
 }
 .ADD {
   padding: 1rem;
@@ -292,7 +317,7 @@ export default{
 }
 input,
 textarea {
-  margin: auto;
+  margin: 0 0 0 auto;
   max-width: 80%;
 }
 button.page-link {
@@ -309,19 +334,9 @@ button.page-link {
 }
 .search-wrapper {
     text-align: right;
-  @media screen and (min-width: 1200px) {
     margin: 1rem 2rem 1rem 2rem;
-  }
-
 }
 .search-wrapper input{
-    margin-top: 10px;
-  margin-bottom: 10px;
     width: 30%;
 }
-  .main{
-    div,h1,h2,h3,h4,h5,label,button{
-      font-size: 12px !important;
-    }
-  }
 </style>

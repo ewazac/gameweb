@@ -36,6 +36,7 @@ const routes = [
     path: '/game',
     name: 'game-detail',
     component: () => import('../components/Game.vue'),
+    meta:{auth: false}
   },
   {
     path: '/account',

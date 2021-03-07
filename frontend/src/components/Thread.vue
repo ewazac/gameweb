@@ -1,9 +1,14 @@
 <template>
     <div class="thread">
-        <h3>{{thread.name}}</h3>
         <div class="FirstAnswers">
-            <p class="Created">Użytkownik: {{ firstAnswer.username }} </p>
-            <p class="Created">Dodano: {{ firstAnswer.createdDate }}</p>
+            <h3>{{threadName}}</h3>
+            <div class="FA">
+                <div class="FADetails">
+                    <p class="Created">Użytkownik: {{ firstAnswer.username }} </p>
+                    <p class="Created">Dodano: {{ firstAnswer.createdDate }}</p>
+                </div>
+                <img class="avatar" v-if="firstAnswer.avatar" v-bind:src="'data:image/jpeg;base64,'+firstAnswer.avatar.data">
+            </div>
             <h4 class="ThreadMessage"> {{ firstAnswer.message }} </h4>
         </div>
         <button class="button" v-if="Show==false" v-on:click="show">Dodaj wiadomość!</button>
@@ -22,24 +27,26 @@
             {{ alertMessage }}
         </b-alert>
         <div v-if="isAdmin">
-            <div class="answers" v-for="answers in thread" :key="answers.username">
+            <div class="answers" v-for="answer in thread" :key="answer.createdDate">
                 <div class="details">
-                    <p> Użytkownik:{{ answers.username }} Dodano: {{ answers.createdDate }} </p>
+                    <p> Użytkownik:{{ answer.username }} Dodano: {{ answer.createdDate }} </p>
                     <span @click='handleDelete(answers.message)'>Usuń</span>
                 </div>
                 <div class="message">
-                    <span> {{ answers.message }}</span>
+                    <span> {{ answer.message }}</span>
+                    <img class="avatar" v-if="answer.avatar" v-bind:src="'data:image/jpeg;base64,'+answer.avatar.data">
                 </div>
                 
             </div>
         </div>
         <div v-else>
-            <div class="answers" v-for="answers in thread" :key="answers.username">
+            <div class="answers" v-for="answer in thread" :key="answer.createdDate">
                 <div class="details">
-                    <p> Użytkownik: {{ answers.username }} Dodano: {{ answers.createdDate }} </p>
+                    <p> Użytkownik: {{ answer.username }} Dodano: {{ answer.createdDate }} </p>
                 </div>
                 <div class="message">
-                    <span> {{ answers.message }} </span>
+                    <span> {{ answer.message }} </span>
+                    <img class="avatar" v-if="answer.avatar" v-bind:src="'data:image/jpeg;base64,'+answer.avatar.data">
                 </div>
             </div>
         </div>
@@ -48,14 +55,16 @@
 
 <script>
 import axios from 'axios';
+import Thread from '../models/thread'
 
 export default {
     name: 'Thread',
     data() {
         return {
             currentUser: JSON.parse(localStorage.getItem("user")),
-            answer: '',
+            answers: '',
             thread: '',
+            threadName: '',
             Show: false,
             firstAnswer: '',
             id: this.$router.history.current.query.thread,
@@ -93,7 +102,7 @@ export default {
             }
             console.log(i)
             if(confirm("Czy na pewno chcesz usunąć tą wiadomość: "+item)) {
-                axios.delete("https://gameweb21.herokuapp.com/api/forums/"+this.id+"/answer/"+(i+1))
+                axios.delete("https://gameweb21.herokuapp.com/api/forums/"+this.id+"/answer/"+(i-1))
                 .then((result) => {
                     this.$router.go(0);
                     console.log(result.data)
@@ -108,17 +117,15 @@ export default {
         handleAnswer() {
             let datetime = new Date().toJSON().slice(0,19);
             axios.patch("https://gameweb21.herokuapp.com/api/forums/"+this.id, {
-                avatar: this.currentUser.avatar,
                 createdDate: datetime,
                 message: this.answer,
-                username: this.currentUser.nick
-            },)
+                userId: this.currentUser.id
+            }, {withCredentials:true})
             .then((result) => {
-                this.thread = this.thread.concat(result.data)
+                this.thread = this.thread.concat(result.data.answers[result.data.answers.length-1])
                 this.answer = ''
                 this.alertMessage = "Dodałeś nową odpowiedź!"
                 this.variant = 'success'
-                console.log(result)
             }).catch((err) => {
                 console.log(err)
             });
@@ -131,11 +138,32 @@ export default {
             for (const thread of threads) {
                 if (thread.id == this.id){
                     this.firstAnswer = thread.answers[0]
+                    this.threadName = thread.name
                     this.thread = thread.answers.slice(1,thread.answers.length)
                     break
                 }
             }
-            console.log(this.thread, result.data)
+            axios.get("https://gameweb21.herokuapp.com/users/"+this.firstAnswer.userId)
+            .then((result) => {
+                this.firstAnswer.username = result.data.nick
+                this.firstAnswer.avatar = result.data.avatar
+                this.firstAnswer.createdDate = this.firstAnswer.createdDate.replace(/T/gm,' ')
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+            this.thread.map((item) => {  
+                axios.get("https://gameweb21.herokuapp.com/users/"+item.userId)
+                .then((result) => {
+                    console.log(result)
+                    item.username = result.data.nick;
+                    item.avatar = result.data.avatar;
+                    return new Thread(item);
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+            })
         }).catch((err) => {
             console.log(err)
         });
@@ -154,6 +182,7 @@ export default {
     color: white;
 }
 h3 {
+    font-size: 2.5rem;
     text-align: center;
     color:mediumaquamarine;
 }
@@ -162,16 +191,22 @@ h3 {
     border: 1px solid;
 }
 span {
-    margin-left: auto;
     text-align: right;
     font-size: 0.9rem;
 }
 .details {
     font-size: 0.8rem;
     display: flex;
-    padding: 0.5rem;
+    padding: 0.2rem;
+}
+.details p {
+    margin: 0;
+}
+.details span {
+    margin-left: auto;
 }
 .message {
+    display: flex;
     padding: 1rem;
 }
 .AD {
@@ -214,12 +249,33 @@ span {
     font-size: 0.8rem;
 }
 .ThreadMessage {
-    padding: 1rem;
-    width: 100%;
+    margin: auto;
+    padding:1rem;
 }
 .message span {
     font-size: 1.5rem;
     font-weight: 450;
     white-space: pre-line;
+    text-align: left;
+}
+.FA {
+    margin: 0.5rem;
+    display: flex;
+}
+.FA p {
+    padding: 0;
+}
+.FADetails {
+    display: block;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.avatar {
+    margin-left: auto;
+    max-width: 100px;
+    max-height: 100px;
+}
+.message img {
+    margin-left: auto;
 }
 </style>
