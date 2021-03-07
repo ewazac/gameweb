@@ -28,10 +28,12 @@
         <b-row class="mt-5">
             <b-col sm="8" offset-sm="2">
                 <h2>Recenzje</h2>
-                <span>Średnia ocena tej gry    </span>
-                <b-form-rating id="rating" :value="game.score" inline disabled>
-                </b-form-rating>
-                <button class="button" v-on:click="Show">Dodaj recenzje!</button>
+                <div class="d-flex">
+                    <span class="rating">Średnia ocena tej gry    </span>
+                    <b-form-rating id="rating" :value="game.score" inline disabled>
+                    </b-form-rating>
+                    <button class="button" v-on:click="Show">Dodaj recenzje!</button>
+                </div>
             </b-col>
         </b-row>
         <div>
@@ -117,7 +119,6 @@
                     <b-row>
                         <b-col class="review_details" cols="12">
                                 <h5>{{ r.userName }}</h5>
-                                <h6 class="reviewDate">{{ r.date.slice(0,10) }}</h6>
                             </b-col>
                     </b-row>
                     <b-row>
@@ -145,8 +146,8 @@
 </template>>
 
 <script>
-    import axios from "axios";
-    import {paginate} from "../helpers";
+    import axios from "axios"
+    import {paginate} from "../helpers"
     import User from '../models/user'
 
     export default {
@@ -177,7 +178,9 @@
                 variant: null,
                 file: '',
                 maxLength: 1000,
-                areaMessage: ''
+                areaMessage: '',
+                gamewebReviewsT: '',
+                nick: ''
             };
         },
         watch: {
@@ -188,6 +191,7 @@
         },
         computed:{
             descLength() {
+                console.log()
                 return this.game.description.length>500;
             },
             currentLoggedIn () {
@@ -201,7 +205,7 @@
             },
             findNick() {
                 return this.gamewebReviews.filter((item) => {
-                    return (item.nick === this.currentUser.nick)
+                    return (item.userId === this.currentUser.userId)
                 });
             }
         },
@@ -271,15 +275,14 @@
             }
             }
         },
-        created() {
+        mounted() {
             axios.get("https://gameweb12.herokuapp.com/api/apps/" + this.$router.history.current.query.game2 + "/?lang=pl")
             .then((response) => {
                 this.game = response.data;
                 console.log(response.data);
                 axios.get("https://gameweb21.herokuapp.com/reviews/game/" + this.game.appId)
                 .then((response) => {
-                    this.gamewebReviews = response.data;
-                    console.log(response.data)
+                    this.gamewebReviews = response.data
                 })
                 .catch((error) => {
                     console.log(error);
@@ -319,6 +322,9 @@
         color: mediumaquamarine;
         border-color: mediumaquamarine;
     }
+    input {
+        background-color: white;
+    }
     .gameImage {
         min-width: 200px;
         min-height: 200px;
@@ -350,7 +356,7 @@
     }
     .button {
         min-width: 5rem;
-        margin: 1rem 2rem 1rem 2rem;
+        margin-left: auto;
         padding: 0.5rem;
         background-color: #58c79f;
         color: #fff;
@@ -397,5 +403,8 @@
         font-weight: 400;
         color: black;
         cursor: pointer;
+    }
+    .rating {
+        margin: auto 0.5rem auto;
     }
 </style>

@@ -29,14 +29,14 @@
         <div v-if="isAdmin">
             <div class="answers" v-for="answer in thread" :key="answer.createdDate">
                 <div class="details">
-                    <p> Użytkownik:{{ answer.username }} Dodano: {{ answer.createdDate }} </p>
-                    <span @click='handleDelete(answers.message)'>Usuń</span>
+                    <p> Użytkownik:{{ answer.username }} </p>
+                    <p> Dodano: {{ answer.createdDate }}</p>
+                    <img class="avatar" v-if="answer.avatar" v-bind:src="'data:image/jpeg;base64,'+answer.avatar.data">
                 </div>
                 <div class="message">
                     <span> {{ answer.message }}</span>
-                    <img class="avatar" v-if="answer.avatar" v-bind:src="'data:image/jpeg;base64,'+answer.avatar.data">
                 </div>
-                
+                <span @click='handleDelete(answers.message)'>Usuń</span>
             </div>
         </div>
         <div v-else>
@@ -152,7 +152,7 @@ export default {
             .catch((err) => {
                 console.log(err)
             })
-            this.thread.map((item) => {  
+            this.thread.map(item => {  
                 axios.get("https://gameweb21.herokuapp.com/users/"+item.userId)
                 .then((result) => {
                     console.log(result)
@@ -277,5 +277,8 @@ span {
 }
 .message img {
     margin-left: auto;
+}
+input {
+    background-color: white;
 }
 </style>
