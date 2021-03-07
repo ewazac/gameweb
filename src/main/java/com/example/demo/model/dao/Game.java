@@ -33,6 +33,7 @@ public class Game {
     @CreatedDate
     private LocalDate createdDate;
     private boolean recommended;
+    private LocalDate recommendedDate;
 
 
 

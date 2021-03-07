@@ -7,6 +7,7 @@ import com.example.demo.repository.GamesRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -52,6 +53,7 @@ public class GameService {
     public Game findRecommendedGame(String groupId) {
         Game game = gamesRepository.findByGroupId(groupId).stream().max(Comparator.comparing(Game::getCounter)).get();
         game.setRecommended(true);
+        game.setRecommendedDate(LocalDate.now());
         return gamesRepository.save(game);
     }
 
