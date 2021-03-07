@@ -18,6 +18,7 @@ import org.thymeleaf.context.Context;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.Executors;
 
@@ -50,12 +51,11 @@ public class UserService {
             review.setNick(user.getNick());
         }
         reviewRepository.saveAll(reviews);
-
-
         userDb.setNick(user.getNick());
         userDb.setLastName(user.getLastName());
         userDb.setFirstName(user.getFirstName());
         userDb.setNewsletter(!userDb.isNewsletter());
+        userDb.setPoint(user.getPoint());
         return userRepository.save(userDb);
     }
 
@@ -64,6 +64,8 @@ public class UserService {
     }
 
     public User save(User user) {
+//        String email = user.getEmail();
+//        Optional<User> checkUser = userRepository.findByEmail(email);
         return userRepository.save(user);
     }
 

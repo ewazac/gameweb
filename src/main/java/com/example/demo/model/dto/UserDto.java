@@ -25,5 +25,6 @@ public class UserDto {  //data transport object
     private boolean newsletter;
     private List<String> categories;
     private String nick;
+    private int point;
 
 }

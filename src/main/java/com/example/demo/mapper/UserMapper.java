@@ -46,6 +46,7 @@ public class UserMapper {
                 .password(user.getPassword())
                 .nick(user.getNick())
                 .roles(user.getRoles())
+                .point(user.getPoint())
                 .build();
     }
 
@@ -62,6 +63,7 @@ public class UserMapper {
                 .lastName(userDto.getLastName())
                 .password(userDto.getPassword())
                 .roles(Arrays.asList("USER"))
+                .point(userDto.getPoint())
                 .build();
     }
 
