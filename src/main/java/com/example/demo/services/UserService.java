@@ -51,8 +51,8 @@ public class UserService {
         userDb.setNick(user.getNick());
         userDb.setLastName(user.getLastName());
         userDb.setFirstName(user.getFirstName());
-        userDb.setNewsletter(!userDb.isNewsletter());
-        if(userDb.isNewsletter()) {
+        userDb.setNewsletter(!user.isNewsletter());
+        if(user.isNewsletter()) {
             Executors.newCachedThreadPool().execute(() -> {
                 Context context = new Context();
                 mailService.sendMail("potwierdzenie", user.getEmail(), context);
