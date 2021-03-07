@@ -51,13 +51,13 @@ public class UserService {
         userDb.setNick(user.getNick());
         userDb.setLastName(user.getLastName());
         userDb.setFirstName(user.getFirstName());
-        userDb.setNewsletter(!user.isNewsletter());
-        if(user.isNewsletter()) {
-            Executors.newCachedThreadPool().execute(() -> {
-                Context context = new Context();
-                mailService.sendMail("potwierdzenie", user.getEmail(), context);
-            });
-        }
+        userDb.setNewsletter(!userDb.isNewsletter());
+//        if(userDb.isNewsletter()) {
+//            Executors.newCachedThreadPool().execute(() -> {
+//                Context context = new Context();
+//                mailService.sendMail("restartPassword", user.getEmail(), context);
+//            });
+//        }
         userDb.setPoint(user.getPoint());
         return userRepository.save(userDb);
     }
@@ -106,6 +106,12 @@ public class UserService {
     public void changeNewsletter() {
         User user = getCurrentUser();
         user.setNewsletter(!user.isNewsletter());
+        if(user.isNewsletter()) {
+            Executors.newCachedThreadPool().execute(() -> {
+                Context context = new Context();
+                mailService.sendMail("potwierdzenie", user.getEmail(), context);
+            });
+        }
         userRepository.save(user);
     }
 
