@@ -16,7 +16,10 @@
         </b-row>
         <b-row class="mt-4">
             <b-col sm="8" offset-sm="2">
-                <p class="game__description">{{ game.description }}</p>
+                <p v-if="readMore" class="game__description">{{ game.description }}</p>
+                <p v-else-if="!readMore" class="game__description">{{ game.description.substring(0, 500) + "..." }}</p>
+                <div v-if="descLength & readMore" class="readMore" @click="showMore()">Pokaż mniej!</div>
+                <div class="readMore" @click="showLess()" v-if="!readMore">Pokaż więcej!</div>
             </b-col>
         </b-row>
 
@@ -47,11 +50,16 @@
                 <p>Opis:</p>
                 <b-form-textarea
                     v-model="review.description"
+                    @input="maxAreaLength()"
                     type="text"
                     class="form-control"
                     name="description"
                     required
                 />
+                <div
+                  v-if="areaMessage"
+                  class="alert-danger"
+                >{{ areaMessage }}</div>
                 <input class="left d-none" type="file" ref="file_input" v-on:change="handleFileUpload($event)">
                 <div class="col-md-10" v-if="!file">
                     <div @click="$refs.file_input.click()" class="w-100 text-center" style="cursor: pointer; border: 1px dashed #c8c1c1; padding: 40px">
@@ -70,6 +78,7 @@
                 {{ message }}
             </b-alert>
         </div>
+        <hr class="mt-4" style="border-color: mediumaquamarine" />
         <div>
             <div class="mt-4">
                 <h3 class="col-sm-8 offset-sm-2 reviewTitle">Recenzje Gameweb:</h3>
@@ -85,7 +94,7 @@
                             <b-col cols="12 image">
                                 <b-form-rating id="rating" :value="r.stars" inline disabled>
                                 </b-form-rating>
-                                <img class="review-avatar" v-bind:src="'data:image/jpeg;base64,'+r.image.data" />
+                                <img v-if="r.image" class="review-avatar" v-bind:src="'data:image/jpeg;base64,'+r.image.data" />
                             </b-col>
                         </b-row>
                         <b-row>
@@ -148,6 +157,7 @@
         data() {
             return {
                 currentUser: new User(JSON.parse(localStorage.getItem("user"))),
+                readMore: false,
                 review: {
                     description: '',
                     gameId: '',
@@ -166,6 +176,8 @@
                 message: null,
                 variant: null,
                 file: '',
+                maxLength: 1000,
+                areaMessage: ''
             };
         },
         watch: {
@@ -175,6 +187,9 @@
             }
         },
         computed:{
+            descLength() {
+                return this.game.description.length>500;
+            },
             currentLoggedIn () {
                 return this.$store.state.auth.status.loggedIn;
             },
@@ -191,6 +206,18 @@
             }
         },
         methods: {
+            maxAreaLength: function() {
+                if (this.review.description.length >= this.maxLength) {
+                    this.review.description = this.review.description.substring(0,this.maxLength);
+                    this.areaMessage = 'Przekroczono limit znaków'
+                }
+            },
+            showMore() {
+                this.readMore = false;
+            },
+            showLess() {
+                this.readMore = true;
+            },
             Show: function() {
                 if (this.show) {
                     this.show = false
@@ -360,5 +387,15 @@
     }
     .image {
         display: flex;
+    }
+    .readMore {
+        text-align: center;
+        font-weight: 300;
+        color: rgb(56, 55, 55);
+    }
+    .readMore:hover, .readMore:active, .readMore:link  {
+        font-weight: 400;
+        color: black;
+        cursor: pointer;
     }
 </style>
