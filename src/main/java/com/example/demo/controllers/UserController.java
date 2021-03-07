@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 
 @AllArgsConstructor
@@ -36,6 +37,11 @@ public class UserController {
     @GetMapping()
     public User getUser() {
         return userService.getCurrentUser();
+    }
+
+    @GetMapping("/{id}")
+    public Optional<User> getUserById(@PathVariable String id) {
+        return userService.getUserById(id);
     }
 
     @PostMapping

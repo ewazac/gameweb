@@ -22,7 +22,6 @@ public class ReviewService {
 
     public Review save(Review review) {
         User currentUser = userService.getCurrentUser();
-        review.setNick(currentUser.getNick());
         review.setUserId(currentUser.getId());
         Review save = reviewRepository.save(review);
         userService.addPoint();

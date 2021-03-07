@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserDto {  //data transport object
+public class UserDto {
 
     public String id;
     public String firstName;

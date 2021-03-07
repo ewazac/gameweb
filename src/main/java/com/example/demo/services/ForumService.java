@@ -3,6 +3,7 @@ package com.example.demo.services;
 import com.example.demo.exeption.EntityNotFoundException;
 import com.example.demo.model.dao.Answer;
 import com.example.demo.model.dao.Forum;
+import com.example.demo.model.dao.User;
 import com.example.demo.repository.ForumRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -46,7 +47,7 @@ public class ForumService {
 
     public Forum addAnswer(Answer answer, String id) {
         Forum forum = getById(id);
-        answer.setUsername(userService.getCurrentUser().getNick());
+        answer.setUserId(userService.getCurrentUser().getId());
         forum.getAnswers().add(answer);
         return save(forum);
     }

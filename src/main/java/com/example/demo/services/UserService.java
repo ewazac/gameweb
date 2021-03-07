@@ -3,10 +3,7 @@ package com.example.demo.services;
 import com.example.demo.controllers.InvalidOldPasswordException;
 import com.example.demo.controllers.UserFoundException;
 import com.example.demo.exeption.EntityNotFoundException;
-import com.example.demo.model.dao.News;
-import com.example.demo.model.dao.Review;
 import com.example.demo.model.dao.User;
-import com.example.demo.repository.ReviewRepository;
 import com.example.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.bson.BsonBinarySubType;
@@ -30,7 +27,6 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final MailService mailService;
-    private final ReviewRepository reviewRepository;
 
 
     public void restartPassword(String email) {
@@ -47,17 +43,21 @@ public class UserService {
     public User updateUser(User user) {
         String currentUser = getCurrentUser().getId();
         User userDb = getById(currentUser);
-        List<Review> reviews = reviewRepository.findByUserId(currentUser);
-        for (Review review : reviews) {
-            review.setNick(user.getNick());
-        }
-        reviewRepository.saveAll(reviews);
+//        List<Review> reviews = reviewRepository.findByUserId(currentUser);
+//        for (Review review : reviews) {
+//            review.setNick(user.getNick());
+//        }
+//        reviewRepository.saveAll(reviews);
         userDb.setNick(user.getNick());
         userDb.setLastName(user.getLastName());
         userDb.setFirstName(user.getFirstName());
         userDb.setNewsletter(!userDb.isNewsletter());
         userDb.setPoint(user.getPoint());
         return userRepository.save(userDb);
+    }
+
+    public Optional<User> getUserById(String userId) {
+        return userRepository.findById(userId);
     }
 
     public List<User> getAll() {
