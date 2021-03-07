@@ -39,7 +39,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity webSecurity) throws Exception {
         webSecurity.ignoring().antMatchers(HttpMethod.POST, "/users");
-        webSecurity.ignoring().antMatchers(HttpMethod.POST, "/users/restart");
+        webSecurity.ignoring().antMatchers(HttpMethod.PATCH, "/users/restart");
         webSecurity.ignoring().antMatchers(HttpMethod.GET, "/api/quizy");
     }
 
