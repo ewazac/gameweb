@@ -12,7 +12,7 @@
                         <b-card
                                 title="Newsy"
                                 tag="article"
-                                class="mb-2 w-100"
+                                class="mb-2 w-100 text-white"
                         >
                             <b-card-text>
                                 <div class="table-responsive">
@@ -38,7 +38,7 @@
                                 </div>
 
                                 <div class="w-100 d-flex justify-content-end">
-                                <b-button :to="'/admin/news/create'" variant="outline-light">Dodaj nowy</b-button>
+                                <b-button  class="ma-auto" :to="'/admin/news/create'" variant="outline-light">Dodaj nowy</b-button>
                                 </div>
                             </b-card-text>
                         </b-card>

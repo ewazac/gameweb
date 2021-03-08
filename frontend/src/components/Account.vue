@@ -373,7 +373,23 @@
     }
   }
 
-
+  .card-body {
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+  }
+  .card {
+      padding: 10px;
+      min-height: 15rem;
+      max-height: 25rem;
+      border-width: 0 0 2px 0;
+      -moz-border-radius: 2px;
+      -webkit-border-radius: 2px;
+      border-radius: 2px;
+      -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+      -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+      box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.3);
+  }
   /*.form-control {*/
   /*  background-color: #000;*/
   /*  color: mediumaquamarine;*/

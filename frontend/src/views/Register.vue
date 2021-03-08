@@ -30,6 +30,8 @@
                   placeholder="Imię"
                   name="firstName"
           />
+          <b-icon v-on:click="showPassword" id="icon-show-password-id" class="show-password current-icon" icon="eye"></b-icon>
+          <b-icon v-on:click="showPassword" id="icon-hide-password-id" class="show-password" icon="eye-slash-fill"></b-icon>
         </div>
         <div class="form-group">
           <b-form-input
@@ -120,6 +122,21 @@
           }
         });
       },
+      showPassword() {
+        var passwordInput = document.getElementById('password-input-id');
+        var iconShowPassword = document.getElementById("icon-show-password-id");
+        var iconHidePassword = document.getElementById("icon-hide-password-id");
+
+        if (passwordInput.type === "password") {
+          passwordInput.type = "text";
+          iconShowPassword.classList.remove("current-icon");
+          iconHidePassword.classList.add("current-icon");
+        } else {
+          passwordInput.type = "password";
+          iconHidePassword.classList.remove("current-icon");
+          iconShowPassword.classList.add("current-icon");
+        }
+      }
     },
   };
 </script>

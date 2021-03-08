@@ -19,13 +19,13 @@
                                     <template #cell(actions)="{ item }">
                                         <div>
                                             <b-button @click="deleteElement(item.group_id)" class="mr-2" variant="outline-danger">Usuń</b-button>
-                                            <b-button class="ma-auto" @click="addToPromotion(item)" variant="success">Dodaj do polecanych</b-button>
+                                            <b-button class="ma-auto" @click="addToPromotion(item)" variant="outline-success">Dodaj do polecanych</b-button>
 
                                         </div>
                                     </template>
                                 </b-table>
                                 <div class="w-100 d-flex justify-content-end">
-                                    <b-button class="ma-auto" :to="'/admin/contest/create'" variant="light">Dodaj nowy</b-button>
+                                    <b-button class="ma-auto" :to="'/admin/contest/create'" variant="outline-light">Dodaj nowy</b-button>
                                 </div>
 
 

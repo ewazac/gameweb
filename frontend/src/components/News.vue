@@ -24,7 +24,7 @@
                                         <div>{{item.title}}</div>
                                     </div>
                                     <div class="font-weight-bold">{{item.description}}</div>
-                                    <b-button class="news__button w-100 mt-3" :to="'/news/'+item.id"> Czytaj dalej </b-button>
+                                    <b-button class="news__button justify w-100 mt-3" :to="'/news/'+item.id"> Czytaj dalej </b-button>
                                 </div>
                             </b-card>
                         </div>
@@ -82,7 +82,8 @@
 <style lang="scss">
     .card{
         justify-content: center;
-        min-height: 20rem;
+        min-height: 30rem;
+        max-height: 35rem;
         border-width: 0 0 2px 0;
         -moz-border-radius: 2px;
         -webkit-border-radius: 2px;
@@ -117,6 +118,16 @@
             border: none;
             box-shadow: none !important;
         }
+    }
+    .btn-secondary {
+        background-color: mediumaquamarine;
+    }
+
+    .btn-secondary:hover {
+        opacity: 0.9;
+    }
+    label {
+        color: white;
     }
 
     label {

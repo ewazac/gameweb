@@ -8,7 +8,9 @@
                         <b-form-select style="max-width: 200px" v-model="params.per_page" :options="options"></b-form-select>
                     </div>
                 </div>
+
                 <div class="col-md-3 my-2"  :key="item.appId" v-for="item in items">
+
                     <b-card
                             class="mb-2 h-100"
                             :title="item.title"
@@ -34,8 +36,7 @@
 
 <script>
     import Request from '../request';
-    import axios from 'axios'
-
+    import axios from 'axios';
     export default {
         name: 'Home',
         beforeCreate: function () {
@@ -105,4 +106,16 @@
 
 </script>
 
+<style lang="scss">
+    .games__button {
+        background-color: mediumaquamarine !important;
+        margin-top: auto;
+        border: none;
 
+        &:focus {
+            outline: none;
+            border: none;
+            box-shadow: none !important;
+        }
+    }
+</style>

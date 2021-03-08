@@ -32,7 +32,7 @@
                                             max-rows="6"
                                     ></b-form-textarea>
                                     <ckeditor :editor="editor" v-model="data.body" :config="editorConfig"></ckeditor>
-                                    <b-button class="mt-3" @click="data.answerList.push({question: '', option:[]})" variant="success">Dodaj zagadkę</b-button>
+                                    <b-button class="mt-3" @click="data.answerList.push({question: '', option:[]})" variant="outline-success">Dodaj pytanie</b-button>
                                     <div :key="index_question" class="w-100" v-for="(item,index_question) in data.answerList">
                                         <b-card class="mb-2 h-100">
                                             <b-form-input v-model="item.question" placeholder="Wpisz treść pytania"></b-form-input>
@@ -50,8 +50,8 @@
                                                 </div>
                                             </div>
                                             <div class="my-3">
-                                                <b-button @click="item.option.push({value: '', proper: false})" variant="success">Dodaj odpowiedź</b-button>
-                                                <b-button class="ml-3" @click="data.answerList.splice(index_question, 1)" variant="danger">usuń pytanie</b-button>
+                                                <b-button @click="item.option.push({value: '', proper: false})" variant="outline-success">Dodaj odpowiedź</b-button>
+                                                <b-button class="ml-3" @click="data.answerList.splice(index_question, 1)" variant="outline-danger">usuń pytanie</b-button>
                                             </div>
                                             <!--<b-button class="games__button" @click="handleDetails(item.appId)"> Zobacz więcej </b-button>-->
                                         </b-card>

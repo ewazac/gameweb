@@ -15,7 +15,7 @@
                     </b-button>
                 </div>
     </form>
-    <div class="hello" v-if="games">
+    <div class="hello text-white" v-if="games">
         <div v-for="items in games" :key="items">
             <b-card-group class="cardGroup" v-for="i in Math.ceil(items.length/4)" :key="i" deck>
                 <b-card

@@ -37,7 +37,7 @@
                                 </div>
 
                                 <div class="w-100 d-flex justify-content-end">
-                                    <b-button class="ma-auto" :to="'/admin/quiz/create'" variant="light">Dodaj nowy</b-button>
+                                    <b-button class="ma-auto" :to="'/admin/quiz/create'" variant="outline-light">Dodaj nowy</b-button>
                                 </div>
 
 

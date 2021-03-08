@@ -24,7 +24,7 @@
                         <!--      >-->
                         <!--        <b-card-text v-if="item.summary">{{ item.summary.slice(0,150) }}...</b-card-text>-->
                         <div class="my-3 text-white">{{item.description}}</div>
-                        <b-button class="games__button" @click="handleDetails(item)"> Zobacz więcej </b-button>
+                        <b-button class="quiz__button mt-3" @click="handleDetails(item)"> Zobacz więcej </b-button>
                     </b-card>
                 </div>
             </div>
@@ -92,4 +92,46 @@
 
 </script>
 
+<style lang="scss">
+    .quiz__button {
+        background-color: mediumaquamarine !important;
+        margin-top: auto;
+        border: none;
 
+    &:focus {
+         outline: none;
+         border: none;
+         box-shadow: none !important;
+     }
+    }
+
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .card-body > .card-title {
+        text-align: center;
+        margin-bottom: 5px;;
+    }
+
+    .card-body > .card-text {
+        text-align: justify;
+        padding: 0px;
+    }
+
+    .card {
+        padding: 10px;
+        min-height: 10rem;
+        max-height: 15rem;
+        border-width: 0 0 2px 0;
+        -moz-border-radius: 2px;
+        -webkit-border-radius: 2px;
+        border-radius: 2px;
+        -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+        -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+        box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.3);
+    }
+
+</style>
