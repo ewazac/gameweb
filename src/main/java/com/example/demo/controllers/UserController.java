@@ -62,7 +62,7 @@ public class UserController {
         return user.getAvatar();
     }
 
-    @PatchMapping()
+    @PatchMapping("/restart")
     public void changeRestartPassword(@RequestBody RestartDto restartDto) throws Throwable {
         userService.changeRestartPassword(restartDto.getActivatedCode(), restartDto.getPassword());
     }

@@ -4,8 +4,14 @@
       <div class="row">
         <div class="col-12">
           <div class="w-100 d-flex align-center mb-3">
-            <div class="text-white mr-2">Ilość na stronie:</div>
-            <b-form-select style="max-width: 200px" v-model="params.per_page" :options="options"></b-form-select>
+            <div class="paginateOptions">
+              <div class="text-white mr-2">Ilość na stronie:</div>
+              <b-form-select style="max-width: 200px" v-model="params.per_page" :options="options"></b-form-select>
+            </div>
+            <div class="gamesRanking">
+              <div class="text-white  mr-2">Ranking gier:</div>
+              <b-form-select style="max-width: 200px" v-model="ranking" :options="gameOptions"></b-form-select>
+            </div>
           </div>
         </div>
         <div class="col-md-3 my-2"  :key="item.appId" v-for="item in items">
@@ -36,7 +42,6 @@
               v-model="params.page"
               :total-rows="params.total_rows"
               :per-page="params.per_page" first-text="First" prev-text="Prev" next-text="Next" last-text="Last">
-
       </b-pagination>
     </div>
   </div>
@@ -45,7 +50,8 @@
 <script>
   import axios from "axios";
   import {paginate} from "../helpers";
-    import Game from '../models/game';
+  import Game from '../models/game';
+
   export default {
     name: 'Home',
     beforeCreate: function () {
@@ -58,6 +64,14 @@
           { value: 16, text: 16 },
           { value: 32, text: 32 },
         ],
+        gameOptions: [
+          { value: 'topselling_free', text: 'Najlepsze darmowe'},
+          { value: 'topselling_paid', text: 'Najlepsze płatne'},
+          { value: 'topgrossing', text: 'Najlepiej zarabiające'},
+          { value: 'topselling_new_free', text: 'Najlepsze nowe darmowe'},
+          { value: 'topselling_new_paid', text: 'Najlepsze nowe płatne'}
+        ],
+        ranking: 'topselling_free',
         params:{
           page: 1,
           per_page: 16,
@@ -66,9 +80,9 @@
       }
     },
     computed:{
-        currentLoggedIn () {
-            return this.$store.state.auth.status.loggedIn;
-        },
+      currentLoggedIn () {
+        return this.$store.state.auth.status.loggedIn;
+      },
       items(){
         return paginate(this.games, this.params.per_page, this.params.page);
       }
@@ -77,14 +91,31 @@
       handleDetails(item) {
         this.$router.push({path:'/game', params:{game2:item}, query:{game2: item}});
       },
+      handleNewOption() {
+        console.log(this.ranking)
+        axios.get('https://gameweb12.herokuapp.com/api/apps/?category=GAME&collection='+this.ranking)
+          .then((result) => {
+                  this.games = result.data.results.map(item => {
+                    return new Game(item);
+                  });
+                  this.params.total_rows = this.games.length;
+                }).catch((err) => {
+          console.log(err)
+        });
+      }
     },
-
+    watch: {
+      ranking() {
+        this.handleNewOption();
+      }
+    },
     mounted() {
-      axios.get('https://gameweb12.herokuapp.com/api/apps/?category=GAME')
+      axios.get('https://gameweb12.herokuapp.com/api/apps/?collection=topselling_free&category=GAME')
               .then((result) => {
                 this.games = result.data.results.map(item => {
-                    return new Game(null,null,null,null,item);
+                    return new Game(item);
                 });
+                console.log(this.games)
                 this.params.total_rows =this.games.length;
               }).catch((err) => {
         console.log(err)
@@ -248,6 +279,13 @@
   }
   label {
     color: white;
+  }
+  .gamesRanking {
+    margin-left: auto;
+  }
+  select {
+    font-weight: 450;
+    color: #0f865a;
   }
 </style>
 
