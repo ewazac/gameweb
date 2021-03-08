@@ -39,7 +39,7 @@
 
 <script>
     import User from "../../models/user";
-
+    import Request from '../../request'
     export default {
         name: "Login",
         data() {
@@ -48,7 +48,8 @@
                 loading: false,
                 message: "",
                 errorMessage: "",
-                token: null
+                token: null,
+                submitted: false
             };
         },
         computed: {
@@ -73,9 +74,24 @@
                         this.loading = false;
                         return;
                     }
-                    this.$store.dispatch('auth/sendResetLink', {email: this.user.username}).then(res => {
-                        console.log(res);
-                    })
+                    if(this.$route.query.token){
+                        Request({
+                            url:'/users',
+                            method:'patch',
+                            data:{
+                                activatedCode: this.$route.query.token,
+                                password: this.user.password
+                            }
+                        }).then(() => {
+                            this.$store.commit('app/ADD_MESSAGE', {text: 'Udało ci się zresetować hasło.', type: 'success'});
+                            this.$router.push('/login');
+                        })
+                    }else{
+                        this.$store.dispatch('auth/sendResetLink', {email: this.user.username}).then(res => {
+                            console.log(res);
+                        })
+                    }
+
                 });
             }
         }

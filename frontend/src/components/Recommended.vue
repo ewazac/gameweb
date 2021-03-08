@@ -11,20 +11,14 @@
                 <div class="col-md-3 my-2"  :key="item.appId" v-for="item in items">
                     <b-card
                             class="mb-2 h-100"
-                            :title="item.name"
+                            :title="item.title"
+                            :img-src="item.icon"
+                            img-top
                     >
-                        <!--    <b-card-group class="cardGroup" v-for="i in Math.ceil(games.length/4)" :key="i" deck>-->
-                        <!--      <b-card-->
-                        <!--              class="mb-2"-->
-                        <!--              v-for="item in games.slice((i-1)*4, (i-1)*4 +  4)"-->
-                        <!--              :key="item.appId"-->
-                        <!--              :title="item.title"-->
-                        <!--              :img-src="item.icon"-->
-                        <!--              img-top-->
-                        <!--      >-->
-                        <!--        <b-card-text v-if="item.summary">{{ item.summary.slice(0,150) }}...</b-card-text>-->
-                        <div class="my-3 text-white">{{item.description}}</div>
-                        <b-button class="games__button" @click="handleDetails(item)"> Zobacz więcej </b-button>
+                        <div class="font-weight-bold text-muted my-2 text-center">
+                            {{item.createdDate}}
+                        </div>
+                        <b-button class="games__button mt-3" @click="handleDetails(item)"> Zobacz więcej </b-button>
                     </b-card>
                 </div>
             </div>
@@ -40,7 +34,7 @@
 
 <script>
     import Request from '../request';
-    import {paginate} from "../helpers";
+    import axios from 'axios'
 
     export default {
         name: 'Home',
@@ -58,35 +52,54 @@
                     page: 1,
                     per_page: 16,
                     total_rows: 1
-                }
+                },
+                allGames:null
             }
         },
         computed:{
+            currentLoggedIn () {
+                return this.$store.state.auth.status.loggedIn;
+            },
             items(){
-                return paginate(this.data, this.params.per_page, this.params.page);
+                return this.data.map(item => {
+                    if(!this.allGames) return {id: null}
+                    var finded = this.allGames.find(x => x.appId == item.appId);
+                    if(finded){
+                        return {
+                            ...item,
+                            ...finded
+                        }
+                    }else{
+                        return {
+                            id: null
+                        }
+                    }
+                })
             }
         },
         methods: {
             handleDetails(item) {
-                this.$router.push({path:'/quizy/'+item.id});
+                this.$router.push({path:'/game?game2='+item.appId});
             },
         },
 
         mounted() {
             this.$store.commit('app/SET_BREADCRUMBS', [
                 {
-                    text: 'Quizy',
-                    to: '/quizy'
+                    text: 'Polecane',
+                    to: '/recommended'
                 }
             ])
-           Request({
-               url: '/api/quizy',
-               method: 'get'
-           }).then(res => {
-               this.data = res.reverse(
-
-               );
-           })
+            axios.get('https://gameweb12.herokuapp.com/api/apps/?category=GAME')
+                .then((result) => {
+                    this.allGames = result.data.results;
+                });
+            Request({
+                url: '/games/recommended',
+                method: 'get'
+            }).then(res => {
+                this.data = res;
+            })
         },
     }
 

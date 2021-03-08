@@ -16,13 +16,13 @@
                             Quiz
                         </b-nav-item>
                     </router-link>
-                    <b-nav-item href="/competitions">
+                    <b-nav-item v-if="currentLoggedIn" to="/competitions">
                         Konkurs
                     </b-nav-item>
-                    <b-nav-item href="/Recommended">
+                    <b-nav-item to="/recommended">
                         Polecane
                     </b-nav-item>
-                    <b-nav-item href="/forum">
+                    <b-nav-item v-if="currentLoggedIn" to="/forum">
                         Forum
                     </b-nav-item>
                 </b-navbar-nav>
@@ -53,7 +53,7 @@
         </b-navbar>
         <messages></messages>
         <div class="rest">
-            <my-breadcrumbs></my-breadcrumbs>
+            <my-breadcrumbs v-if="!$route.meta || !$route.meta.hideBreadcrumbs"></my-breadcrumbs>
 
             <router-view />
         </div>

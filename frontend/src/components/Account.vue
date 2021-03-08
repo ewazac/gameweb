@@ -14,6 +14,12 @@
                     tag="article"
                     class="mb-2 w-100"
             >
+              <div class="badge-holder">
+                <img v-if="currentUser.point > 5 && currentUser.point < 10" src="../assets/normal.png" width="50px">
+                <img v-if="currentUser.point >= 10 && currentUser.point <= 14" src="../assets/active.png" width="50px">
+                <img v-if="currentUser.point >= 15" src="../assets/s_active.png" width="50px">
+              </div>
+
               <b-card-text class="card-text-dark">
                 <h3 class="h5">Dane osobowe</h3>
                 <div class="my-4">
@@ -49,6 +55,12 @@
                             required
                     />
                     <b-button class="account__button" @click="handleChange">Zapisz</b-button>
+                  </div>
+                </div>
+                <div class="row align-center mt-2">
+                  <div class="col-md-2 align-center">Ilość punktów:</div>
+                  <div class="col-md-10">
+                    <span class="font-weight-bold">{{currentUser.point}}</span>
                   </div>
                 </div>
                 <div class="row align-center mt-2">
@@ -130,7 +142,7 @@
               <b-card-text class="card-text-dark">
                 <b-form-checkbox
                         id="checkbox-1"
-                        @change="handleChange()"
+                        @change="handleChange(); changeNewsletter()"
                         v-model="currentUser.newsletter"
                         name="checkbox-1"
                         :unchecked-value="false"
@@ -138,6 +150,7 @@
                 >
                   Wyrażam zgodę na wysyłanie newslettera.
                 </b-form-checkbox>
+                <b-alert class="my-4" variant="success" v-if="currentUser.newsletter" show>Jesteś zapisany na newsletter</b-alert>
               </b-card-text>
             </b-card>
           </div>
@@ -149,9 +162,10 @@
 
 <script>
   import axios from "axios";
-  import User from '../models/user'
-  const API_URL = "https://gameweb21.herokuapp.com/";
 
+  const API_URL = "https://gameweb21.herokuapp.com/";
+  import User from '../models/user'
+  import Request from '../request'
   export default {
     name: "Account",
     beforeCreate: function () {
@@ -221,6 +235,14 @@
                   console.log(error);
                 });
       },
+      changeNewsletter(){
+          Request({
+            url:'/users/newsletter',
+            method:'patch'
+          }).then(() => {
+
+          })
+      },
       handleChange(){
         this.$nextTick(() => {
           this.currentUser.updateUser();
@@ -252,7 +274,7 @@
                   },
                 })
                 .then(() => {
-                  //this.$router.go();
+                  /*this.$router.go();*/
                   this.getAvatar();
                 })
                 .catch(() => {

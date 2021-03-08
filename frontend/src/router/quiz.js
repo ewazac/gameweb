@@ -19,18 +19,18 @@ export default [
         path: '/admin/quiz',
         name: 'Quiz',
         component: Browse,
-        meta:{auth: true}
+        meta:{auth: true, hideBreadcrumbs: true}
     },
     {
         path: '/admin/quiz/:id',
         name: 'Quiz',
         component: EditAdd,
-        meta:{auth: true}
+        meta:{auth: true, hideBreadcrumbs: true}
     },
     {
         path: '/admin/quiz/create',
         name: 'Quiz',
         component: EditAdd,
-        meta:{auth: true}
+        meta:{auth: true, hideBreadcrumbs: true}
     },
 ]

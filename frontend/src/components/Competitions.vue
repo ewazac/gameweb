@@ -91,6 +91,12 @@
 
         mounted() {
             this.getData();
+            this.$store.commit('app/SET_BREADCRUMBS', [
+                {
+                    text: 'Konkursy',
+                    to: '/competitions'
+                }
+            ])
         },
     }
 

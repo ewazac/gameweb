@@ -182,7 +182,7 @@ select {
 }
 
 input {
-  max-width: 90%;
+  width: 100%;
   border-width: 0px 0px 2px 0px;
   border-radius: 4px;
   border: 1px solid #111;

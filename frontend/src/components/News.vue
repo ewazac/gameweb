@@ -19,9 +19,9 @@
                                 <img v-if="item.image" :src="'data:image/jpeg;base64,'+item.image.data">
                                 <img v-else src="../assets/default.png">
                                 <div class="p-3" style="color: whitesmoke">
-                                    <div class="font-weight-bold d-flex justify-content-between">
+                                    <div class="font-weight-bold d-flex justify-content-between flex-column">
+                                        <div class="text-muted mb-1" style="font-size: 0.7rem">{{item.createdDate}}</div>
                                         <div>{{item.title}}</div>
-                                        <div class="text-muted">{{item.createdDate}}</div>
                                     </div>
                                     <div class="font-weight-bold">{{item.description}}</div>
                                     <b-button class="news__button w-100 mt-3" :to="'/news/'+item.id"> Czytaj dalej </b-button>
@@ -54,6 +54,12 @@
         },
         created(){
             this.getData();
+            this.$store.commit('app/SET_BREADCRUMBS', [
+                {
+                    text: 'Newsy',
+                    to: '/news'
+                }
+            ])
         },
         methods:{
             getData(){

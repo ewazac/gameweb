@@ -1,7 +1,15 @@
 <template>
     <div class="messages">
         <div @click="removeMessage(message.id)" v-for="(message, index) in messages" :key="index">
-            <b-alert show :variant="message.type" >{{message.text}}</b-alert>
+            <b-alert show :variant="message.type" >
+                <div class="d-flex justify-content-between w-100">
+                    {{message.text}}
+                    <div class="ml-2" style="cursor: pointer">
+                        <p class="h4 mb-0"><b-icon icon="x"></b-icon></p>
+                    </div>
+                </div>
+
+            </b-alert>
         </div>
     </div>
 </template>

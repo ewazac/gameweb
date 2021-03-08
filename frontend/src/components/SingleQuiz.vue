@@ -99,6 +99,8 @@
                 this.submitted = true;
                 if(Object.keys(this.userAnswers).length == this.data.answerList.length){
                     this.showAnswer = true;
+                }else{
+                    this.$store.commit('app/ADD_MESSAGE', {text: 'Zaznacz odpowiedzi', type:'info'});
                 }
             },
             getData(){

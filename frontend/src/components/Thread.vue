@@ -1,14 +1,9 @@
 <template>
     <div class="thread">
+        <h3>{{thread.name}}</h3>
         <div class="FirstAnswers">
-            <h3>{{threadName}}</h3>
-            <div class="FA">
-                <div class="FADetails">
-                    <p class="Created">Użytkownik: {{ firstAnswer.username }} </p>
-                    <p class="Created">Dodano: {{ firstAnswer.createdDate }}</p>
-                </div>
-                <img class="avatar" v-if="firstAnswer.avatar" v-bind:src="'data:image/jpeg;base64,'+firstAnswer.avatar.data">
-            </div>
+            <p class="Created">Użytkownik: {{ firstAnswer.username }} </p>
+            <p class="Created">Dodano: {{ firstAnswer.createdDate }}</p>
             <h4 class="ThreadMessage"> {{ firstAnswer.message }} </h4>
         </div>
         <button class="button" v-if="Show==false" v-on:click="show">Dodaj wiadomość!</button>
@@ -23,30 +18,25 @@
             />
             <button class="button" type="submit">Dodaj</button>
         </form>
-        <b-alert v-if="alertMessage" show :variant='variant'>
-            {{ alertMessage }}
-        </b-alert>
         <div v-if="isAdmin">
-            <div class="answers" v-for="answer in thread" :key="answer.createdDate">
+            <div class="answers" v-for="answers in thread" :key="answers.username">
                 <div class="details">
-                    <p> Użytkownik:{{ answer.username }} </p>
-                    <p> Dodano: {{ answer.createdDate }}</p>
-                    <img class="avatar" v-if="answer.avatar" v-bind:src="'data:image/jpeg;base64,'+answer.avatar.data">
+                    <p> Użytkownik:{{ answers.username }} Dodano: {{ answers.createdDate }} </p>
+                    <span @click='handleDelete(answers.message)'>Usuń</span>
                 </div>
                 <div class="message">
-                    <span> {{ answer.message }}</span>
+                    <span> {{ answers.message }}</span>
                 </div>
-                <span @click='handleDelete(answers.message)'>Usuń</span>
+                
             </div>
         </div>
         <div v-else>
-            <div class="answers" v-for="answer in thread" :key="answer.createdDate">
+            <div class="answers" v-for="answers in thread" :key="answers.username">
                 <div class="details">
-                    <p> Użytkownik: {{ answer.username }} Dodano: {{ answer.createdDate }} </p>
+                    <p> Użytkownik: {{ answers.username }} Dodano: {{ answers.createdDate }} </p>
                 </div>
                 <div class="message">
-                    <span> {{ answer.message }} </span>
-                    <img class="avatar" v-if="answer.avatar" v-bind:src="'data:image/jpeg;base64,'+answer.avatar.data">
+                    <span> {{ answers.message }} </span>
                 </div>
             </div>
         </div>
@@ -55,21 +45,17 @@
 
 <script>
 import axios from 'axios';
-import Thread from '../models/thread'
 
 export default {
     name: 'Thread',
     data() {
         return {
             currentUser: JSON.parse(localStorage.getItem("user")),
-            answers: '',
+            answer: '',
             thread: '',
-            threadName: '',
             Show: false,
             firstAnswer: '',
             id: this.$router.history.current.query.thread,
-            alertMessage: null,
-            variant: null,
         }
     },
     beforeCreate: function () {
@@ -77,7 +63,7 @@ export default {
     },
     computed: {
         isAdmin(){
-            return this.$store.getters['auth/isAdmin'];
+                return this.$store.getters['auth/isAdmin'];
         }
     },
     methods: {
@@ -86,7 +72,6 @@ export default {
                 this.Show = false
             }
             else {
-                this.alertMessage = null
                 this.Show = true
             }
         },
@@ -102,7 +87,7 @@ export default {
             }
             console.log(i)
             if(confirm("Czy na pewno chcesz usunąć tą wiadomość: "+item)) {
-                axios.delete("https://gameweb21.herokuapp.com/api/forums/"+this.id+"/answer/"+(i-1))
+                axios.delete("https://gameweb21.herokuapp.com/api/forums/"+this.id+"/answer/"+(i+1))
                 .then((result) => {
                     this.$router.go(0);
                     console.log(result.data)
@@ -114,18 +99,14 @@ export default {
                 console.log('nic się nie stało')
             }
         },
-        handleAnswer() {
-            let datetime = new Date().toJSON().slice(0,19);
-            axios.patch("https://gameweb21.herokuapp.com/api/forums/"+this.id, {
-                createdDate: datetime,
-                message: this.answer,
-                userId: this.currentUser.id
-            }, {withCredentials:true})
-            .then((result) => {
-                this.thread = this.thread.concat(result.data.answers[result.data.answers.length-1])
-                this.answer = ''
-                this.alertMessage = "Dodałeś nową odpowiedź!"
-                this.variant = 'success'
+        handleAnswer() {/*
+            const today = new Date();
+            const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+            const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            const dateTime = date +'T'+ time;*/
+            axios.patch("https://gameweb21.herokuapp.com/api/forums/"+this.id, {message:this.answer, username:this.currentUser.nick}, {withCredentials:true}).then((result) => {
+                this.$router.go(0);
+                console.log(result)
             }).catch((err) => {
                 console.log(err)
             });
@@ -138,32 +119,19 @@ export default {
             for (const thread of threads) {
                 if (thread.id == this.id){
                     this.firstAnswer = thread.answers[0]
-                    this.threadName = thread.name
                     this.thread = thread.answers.slice(1,thread.answers.length)
                     break
                 }
             }
-            axios.get("https://gameweb21.herokuapp.com/users/"+this.firstAnswer.userId)
-            .then((result) => {
-                this.firstAnswer.username = result.data.nick
-                this.firstAnswer.avatar = result.data.avatar
-                this.firstAnswer.createdDate = this.firstAnswer.createdDate.replace(/T/gm,' ')
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-            this.thread.map(item => {  
-                axios.get("https://gameweb21.herokuapp.com/users/"+item.userId)
-                .then((result) => {
-                    console.log(result)
-                    item.username = result.data.nick;
-                    item.avatar = result.data.avatar;
-                    return new Thread(item);
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
-            })
+            this.$store.commit('app/SET_BREADCRUMBS', [
+                {
+                    text: 'Forum',
+                    to: '/forum'
+                },
+                {
+                    text: this.firstAnswer.message
+                }
+            ])
         }).catch((err) => {
             console.log(err)
         });
@@ -182,7 +150,6 @@ export default {
     color: white;
 }
 h3 {
-    font-size: 2.5rem;
     text-align: center;
     color:mediumaquamarine;
 }
@@ -191,22 +158,16 @@ h3 {
     border: 1px solid;
 }
 span {
+    margin-left: auto;
     text-align: right;
     font-size: 0.9rem;
 }
 .details {
     font-size: 0.8rem;
     display: flex;
-    padding: 0.2rem;
-}
-.details p {
-    margin: 0;
-}
-.details span {
-    margin-left: auto;
+    padding: 0.5rem;
 }
 .message {
-    display: flex;
     padding: 1rem;
 }
 .AD {
@@ -249,36 +210,12 @@ span {
     font-size: 0.8rem;
 }
 .ThreadMessage {
-    margin: auto;
-    padding:1rem;
+    padding: 1rem;
+    width: 100%;
 }
 .message span {
     font-size: 1.5rem;
     font-weight: 450;
     white-space: pre-line;
-    text-align: left;
-}
-.FA {
-    margin: 0.5rem;
-    display: flex;
-}
-.FA p {
-    padding: 0;
-}
-.FADetails {
-    display: block;
-    margin-top: auto;
-    margin-bottom: auto;
-}
-.avatar {
-    margin-left: auto;
-    max-width: 100px;
-    max-height: 100px;
-}
-.message img {
-    margin-left: auto;
-}
-input {
-    background-color: white;
 }
 </style>

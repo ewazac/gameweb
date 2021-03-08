@@ -19,6 +19,8 @@
                                     <template #cell(actions)="{ item }">
                                         <div>
                                             <b-button @click="deleteElement(item.group_id)" class="mr-2" variant="outline-danger">Usuń</b-button>
+                                            <b-button class="ma-auto" @click="addToPromotion(item)" variant="success">Dodaj do polecanych</b-button>
+
                                         </div>
                                     </template>
                                 </b-table>
@@ -68,6 +70,13 @@
             this.getData();
         },
         methods: {
+            addToPromotion(item){
+                Request({
+                    url:'/games/recommended?groupId='+item.group_id,
+                    method:'patch'
+                }).then(() => {
+                })
+            },
             deleteElement(id){
                 this.$confirm('Usuwanie elementu', 'Czy na pewno chcesz usunąć ten element', null).then(() => {
                     Request({

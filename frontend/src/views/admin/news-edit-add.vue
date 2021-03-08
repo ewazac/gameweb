@@ -32,6 +32,7 @@
                                             max-rows="6"
                                     ></b-form-textarea>
                                     <b-form-file
+                                            v-if="!data.id"
                                             @change="fileInput($event)"
                                             class="my-2"
                                             placeholder="Dodaj obrazek"
@@ -84,7 +85,6 @@
                 this.data.image = event.target.files[0]
             },
             saveElement(){
-                console.log(this.data);
                 this.data.save().then(() => {
                     this.$router.go(-1);
                 })

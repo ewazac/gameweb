@@ -7,24 +7,24 @@ export default [
         path:'/admin/contests',
         name: 'Konkursy',
         component: Browse,
-        meta:{auth: true}
+        meta:{auth: true, hideBreadcrumbs: true}
     },
     {
         path:'/admin/contest/create',
         name: 'Konkursy',
         component: EditAdd,
-        meta:{auth: true}
+        meta:{auth: true, hideBreadcrumbs: true}
     },
     {
         path: '/competitions',
         name: 'Konkursy',
         component: Competitions,
-        meta:{auth:false}
+        meta:{auth:true}
     },
     {
         path: '/competitions/:id',
         name: 'Konkurs',
         component: SingleCompetition,
-        meta:{auth:false}
+        meta:{auth:true}
     }
 ]

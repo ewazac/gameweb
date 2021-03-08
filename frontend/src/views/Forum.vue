@@ -16,7 +16,7 @@
             <p>Podaj tytuł</p>
             <b-form-input
               v-model="title"
-              type="text"
+              type="title"
               class="form-control"
               placeholder="Tytuł"
               name="title"
@@ -27,7 +27,7 @@
             <p>Opis</p>
             <b-form-textarea
               v-model="answer"
-              type="text"
+              type="answer"
               class="form-control"
               placeholder="Opis"
               name="answer"
@@ -35,8 +35,8 @@
             />
           </div>
           <button class="button" type="submit">Dodaj</button>
-          <b-alert v-if="alertMessage" show variant="success">
-            {{ alertMessage }}
+          <b-alert v-if="message" show variant="success">
+            {{ message }}
           </b-alert>
         </form>
       </div>
@@ -56,7 +56,7 @@
         </div>
       </div>
       <div v-if="isAdmin">
-        <div class="thread" v-for="thread in filterdThreads" :key="thread.id">
+        <div class="thread" v-for="thread in displayedPosts" :key="thread.id">
           <div class="thr">
             <div class="Description" @click="handleDetails(thread.id)">
                 <h5 class="title">{{ thread.name }}</h5>
@@ -72,7 +72,7 @@
         </div>
       </div>
       <div v-else>
-        <div class="thread" v-for="thread in filterdThreads" :key="thread.id">
+        <div class="thread" v-for="thread in displayedPosts" :key="thread.id">
           <div class="thr">
             <div class="Descriptionu" @click="handleDetails(thread.id)">
                 <h5 class="title">{{ thread.name }}</h5>
@@ -85,40 +85,62 @@
         </div>
       </div>
     </div>
-    <div class="py-5 d-flex justify-content-center">
-      <b-pagination
-        v-model="paramsThreads.page"
-        :total-rows="paramsThreads.total"
-        :per-page="paramsThreads.per_page" first-text="First" prev-text="Prev" next-text="Next" last-text="Last">
-      </b-pagination>
-    </div>
+    <nav>
+        <ul class="pagination">
+          <li class="page-item">
+            <button
+              type="button"
+              class="page-link"
+              v-if="page != 1"
+              @click="page--"
+            >
+              Previous
+            </button>
+          </li>
+          <li class="page-item">
+            <button
+              type="button"
+              class="page-link"
+              v-for="pageNumber in pages.slice(page - 1, page + 5)"
+              :key="pageNumber"
+              @click="page = pageNumber"
+            >
+              {{ pageNumber }}
+            </button>
+          </li>
+          <li class="page-item">
+            <button
+              type="button"
+              @click="page++"
+              v-if="page < pages.length"
+              class="page-link"
+            >
+              Next
+            </button>
+          </li>
+        </ul>
+      </nav>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
-import User from '../models/user'
-import {paginate} from "../helpers";
 
 export default{
     name: "Forum",
     data() {
         return {
-            currentUser: new User(JSON.parse(localStorage.getItem("user"))),
+            currentUser: JSON.parse(localStorage.getItem("user")),
             message: null,
             threads: '',
             title: '',
             answer: '',
             show: false,
             id: '',
+            page: 1,
+            perPage: 10,
+            pages: [],
             search: '',
-            paramsThreads:{
-              per_page: 10,
-              page: 1,
-              total: 1
-            },
-            alertMessage: null,
-            variant: null,
         }
     },
     beforeCreate: function () {
@@ -133,9 +155,9 @@ export default{
         isAdmin(){
           return this.$store.getters['auth/isAdmin'];
         },
-        filterdThreads(){
-          return paginate(this.filteredList, this.paramsThreads.per_page, this.paramsThreads.page);
-        },
+        displayedPosts () {
+            return this.paginate(this.filteredList);
+        }
     },
     methods: {
         Show: function() {
@@ -143,7 +165,6 @@ export default{
                 this.show = false
             }
             else {
-                this.alertMessage = null
                 this.show = true
             }
         },
@@ -163,36 +184,55 @@ export default{
             }
         },
         handleThread() {
-            //let datetime = new Date().toJSON().slice(0,19).replace(/T/g,' ');
-            let datetime = new Date().toJSON().slice(0,19);
             axios.post("https://gameweb21.herokuapp.com/api/forums", {
-                answers: [{
-                    createdDate: datetime,
+                answers: [
+                {
                     message: this.answer,
-                    userId: this.currentUser.id,
-                }],
+                    username: this.currentUser.nick,
+                },
+                ],
                 name: this.title
-                })
-                .then((result) => {
-                  this.alertMessage = "Dodano nowy wątek!"
-                  this.threads = this.threads.concat(result.data)
-                  this.answer = ''
-                  this.title = ''
-                  this.paramsThreads.total += 1;
-                  console.log(result)
-                }).catch((err) => {
-                    console.log(err)
-                });
+            }).then((result) => {
+                this.message = "Dodano nowy wątek!"
+                console.log(result)
+            }).catch((err) => {
+                console.log(err)
+            });
         },
         handleDetails(item) {
+            console.log(item)
             this.$router.push({path:'/thread', params:{thread:item}, query:{thread:item}});
         },
+        setPages () {
+            let numberOfPages = Math.ceil(this.threads.length / this.perPage);
+            for (let index = 1; index <= numberOfPages; index++) {
+                this.pages.push(index);
+            }
+        },
+        paginate (posts) {
+            let page = this.page;
+            let perPage = this.perPage;
+            let from = (page * perPage) - perPage;
+            let to = (page * perPage);
+            return posts.slice(from, to);
+        }
+    },
+    watch: {
+        threads () {
+            this.setPages();
+        }
     },
     mounted() {
+      this.$store.commit('app/SET_BREADCRUMBS', [
+        {
+          text: 'Forum',
+          to: '/forum'
+        }
+      ])
         axios.get("https://gameweb21.herokuapp.com/api/forums")
         .then((result) => {
             this.threads = result.data;
-            this.paramsThreads.total = this.threads.length;
+            console.log(result.data)
         }).catch((err) => {
             console.log(err)
         });
@@ -313,9 +353,6 @@ button.page-link {
     margin: 1rem 2rem 1rem 2rem;
   }
 
-}
-input {
-  background-color: white;
 }
 .search-wrapper input{
     margin-top: 10px;

@@ -11,21 +11,22 @@ import Quizes from '../router/quiz';
 import Store from '../store/index'
 import Favourites from '../views/users/favourites';
 import Contest from '../router/contest';
+import Reccomended from '../components/Recommended';
 Vue.use(VueRouter)
-
+import ChangePassword from '../views/users/change-password'
 const routes = [
-  {
-    path: '/forum',
-    name: 'Forum',
-    component: Forum,
-    meta:{auth: true}
-  },
-  {
-    path: '/thread',
-    name: 'Thread',
-    component: () => import('../components/Thread.vue'),
-    meta:{auth: true}
-  },
+    {
+        path: '/forum',
+        name: 'Forum',
+        component: Forum,
+        meta:{auth: true}
+    },
+    {
+        path: '/thread',
+        name: 'Thread',
+        component: () => import('../components/Thread.vue'),
+        meta:{auth: true}
+    },
   {
     path: '/games',
     name: 'Games',
@@ -33,15 +34,21 @@ const routes = [
     meta:{auth: false}
   },
   {
+    path: '/recommended',
+    name: 'Recomended',
+    component: Reccomended,
+    meta:{auth: false}
+  },
+  {
     path: '/game',
     name: 'game-detail',
     component: () => import('../components/Game.vue'),
-    meta:{auth: false}
   },
   {
     path: '/account',
     name: 'Account',
-    component: () => import('../components/Account.vue')
+    component: () => import('../components/Account.vue'),
+    meta:{hideBreadcrumbs: true}
   },
   {
     path: '/news',
@@ -73,19 +80,25 @@ const routes = [
     path: '/admin/news/:id',
     name: 'news',
     component: NewsEditAdd,
-    meta:{auth: true}
+    meta:{auth: true, hideBreadcrumbs: true}
   },
   {
     path: '/admin/news/create',
     name: 'news',
     component: NewsEditAdd,
-    meta:{auth: true}
+    meta:{auth: true, hideBreadcrumbs: true}
   },
   {
     path: '/favourites',
     name: 'Ulubione',
     component: Favourites,
     meta:{auth: true}
+  },
+  {
+    path: '/change-password',
+    name: 'Zmiana hasła',
+    component: ChangePassword,
+    meta:{auth:false}
   },
   {
     path: '/search',

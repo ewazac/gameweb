@@ -101,13 +101,11 @@
         this.occupied = '';
         this.$validator.validate().then((isValid) => {
           if (isValid) {
-            console.log(this.user);
             this.$store.dispatch("auth/register", this.user).then(
                     (data) => {
                       this.message = data.message;
                       this.successful = true;
-                      console.log(this.message)
-                      console.log(data)
+                      this.$store.commit('app/ADD_MESSAGE', {text: 'Zarejestrowano poprawnie. Teraz możesz się zalogować', type: 'success'});
                       this.$router.push("/login");
                     },
                     (error) => {

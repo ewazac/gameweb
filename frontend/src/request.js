@@ -27,7 +27,9 @@ service.interceptors.response.use(
     },
     error => {
         store.commit('app/STOP_LOADING');
-        store.dispatch('app/add_message', {text: error.response.data.error+': '+error.response.data.message, type: 'danger'});
+        if(error.response && error.response.data && error.response.data.message){
+            store.dispatch('app/add_message', {text: error.response.data.error+': '+error.response.data.message, type: 'danger'});
+        }
         return Promise.reject(error);
     },
 );

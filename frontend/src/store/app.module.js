@@ -1,5 +1,6 @@
 import {makeid} from "../helpers";
 import Request from '../request';
+import store from '../store';
 var treshold = 5000;
 export const app = {
     namespaced: true,
@@ -19,6 +20,9 @@ export const app = {
             jar.push(Request({
                 url: '/fav/game',
                 method: 'get'
+            }).catch(() => {
+                store.dispatch('auth/logout');
+                window.location.reload();
             }))
             Promise.all(jar).then(res => {
                 var array = [];
@@ -36,7 +40,6 @@ export const app = {
                     array.push(item)
                 })
                 commit('SET_FAVOURITES', array);
-
             })
         },
         add_message({ commit }, data) {

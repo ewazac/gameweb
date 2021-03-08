@@ -31,7 +31,9 @@ export default class News {
             if(this.id){
                 method = 'put'
                 url = 'news/'+this.id
+                fd.append("image", this.image);
                 data = this;
+                delete data.image;
             }else{
                 fd.append("image", this.image);
                 data = fd;
