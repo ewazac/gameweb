@@ -152,6 +152,15 @@ export default {
             .catch((err) => {
                 console.log(err)
             })
+            this.$store.commit('app/SET_BREADCRUMBS', [
+                {
+                    text: 'Forum',
+                    to: '/forum'
+                },
+                {
+                    text: this.firstAnswer.message
+                }
+            ])
             this.thread.map(item => {  
                 axios.get("https://gameweb21.herokuapp.com/users/"+item.userId)
                 .then((result) => {

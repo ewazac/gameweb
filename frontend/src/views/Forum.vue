@@ -189,6 +189,12 @@ export default{
         },
     },
     mounted() {
+        this.$store.commit('app/SET_BREADCRUMBS', [
+          {
+            text: 'Forum',
+            to: '/forum'
+          }
+        ])
         axios.get("https://gameweb21.herokuapp.com/api/forums")
         .then((result) => {
             this.threads = result.data;

@@ -287,6 +287,15 @@
             axios.get("https://gameweb12.herokuapp.com/api/apps/" + this.$router.history.current.query.game2 + "/?lang=pl")
             .then((response) => {
                 this.game = response.data;
+                this.$store.commit('app/SET_BREADCRUMBS', [
+                    {
+                        text: 'Gry',
+                        to: '/'
+                    },
+                    {
+                        text: this.game.title,
+                    }
+                ])
                 console.log(response.data);
                 axios.get("https://gameweb21.herokuapp.com/reviews/game/" + this.game.appId)
                 .then((response) => {
