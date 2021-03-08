@@ -27,7 +27,8 @@ public class NewsletterScheduler {
     private final GamesRepository gamesRepository;
 
     //@Scheduled(cron = "0 0 7 ? * MON")
-    @Scheduled(cron = "0 45,50 9 ? * MON")
+    @Scheduled(cron = "0 0,5,10,20 10 ? * MON")
+//    @Scheduled(cron = "0 45,50 9 ? * MON")
 //    @Scheduled(fixedRate = 10000)
     public void sendNewsletter() {
         List<News> news = newsRepository.findByCreatedDateIsAfter(LocalDate.now().minusDays(7));
