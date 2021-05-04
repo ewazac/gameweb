@@ -31,5 +31,6 @@ public class Review {
     private String createdBy;
     private String nick;
     private String userId;
+    private String imageUrl;
 
 }

@@ -2,16 +2,9 @@ package com.example.demo.controllers;
 
 import com.example.demo.mapper.ReviewMapper;
 import com.example.demo.model.dao.Review;
-import com.example.demo.repository.ReviewRepository;
 import com.example.demo.model.dto.ReviewDto;
 import com.example.demo.services.ReviewService;
 import lombok.AllArgsConstructor;
-import org.bson.types.Binary;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.aggregation.*;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

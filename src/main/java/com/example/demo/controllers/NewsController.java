@@ -3,10 +3,8 @@ package com.example.demo.controllers;
 
 import com.example.demo.mapper.NewsMapper;
 import com.example.demo.model.dao.News;
-import com.example.demo.model.dto.ForumDto;
 import com.example.demo.model.dto.NewsDto;
 import com.example.demo.repository.NewsRepository;
-import com.example.demo.repository.UserRepository;
 import com.example.demo.services.NewsService;
 import lombok.AllArgsConstructor;
 import org.bson.BsonBinarySubType;
@@ -16,10 +14,8 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 
 @AllArgsConstructor

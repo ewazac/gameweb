@@ -1,10 +1,7 @@
 package com.example.demo.controllers;
 
 import com.example.demo.mapper.QuizMapper;
-import com.example.demo.model.dao.News;
-import com.example.demo.model.dao.Quiz;
 import com.example.demo.model.dto.QuizDto;
-import com.example.demo.repository.QuizRepository;
 import com.example.demo.services.QuizService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;

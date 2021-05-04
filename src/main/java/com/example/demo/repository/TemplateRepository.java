@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface TemplateRepository extends MongoRepository<Template, String> {
 
     Optional<Template> findByName(String name);
+
+    Template findTemplateById(String id);
 }

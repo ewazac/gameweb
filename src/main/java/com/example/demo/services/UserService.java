@@ -6,8 +6,6 @@ import com.example.demo.exeption.EntityNotFoundException;
 import com.example.demo.model.dao.User;
 import com.example.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.bson.BsonBinarySubType;
-import org.bson.types.Binary;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -27,6 +25,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final MailService mailService;
+    private final FileService fileService;
 
 
     public void restartPassword(String email) {
@@ -90,7 +89,8 @@ public class UserService {
 
     public User uploadAvatar(MultipartFile multipartFile) throws IOException {
         User user = getCurrentUser();
-        user.setAvatar(new Binary(BsonBinarySubType.BINARY, multipartFile.getBytes()));
+        user.setImageUrl(user.getId() + ".png");
+        fileService.uploadFile(multipartFile.getBytes(), user.getId() + ".png");
         return userRepository.save(user);
     }
 

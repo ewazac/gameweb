@@ -3,14 +3,9 @@ package com.example.demo.services;
 
 import com.example.demo.exeption.EntityNotFoundException;
 import com.example.demo.model.dao.News;
-import com.example.demo.model.dao.User;
 import com.example.demo.repository.NewsRepository;
 import lombok.RequiredArgsConstructor;
-import org.bson.BsonBinarySubType;
-import org.bson.types.Binary;
-import org.springframework.data.mongodb.core.aggregation.ComparisonOperators;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -21,6 +16,7 @@ import java.util.List;
 public class NewsService {
 
     private final NewsRepository newsRepository;
+    private final FileService fileService;
 
     public List<News> getAll() {
         return newsRepository.findAll();
@@ -45,7 +41,8 @@ public class NewsService {
 
     public News addNewsImage(MultipartFile multipartFile, String newsId) throws IOException {
         News news = getById(newsId);
-        news.setImage(new Binary(BsonBinarySubType.BINARY, multipartFile.getBytes()));
+        news.setImageUrl(news.getId() + ".png");
+        fileService.uploadFileToNews(multipartFile.getBytes(), news.getId() + ".png");
         return newsRepository.save(news);
     }
 
