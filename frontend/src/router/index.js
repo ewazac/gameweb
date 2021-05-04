@@ -35,7 +35,7 @@ const routes = [
   },
   {
     path: '/recommended',
-    name: 'Recomended',
+    name: 'Recommended',
     component: Reccomended,
     meta:{auth: false}
   },

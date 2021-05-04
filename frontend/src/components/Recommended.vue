@@ -1,9 +1,13 @@
 <template>
     <div class="hello">
         <div class="container">
+            <h2 class="text-center text-white">Gry polecane przez Gameweb</h2>
+            <hr class="mt-4" style="border-color: mediumaquamarine" />
+            <hr>
+            <h3 class="my-4 text-center text-white"> Do polecanych trafiają gry, na które oddaliście największą liczbę głosów w konkursach</h3>
             <div class="row">
                 <div class="col-12">
-                    <div class="w-100 d-flex align-center mb-3">
+                    <div class="w-100 d-flex justify-content-end align-center mb-3">
                         <div class="text-white mr-2">Ilość na stronie:</div>
                         <b-form-select style="max-width: 200px" v-model="params.per_page" :options="options"></b-form-select>
                     </div>
@@ -24,12 +28,15 @@
                     </b-card>
                 </div>
             </div>
+            <div class="w-100 d-flex justify-content-center">
             <b-pagination
+                    @change="scrollToTop()"
                     v-model="params.page"
                     :total-rows="params.total_rows"
                     :per-page="params.per_page" first-text="First" prev-text="Prev" next-text="Next" last-text="Last">
 
             </b-pagination>
+            </div>
         </div>
     </div>
 </template>
@@ -37,6 +44,7 @@
 <script>
     import Request from '../request';
     import axios from 'axios';
+    //import {paginate} from "../helpers";
     export default {
         name: 'Home',
         beforeCreate: function () {
@@ -76,7 +84,7 @@
                         }
                     }
                 })
-            }
+            },
         },
         methods: {
             handleDetails(item) {

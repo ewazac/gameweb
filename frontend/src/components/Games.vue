@@ -3,24 +3,22 @@
     <div class="container">
       <div class="row">
         <div class="col-12">
-          <div class="w-100 d-flex align-center mb-3">
-            <div class="paginateOptions">
+          <div class="w-100 d-flex justify-content-end align-center mb-3">
               <div class="text-white mr-2">Ilość na stronie:</div>
               <b-form-select style="max-width: 200px" v-model="params.per_page" :options="options"></b-form-select>
-            </div>
-            <div class="gamesRanking">
-              <div class="text-white  mr-2">Ranking gier:</div>
+          </div>
+            <div class="w-100 d-flex justify-content-end align-center">
+              <div class="text-white mr-2">Ranking gier:</div>
               <b-form-select style="max-width: 200px" v-model="ranking" :options="gameOptions"></b-form-select>
             </div>
-          </div>
         </div>
-        <div class="col-md-3 my-2"  :key="item.appId" v-for="item in items">
-          <b-card
+          <div class="col-md-3 my-2"  :key="item.appId" v-for="item in items">
+           <b-card
                   class="mb-2 h-100"
                   :title="item.title"
                   :img-src="item.icon"
                   img-top
-          >
+           >
 <!--    <b-card-group class="cardGroup" v-for="i in Math.ceil(games.length/4)" :key="i" deck>-->
 <!--      <b-card-->
 <!--              class="mb-2"-->
@@ -35,14 +33,17 @@
                   <b-icon @click="item.toggleFavourite()" scale="2" style="cursor: pointer" icon="star-fill" variant="info"></b-icon>
               </div>
             <b-button class="games__button" @click="handleDetails(item.appId)"> Zobacz więcej </b-button>
-          </b-card>
-        </div>
+           </b-card>
+          </div>
       </div>
-      <b-pagination
-              v-model="params.page"
-              :total-rows="params.total_rows"
-              :per-page="params.per_page" first-text="First" prev-text="Prev" next-text="Next" last-text="Last">
-      </b-pagination>
+       <div class="w-100 d-flex justify-content-center">
+           <b-pagination
+                   @change="scrollToTop()"
+                   v-model="params.page"
+                   :total-rows="params.total_rows"
+                   :per-page="params.per_page" first-text="First" prev-text="Prev" next-text="Next" last-text="Last">
+           </b-pagination>
+       </div>
     </div>
   </div>
 </template>
@@ -280,9 +281,9 @@
   label {
     color: white;
   }
-  .gamesRanking {
-    margin-left: auto;
-  }
+  /*.gamesRanking {*/
+  /*  margin-left: auto;*/
+  /*}*/
   select {
     font-weight: 450;
     color: #0f865a;

@@ -15,7 +15,7 @@
                     class="mb-2 w-100"
             >
               <div class="badge-holder">
-                <img v-if="currentUser.point > 5 && currentUser.point < 10" src="../assets/normal.png" width="50px">
+                <img v-if="currentUser.point > 4 && currentUser.point < 10" src="../assets/normal.png" width="50px">
                 <img v-if="currentUser.point >= 10 && currentUser.point <= 14" src="../assets/active.png" width="50px">
                 <img v-if="currentUser.point >= 15" src="../assets/s_active.png" width="50px">
               </div>
@@ -61,6 +61,10 @@
                   <div class="col-md-2 align-center">Ilość punktów:</div>
                   <div class="col-md-10">
                     <span class="font-weight-bold">{{currentUser.point}}</span>
+                    <b-icon id="question-target" class="ml-3" icon="question-circle"></b-icon>
+                    <b-tooltip target="question-target" triggers="hover">
+                      Punkty przyznawane za recenzje, 1recenzja = 1punkt
+                    </b-tooltip>
                   </div>
                 </div>
                 <div class="row align-center mt-2">

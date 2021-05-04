@@ -22,6 +22,11 @@
                                                 {{item.id}}
                                             </div>
                                         </template>
+                                        <template #cell(title)="{ rowSelected, item}">
+                                            <div v-chunk class="text--primary">
+                                                {{item.title}}
+                                            </div>
+                                        </template>
                                         <template #cell(image)="{ rowSelected, item}">
                                             <div>
                                                 <img style="max-height: 70px; max-width: 70px" v-if="item.image" :src="'data:image/jpeg;base64,'+item.image.data">
@@ -59,6 +64,7 @@
             items(){
                 return this.data.map((item) => {
                     delete item.body;
+                    delete item.description;
                     item.actions = '';
                     return item;
                 }).reverse();

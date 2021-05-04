@@ -28,6 +28,7 @@
         <b-row class="mt-5">
             <b-col sm="8" offset-sm="2">
                 <h2>Recenzje</h2>
+                <b-alert show>Jeśli dodasz recenzję. Przyznamy Ci 1 punkt.</b-alert>
                 <div class="d-flex">
                     <span class="rating">Średnia ocena tej gry    </span>
                     <b-form-rating id="rating" :value="game.score" inline disabled>
@@ -72,6 +73,11 @@
                     <div class="avatar-holder" style="cursor: pointer" @click="$refs.file_input.click()"><img :src="file"></div>
                 </div>
                 <button class="button" type="submit">Dodaj</button>
+                <div class="w-100 d-flex justify-content-center" v-if="review_created_succesfully">
+                    <div class="pa-6 bg-success text-white">
+                        <div style="font-size: 1.5rem; font-weight: bold">Przyznano Ci 1 punkt</div>
+                    </div>
+                </div>
             </form>
             <b-alert v-else-if="!currentLoggedIn" show variant='info'>
                 {{ 'Musisz być zalogowany, aby dodać recenzje!' }}

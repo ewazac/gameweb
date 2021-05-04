@@ -91,7 +91,9 @@
                               error.toString();
                     }
             );
-          }
+          }else{
+          this.loading = false;
+        }
         });
       },
       showPassword() {

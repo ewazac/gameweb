@@ -1,9 +1,13 @@
 <template>
     <div class="hello">
         <div class="container">
+            <h2 class="text-center text-white">Quizy</h2>
+            <hr class="mt-4" style="border-color: mediumaquamarine" />
+            <hr>
+            <h3 class="my-4 text-center text-white">Sprawdź swoją wiedzę o grach. Rozwiąż quiz nieskończoną liczbę razy i baw się razem z nami!</h3>
             <div class="row">
                 <div class="col-12">
-                    <div class="w-100 d-flex align-center mb-3">
+                    <div class="w-100 d-flex align-center mb-3 justify-content-end">
                         <div class="text-white mr-2">Ilość na stronie:</div>
                         <b-form-select style="max-width: 200px" v-model="params.per_page" :options="options"></b-form-select>
                     </div>
@@ -28,12 +32,15 @@
                     </b-card>
                 </div>
             </div>
-            <b-pagination
+            <div class="w-100 d-flex justify-content-center">
+               <b-pagination
+                    @change="scrollToTop()"
                     v-model="params.page"
                     :total-rows="params.total_rows"
                     :per-page="params.per_page" first-text="First" prev-text="Prev" next-text="Next" last-text="Last">
 
-            </b-pagination>
+               </b-pagination>
+            </div>
         </div>
     </div>
 </template>
@@ -92,46 +99,3 @@
 
 </script>
 
-<style lang="scss">
-    .quiz__button {
-        background-color: mediumaquamarine !important;
-        margin-top: auto;
-        border: none;
-
-    &:focus {
-         outline: none;
-         border: none;
-         box-shadow: none !important;
-     }
-    }
-
-    .card-body {
-        display: flex;
-        flex-direction: column;
-        padding: 10px;
-    }
-
-    .card-body > .card-title {
-        text-align: center;
-        margin-bottom: 5px;;
-    }
-
-    .card-body > .card-text {
-        text-align: justify;
-        padding: 0px;
-    }
-
-    .card {
-        padding: 10px;
-        min-height: 10rem;
-        max-height: 15rem;
-        border-width: 0 0 2px 0;
-        -moz-border-radius: 2px;
-        -webkit-border-radius: 2px;
-        border-radius: 2px;
-        -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-        -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-        box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.3);
-    }
-
-</style>

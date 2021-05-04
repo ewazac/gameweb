@@ -26,6 +26,10 @@ Vue.mixin({
         return true;
       }
       return check;
+    },
+    scrollToTop(){
+      window.scrollTo({top: 0, behavior: 'smooth'});
+
     }
   }
 })

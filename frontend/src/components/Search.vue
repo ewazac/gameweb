@@ -10,9 +10,7 @@
                         v-model="search"
                         required
                     />
-                    <b-button class="account__button" type="submit">
-                    Wyszukaj
-                    </b-button>
+                    <b-button class="account__button" type="submit">Wyszukaj</b-button>
                 </div>
     </form>
     <div class="hello text-white" v-if="games">
@@ -148,6 +146,21 @@ export default {
   -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
   -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
   box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.3);
+}
+.account__button{
+    height:37px;
+    width:9%;
+    margin:0 auto;
+    margin-right:25px;
+    margin-top: auto;
+    float:left;
+    text-align: justify;
+    font-size: 15px;
+    &:focus {
+        outline: none;
+        border: none;
+        box-shadow: none !important;
+    }
 }
 .games__button {
   background-color:mediumaquamarine!important;
