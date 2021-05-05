@@ -87,7 +87,7 @@
                 });
             },
             getData(){
-                axios.get('https://gameweb12.herokuapp.com/api/apps/?category=GAME')
+                axios.get('https://gameweb.projektstudencki.pl/apigames/api/apps/?category=GAME')
                     .then((result) => {
                         this.allGames = result.data.results;
                     });

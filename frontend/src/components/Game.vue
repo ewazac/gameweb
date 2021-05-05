@@ -37,7 +37,7 @@
             </b-col>
         </b-row>
         <div>
-            <form class="addReview" name="addReview" v-if="show & currentLoggedIn" @submit.prevent="handleReview">
+            <form class="addReview" name="addReview" v-if="show & currentLoggedIn" @submit="setSubmitting" @submit.prevent="handleReview">
                 <p>Tytuł:</p>
                 <b-form-input
                     v-model="review.title"
@@ -71,7 +71,11 @@
                 <div class="col-md-10" v-if="file">
                     <div class="avatar-holder" style="cursor: pointer" @click="$refs.file_input.click()"><img :src="file"></div>
                 </div>
-                <button class="button" type="submit">Dodaj</button>
+                <button class="button" type="submit" :disabled="submitting">Dodaj</button>
+                <div
+                  v-if="submitting"
+                  class="alert-danger"
+                >{{ "Recenzja została wysłana" }}</div>
             </form>
             <b-alert v-else-if="!currentLoggedIn" show variant='info'>
                 {{ 'Musisz być zalogowany, aby dodać recenzje!' }}
@@ -180,7 +184,8 @@
                 maxLength: 100,
                 areaMessage: '',
                 gamewebReviewsT: '',
-                nick: ''
+                nick: '',
+                submitting: false
             };
         },
         watch: {
@@ -210,8 +215,11 @@
             }
         },
         methods: {
+            setSubmitting() {
+                this.submitting = true
+            },
             getNick(userId) {
-                axios.get("https://gameweb21.herokuapp.com/users/"+userId)
+                axios.get("https://gameweb.projektstudencki.pl/api/users/"+userId)
                 .then((result) => {
                     return result.data.nick;
                 }).catch((err) => {
@@ -254,12 +262,12 @@
                         fd.append("gameId",this.review.gameId)
                         fd.append("stars",this.review.stars)
                         fd.append("title",this.review.title)
-                        axios.post("https://gameweb21.herokuapp.com/reviews/", fd, {withCredentials:true})
+                        axios.post("https://gameweb.projektstudencki.pl/api/reviews/", fd, {withCredentials:true})
                             .then((result) => {
                                 const fdd = new FormData();
                                 fdd.append('id', result.data.id)
                                 fdd.append('multipartFile', this.file)
-                                axios.patch('https://gameweb21.herokuapp.com/reviews/addImage/'+result.data.id, fdd, {withCredentials:true})
+                                axios.patch('https://gameweb.projektstudencki.pl/api/reviews/addImage/'+result.data.id, fdd, {withCredentials:true})
                                 .then((result) => {
                                     this.file = ''
                                     console.log(result)
@@ -284,7 +292,7 @@
             }
         },
         mounted() {
-            axios.get("https://gameweb12.herokuapp.com/api/apps/" + this.$router.history.current.query.game2 + "/?lang=pl")
+            axios.get("https://gameweb.projektstudencki.pl/apigames/api/apps/" + this.$router.history.current.query.game2 + "/?lang=pl")
             .then((response) => {
                 this.game = response.data;
                 this.$store.commit('app/SET_BREADCRUMBS', [
@@ -297,7 +305,7 @@
                     }
                 ])
                 console.log(response.data);
-                axios.get("https://gameweb21.herokuapp.com/reviews/game/" + this.game.appId)
+                axios.get("https://gameweb.projektstudencki.pl/api/reviews/game/" + this.game.appId)
                 .then((response) => {
                     this.gamewebReviews = response.data
                 })
@@ -308,7 +316,7 @@
             .catch((error) => {
                 console.log(error);
             });
-            axios.get("https://gameweb12.herokuapp.com/api/apps/" + this.$router.history.current.query.game2 + "/reviews")
+            axios.get("https://gameweb.projektstudencki.pl/apigames/api/apps/" + this.$router.history.current.query.game2 + "/reviews")
             .then((response) => {
                 this.reviews = response.data.results.data
                 this.paramsReviews.total = this.reviews.length;

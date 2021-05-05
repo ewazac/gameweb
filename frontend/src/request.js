@@ -1,7 +1,7 @@
 import axios from 'axios';
 import store from './store';
 const service = axios.create({
-    baseURL: 'https://gameweb21.herokuapp.com/',
+    baseURL: 'https://gameweb.projektstudencki.pl/api',
     timeout: 30000, // Request timeout
     withCredentials: true
 });

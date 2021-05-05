@@ -9,7 +9,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-3 my-2"  :key="item.appId" v-for="item in items">
+                <div class="col-md-3 my-2"  :key="item.id" v-for="item in allGames">
 
                     <b-card
                             class="mb-2 h-100"
@@ -28,7 +28,6 @@
                     v-model="params.page"
                     :total-rows="params.total_rows"
                     :per-page="params.per_page" first-text="First" prev-text="Prev" next-text="Next" last-text="Last">
-
             </b-pagination>
         </div>
     </div>
@@ -54,29 +53,13 @@
                     per_page: 16,
                     total_rows: 1
                 },
-                allGames:null
+                allGames: [],
             }
         },
         computed:{
             currentLoggedIn () {
                 return this.$store.state.auth.status.loggedIn;
             },
-            items(){
-                return this.data.map(item => {
-                    if(!this.allGames) return {id: null}
-                    var finded = this.allGames.find(x => x.appId == item.appId);
-                    if(finded){
-                        return {
-                            ...item,
-                            ...finded
-                        }
-                    }else{
-                        return {
-                            id: null
-                        }
-                    }
-                })
-            }
         },
         methods: {
             handleDetails(item) {
@@ -90,16 +73,24 @@
                     text: 'Polecane',
                     to: '/recommended'
                 }
-            ])
-            axios.get('https://gameweb12.herokuapp.com/api/apps/?category=GAME')
+            ])/*
+            axios.get('https://gameweb.projektstudencki.pl/apigames/api/apps/?category=GAME')
                 .then((result) => {
                     this.allGames = result.data.results;
-                });
+                });*/
             Request({
-                url: '/games/recommended',
+                url: 'games/recommended',
                 method: 'get'
             }).then(res => {
                 this.data = res;
+                this.data.map(item => {
+                    axios.get('https://gameweb.projektstudencki.pl/apigames/api/apps/' + item.appId)
+                    .then(result => {
+                        let merged = {...item, ...result.data}
+                        this.allGames.push(merged)
+                        return merged
+                    })
+                })
             })
         },
     }

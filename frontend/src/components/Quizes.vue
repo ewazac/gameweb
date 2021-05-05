@@ -80,7 +80,7 @@
                 }
             ])
            Request({
-               url: '/api/quizy',
+               url: 'api/quizy',
                method: 'get'
            }).then(res => {
                this.data = res.reverse(

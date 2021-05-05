@@ -93,7 +93,7 @@
       },
       handleNewOption() {
         console.log(this.ranking)
-        axios.get('https://gameweb12.herokuapp.com/api/apps/?category=GAME&collection='+this.ranking)
+        axios.get('https://gameweb.projektstudencki.pl/apigames/api/apps/?category=GAME&collection='+this.ranking)
           .then((result) => {
                   this.games = result.data.results.map(item => {
                     return new Game(item);
@@ -110,7 +110,7 @@
       }
     },
     mounted() {
-      axios.get('https://gameweb12.herokuapp.com/api/apps/?collection=topselling_free&category=GAME')
+      axios.get('https://gameweb.projektstudencki.pl/apigames/api/apps/?collection=topselling_free&category=GAME')
               .then((result) => {
                 this.games = result.data.results.map(item => {
                     return new Game(item);

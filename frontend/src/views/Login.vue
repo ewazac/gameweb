@@ -78,11 +78,11 @@
           if (this.user.username && this.user.password) {
             this.$store.dispatch("auth/login", this.user).then(
                     () => {
-                      console.log('LOGGED');
+                      //console.log('LOGGED');
                       this.$router.push("/account");
                     },
                     (error) => {
-                      console.log('NOT LOGGED', error);
+                      //console.log('NOT LOGGED', error);
                       this.errorMessage = "Niepoprawne hasło lub login";
                       this.loading = false;
                       this.message =

@@ -150,7 +150,7 @@ export default{
         handleDelete(item) {
             console.log(item)
             if(confirm("Czy na pewno chcesz usunąć wątek o nazwie: "+item.name)) {
-                axios.delete("https://gameweb21.herokuapp.com/api/forums/"+item)
+                axios.delete("https://gameweb.projektstudencki.pl/api/api/forums/"+item)
                 .then((result) => {
                     this.$router.go(0);
                     console.log(result.data)
@@ -165,7 +165,7 @@ export default{
         handleThread() {
             //let datetime = new Date().toJSON().slice(0,19).replace(/T/g,' ');
             let datetime = new Date().toJSON().slice(0,19);
-            axios.post("https://gameweb21.herokuapp.com/api/forums", {
+            axios.post("https://gameweb.projektstudencki.pl/api/api/forums", {
                 answers: [{
                     createdDate: datetime,
                     message: this.answer,
@@ -195,7 +195,7 @@ export default{
             to: '/forum'
           }
         ])
-        axios.get("https://gameweb21.herokuapp.com/api/forums")
+        axios.get("https://gameweb.projektstudencki.pl/api/api/forums")
         .then((result) => {
             this.threads = result.data;
             this.paramsThreads.total = this.threads.length;

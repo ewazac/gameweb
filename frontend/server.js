@@ -9,7 +9,7 @@ const staticFileMiddleware = express.static(path.join(__dirname, 'dist'))
 app.use(history())
 app.use(staticFileMiddleware)
 app.use(cors({
-    origin: "gameweb2.herokuapp.com",
+    origin: "gameweb.projektstudencki.pl",
     credentials: true
 }))
 app.use(cors({
@@ -17,7 +17,7 @@ app.use(cors({
     credentials: false
 }))
 app.use(cors({
-    origin: "gameweb21.herokuapp.com",
+    origin: "gameweb.projektstudencki.pl/api",
     credentials: false
 }))
 

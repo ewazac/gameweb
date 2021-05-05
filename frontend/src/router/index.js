@@ -12,26 +12,34 @@ import Store from '../store/index'
 import Favourites from '../views/users/favourites';
 import Contest from '../router/contest';
 import Reccomended from '../components/Recommended';
-Vue.use(VueRouter)
 import ChangePassword from '../views/users/change-password'
+
+Vue.use(VueRouter)
+
 const routes = [
-    {
-        path: '/forum',
-        name: 'Forum',
-        component: Forum,
-        meta:{auth: true}
-    },
-    {
-        path: '/thread',
-        name: 'Thread',
-        component: () => import('../components/Thread.vue'),
-        meta:{auth: true}
-    },
+  {
+    path: '/forum',
+    name: 'Forum',
+    component: Forum,
+    meta:{auth: true}
+  },
+  {
+    path: '/thread',
+    name: 'Thread',
+    component: () => import('../components/Thread.vue'),
+    meta:{auth: true}
+  },
   {
     path: '/games',
     name: 'Games',
     component: () => import('../components/Games.vue'),
     meta:{auth: false}
+  },
+  {
+    path: '/reviews',
+    name: 'reviews', 
+    component: () => import('../components/ReviewList.vue'),
+    meta:{auth: true}
   },
   {
     path: '/recommended',
@@ -76,7 +84,7 @@ const routes = [
     meta:{auth: false}
   },
   Users,
-    AdminRoutes,
+  AdminRoutes,
   {
     path: '/admin/news/:id',
     name: 'news',
@@ -113,12 +121,16 @@ const routes = [
     meta:{auth: false}
   },
 ]
+
+
 Quizes.forEach(item => {
   routes.push(item);
 })
+
 Contest.forEach(item => {
   routes.push(item);
 })
+
 const router = new VueRouter({
   mode: 'history',
   linkActiveClass: "active", // active class for non-exact links.
@@ -135,7 +147,6 @@ router.beforeEach((to, from, next) => {
   if (authRequired && !loggedIn) {
     next('/login');
   } else {
-    console.log('TEST');
     next();
   }
 });

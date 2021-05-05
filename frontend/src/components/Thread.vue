@@ -102,7 +102,7 @@ export default {
             }
             console.log(i)
             if(confirm("Czy na pewno chcesz usunąć tą wiadomość: "+item)) {
-                axios.delete("https://gameweb21.herokuapp.com/api/forums/"+this.id+"/answer/"+(i-1))
+                axios.delete("https://gameweb.projektstudencki.pl/api/api/forums/"+this.id+"/answer/"+(i-1))
                 .then((result) => {
                     this.$router.go(0);
                     console.log(result.data)
@@ -116,7 +116,7 @@ export default {
         },
         handleAnswer() {
             let datetime = new Date().toJSON().slice(0,19);
-            axios.patch("https://gameweb21.herokuapp.com/api/forums/"+this.id, {
+            axios.patch("https://gameweb.projektstudencki.pl/api/api/forums/"+this.id, {
                 createdDate: datetime,
                 message: this.answer,
                 userId: this.currentUser.id
@@ -132,7 +132,7 @@ export default {
         },
     },
     mounted() {
-        axios.get("https://gameweb21.herokuapp.com/api/forums")
+        axios.get("https://gameweb.projektstudencki.pl/api/api/forums")
         .then((result) => {
             let threads = result.data;
             for (const thread of threads) {
@@ -143,7 +143,7 @@ export default {
                     break
                 }
             }
-            axios.get("https://gameweb21.herokuapp.com/users/"+this.firstAnswer.userId)
+            axios.get("https://gameweb.projektstudencki.pl/api/users/"+this.firstAnswer.userId)
             .then((result) => {
                 this.firstAnswer.username = result.data.nick
                 this.firstAnswer.avatar = result.data.avatar
@@ -162,7 +162,7 @@ export default {
                 }
             ])
             this.thread.map(item => {  
-                axios.get("https://gameweb21.herokuapp.com/users/"+item.userId)
+                axios.get("https://gameweb.projektstudencki.pl/api/users/"+item.userId)
                 .then((result) => {
                     console.log(result)
                     item.username = result.data.nick;

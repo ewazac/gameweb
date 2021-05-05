@@ -131,7 +131,7 @@
                 this.data.push(game);
             },
             getAllGames(){
-                axios.get('https://gameweb12.herokuapp.com/api/apps/?category=GAME')
+                axios.get('https://gameweb.projektstudencki.pl/apigames/api/apps/?category=GAME')
                     .then(({data}) => {
                         this.allGames = data.results;
                     })

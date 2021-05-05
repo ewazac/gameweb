@@ -57,7 +57,7 @@ export default {
     },
     handleSearch() {
         console.log(this.search)
-        axios.get('https://gameweb12.herokuapp.com/api/apps/?q='+this.search)
+        axios.get('https://gameweb.projektstudencki.pl/apigames/api/apps/?q='+this.search)
         .then((result) => {
             console.log(result.data)
             this.games=result.data

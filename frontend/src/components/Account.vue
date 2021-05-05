@@ -127,9 +127,11 @@
                     <div class="align-center ml-auto">
                       <b-button class="ml-2 account__button" @click="handleChangePass()">Zapisz</b-button>
                     </div>
-
-                  </div>
+                  </div>                  
                 </div>
+                <div class="rev">
+                    <a href="/reviews" class="reviews"> Zobacz swoje recenzje! </a>
+                  </div>
               </b-card-text>
             </b-card>
           </div>
@@ -163,7 +165,7 @@
 <script>
   import axios from "axios";
 
-  const API_URL = "https://gameweb21.herokuapp.com/";
+  const API_URL = "https:/gameweb.projektstudencki.pl/api";
   import User from '../models/user'
   import Request from '../request'
   export default {
@@ -389,6 +391,15 @@
       -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
       -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
       box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.3);
+  }
+  .rev {
+    margin: 0.5rem 0;
+  }
+  .reviews {
+    color: whitesmoke;
+  }
+  .reviews:hover, .reviews:active, .reviews:link {
+    color: #7bd5b4;
   }
   /*.form-control {*/
   /*  background-color: #000;*/
