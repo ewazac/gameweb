@@ -19,6 +19,7 @@ public class ReviewService {
 
     private final ReviewRepository reviewRepository;
     private final UserService userService;
+    private final FileService fileService;
 
     public Review save(Review review) {
         User currentUser = userService.getCurrentUser();
@@ -30,7 +31,8 @@ public class ReviewService {
 
     public Review addReviewImage(MultipartFile multipartFile, String reviewId) throws IOException {
         Review review = findReviewById(reviewId);
-        review.setImage(new Binary(BsonBinarySubType.BINARY, multipartFile.getBytes()));
+        review.setImageUrl(review.getId() + ".png");
+        fileService.uploadFileToReview(multipartFile.getBytes(), review.getId() + ".png");
         return reviewRepository.save(review);
     }
 

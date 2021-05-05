@@ -26,6 +26,7 @@ public class News {
     @CreatedDate
     private LocalDate createdDate;
     private String body;
+    private String imageUrl;
 
 
 }

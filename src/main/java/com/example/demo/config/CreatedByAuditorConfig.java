@@ -5,7 +5,7 @@ import com.example.demo.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
-import org.springframework.security.core.context.SecurityContextHolder;
+
 
 import java.util.Optional;
 
@@ -20,6 +20,7 @@ public class CreatedByAuditorConfig implements AuditorAware<String> {
         String nick = null;
         try{
             nick = userService.getCurrentUser().getNick();
+
         } catch (EntityNotFoundException e) {
 
         }

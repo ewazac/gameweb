@@ -3,10 +3,9 @@ package com.example.demo.controllers;
 import com.example.demo.model.dao.Template;
 import com.example.demo.repository.TemplateRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 
 @RestController
 @RequestMapping("/api/templates")
@@ -20,5 +19,12 @@ public class TemplateController {
         return templateRepository.save(template);
     }
 
+    @PostMapping("/{templateId}")
+    public void saveFile(MultipartFile multipartFile, @PathVariable String templateId) {
+        Template template = templateRepository.findTemplateById(templateId);
+        template.setBody(multipartFile.toString());
+        templateRepository.save(template);
+
+    }
 
 }

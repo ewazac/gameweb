@@ -137,6 +137,34 @@ div{
     object-fit: cover;
   }
 }
+@for $i from 1 through 10 {
+  .py-#{$i}{
+    padding-top: 4*$i px;
+    padding-bottom: 4*$i px;
+  }
+  .px-#{$i}{
+    padding-left: 4*$i px;
+    padding-right: 4*$i px;
+  }
+  .pl-#{$i}{
+    padding-left: 4*$i px;
+  }
+  .pr-#{$i}{
+    padding-right: 4*$i px;
+  }
+  .pb-#{$i}{
+    padding-bottom: 4*$i px;
+  }
+  .pt-#{$i}{
+    padding-top: 4*$i px;
+  }
+  .pa-#{$i}{
+    padding: $i*4px;
+  }
+}
+.justify-space-between{
+  justify-content: space-between;
+}
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css");
 @import "./admin";
 @import "loading";

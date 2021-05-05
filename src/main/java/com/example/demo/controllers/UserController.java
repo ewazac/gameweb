@@ -10,10 +10,8 @@ import com.example.demo.services.ReviewService;
 import com.example.demo.services.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.Binary;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
@@ -56,11 +54,11 @@ public class UserController {
         userService.uploadAvatar(multipartFile);
     }
 
-    @GetMapping(value = "/getAvatar")
-    public Binary getAvatar() {
-        User user = userService.getCurrentUser();
-        return user.getAvatar();
-    }
+//    @GetMapping(value = "/getAvatar")
+//    public Binary getAvatar() {
+//        User user = userService.getCurrentUser();
+//        return user.getAvatar();
+//    }
 
     @PatchMapping("/restart")
     public void changeRestartPassword(@RequestBody RestartDto restartDto) throws Throwable {

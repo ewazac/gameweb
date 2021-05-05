@@ -1,7 +1,7 @@
 <template>
     <div class="wrapper">
         <b-navbar toggleable="lg" type="dark" variant="dark" class="fixed-top">
-            <img class="GameWeb-mobile" src="./assets/logo.png" alt="GameWeb" />
+            <a href="/" style="width: unset" class="d-flex" ><img class="GameWeb-mobile" src="./assets/logo.png" alt="GameWeb" /></a>
             <b-navbar-toggle class="app__toggle-menu ml-auto" target="nav-collapse"></b-navbar-toggle>
             <b-collapse id="nav-collapse" is-nav>
                 <b-navbar-nav class="mr-auto align-items-baseline">
@@ -57,6 +57,7 @@
 
             <router-view />
         </div>
+        <b-button @click="scrollToTop()" v-if="is_scrolled" class=" btn btn-primary" style="position: fixed; bottom: 50px; right: 50px"><b-icon icon="chevron-up"></b-icon></b-button>
         <div class="loading-holder" v-if="loading">
             <div class="loading">
                 <div class="loader"></div>
@@ -74,10 +75,18 @@
             MyBreadcrumbs,
             Messages
         },
+        data:() => {
+            return{
+                is_scrolled: false
+            }
+        },
         created(){
             if(this.currentLoggedIn){
                 this.$store.dispatch('app/getFavourites');
             }
+            window.addEventListener('scroll', () => {
+                this.is_scrolled = window.scrollY > 0;
+            })
         },
         computed: {
             loading(){

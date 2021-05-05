@@ -2,26 +2,14 @@ package com.example.demo.controllers;
 
 
 import com.example.demo.model.dao.Game;
-import com.example.demo.repository.GamesRepository;
-import com.example.demo.model.dto.GamesDto;
 import com.example.demo.services.GameService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.BsonBinarySubType;
-import org.bson.types.Binary;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.validation.Valid;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-
-import static org.springframework.data.mongodb.core.aggregation.Aggregation.sort;
 
 // https://www.codementor.io/@gtommee97/rest-api-java-spring-boot-and-mongodb-j7nluip8d
 
