@@ -38,6 +38,17 @@ public class FavoritesService {
         return favouritesRepository.findByUserId(currentUser.getId());
     }
 
+    public List<User> getAllUsersFavourites(String gameId) {
+        List<String> userIds = favouritesRepository.findByGameId(gameId).stream()
+                .map(Favourites::getUserId)
+                .collect(Collectors.toList());
+        return userService.getUsers(userIds);
+    }
+
+    public List<Favourites> getFavouritesForUser(String userId) {
+        return favouritesRepository.findByUserId(userId);
+    }
+
     public void addGameToFavourite(String gameId) {
         User currentUser = userService.getCurrentUser();
         favouritesRepository.save(new Favourites(null, currentUser.getId(), null, gameId));

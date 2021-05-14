@@ -15,5 +15,5 @@ public interface FavouritesRepository extends MongoRepository<Favourites, String
     void deleteByGameId(String gameId);
 
 
-
+    List<Favourites> findByGameId(String gameId);
 }

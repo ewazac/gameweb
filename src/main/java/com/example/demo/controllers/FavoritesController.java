@@ -1,8 +1,10 @@
 package com.example.demo.controllers;
 
 
+import com.example.demo.mapper.UserMapper;
 import com.example.demo.model.dao.Favourites;
 import com.example.demo.model.dao.News;
+import com.example.demo.model.dto.UserDto;
 import com.example.demo.services.FavoritesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,6 +18,7 @@ import java.util.List;
 public class FavoritesController {
 
     private final FavoritesService favoritesService;
+    private final UserMapper userMapper;
 
     @PostMapping("{newsId}")
     public Favourites addNewsToFavorites(@PathVariable String newsId) {
@@ -46,6 +49,11 @@ public class FavoritesController {
     @PreAuthorize("isAuthenticated()")
     public void deleteFromFavourites(@PathVariable String favouriteId) {
         favoritesService.deleteFromFavourite(favouriteId);
+    }
+
+    @GetMapping("/users")
+    public List<UserDto> getUserFavourites(@RequestParam String gameId) {
+        return userMapper.toListDto(favoritesService.getAllUsersFavourites(gameId));
     }
 
 }
