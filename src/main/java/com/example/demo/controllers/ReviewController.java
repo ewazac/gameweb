@@ -40,6 +40,12 @@ public class ReviewController {
         return reviewMapper.toDto(reviewService.findReviewById(id));
     }
 
+    @PatchMapping("/accepted/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public void acceptReview(@PathVariable String id) {
+        reviewService.acceptReview(id);
+    }
+
     @PatchMapping(value = "/addImage/{id}")
     @PreAuthorize("isAuthenticated()")
     public Review addReviewImage(MultipartFile multipartFile, @PathVariable String id) throws IOException {

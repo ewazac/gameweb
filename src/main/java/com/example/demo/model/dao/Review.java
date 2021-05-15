@@ -32,5 +32,6 @@ public class Review {
     private String nick;
     private String userId;
     private String imageUrl;
+    private boolean accepted;
 
 }

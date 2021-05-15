@@ -47,11 +47,11 @@ public class ReviewService {
 
     public List<Review> getAllReviewsForUser() {
         String currentUser = userService.getCurrentUser().getId();
-        return reviewRepository.findByUserId(currentUser);
+        return reviewRepository.findByUserIdAndAcceptedIsTrue(currentUser);
     }
 
     public List<Review> findAll() {
-        return reviewRepository.findAll();
+        return reviewRepository.findByAcceptedIsTrue();
     }
 
     public void deleteById(String reviewId) {
@@ -63,7 +63,12 @@ public class ReviewService {
     }
 
     public List<Review> findReviewsByGameId(String gameId) {
-        return reviewRepository.findByGameId(gameId);
+        return reviewRepository.findByGameIdAndAcceptedIsTrue(gameId);
     }
 
+    public void acceptReview(String id) {
+        Review review = findReviewById(id);
+        review.setAccepted(!review.isAccepted());
+        reviewRepository.save(review);
+    }
 }
