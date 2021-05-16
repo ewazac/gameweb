@@ -18,21 +18,6 @@ public interface UserRepository extends MongoRepository<User, String> {
 
     List<User> findByNewsletterIsTrue();
 
-    Optional<User> findById(String id);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    List<User> findByIdIn(List<String> userIds);
 }

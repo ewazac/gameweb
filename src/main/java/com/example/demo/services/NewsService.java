@@ -46,6 +46,7 @@ public class NewsService {
         return newsRepository.save(news);
     }
 
+
     public String bodyAsHtml(String newsId) {
         News news = getById(newsId);
         return news.getBody();

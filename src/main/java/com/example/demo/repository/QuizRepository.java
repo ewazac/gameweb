@@ -11,4 +11,6 @@ public interface QuizRepository extends MongoRepository<Quiz, String> {
     Quiz findByName(String name);
 
     List<Quiz> findByCreatedDateIsAfter(LocalDate date);
+
+    List<Quiz> findByCreatedDateIsAfterAndSendMailIsTrue(LocalDate minusDays);
 }

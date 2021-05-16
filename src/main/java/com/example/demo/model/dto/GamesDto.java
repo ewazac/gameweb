@@ -13,5 +13,6 @@ public class GamesDto {
     public String category;
     public String description;
     public String platform;
+    public boolean sendMail;
 
 }

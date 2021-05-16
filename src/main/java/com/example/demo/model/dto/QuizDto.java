@@ -21,6 +21,7 @@ public class QuizDto {
     //public List<Option> answers;
     private String body;
     private List<AnswerList> answerList;
+    private boolean sendMail;
 
 
 

@@ -29,6 +29,7 @@ public class Quiz {
     private LocalDate createdDate;
     private String body;
     private List<AnswerList> quizList;
+    private boolean sendMail;
 
 
 

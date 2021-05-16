@@ -1,5 +1,7 @@
 package com.example.demo.model.dto;
 
+import com.example.demo.model.dao.Game;
+import com.example.demo.model.dao.News;
 import lombok.*;
 import org.bson.types.Binary;
 
@@ -26,5 +28,8 @@ public class UserDto {
     private List<String> categories;
     private String nick;
     private int point;
+    private List<String> gamesIds;
+    private List<News> news;
+
 
 }

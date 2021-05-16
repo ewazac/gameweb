@@ -3,9 +3,13 @@ package com.example.demo.services;
 import com.example.demo.controllers.InvalidOldPasswordException;
 import com.example.demo.controllers.UserFoundException;
 import com.example.demo.exeption.EntityNotFoundException;
+import com.example.demo.model.dao.Favourites;
+import com.example.demo.model.dao.News;
 import com.example.demo.model.dao.User;
+import com.example.demo.model.dto.UserDto;
 import com.example.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,18 +18,22 @@ import org.thymeleaf.context.Context;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__(@Lazy))
 public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final MailService mailService;
     private final FileService fileService;
+    private final FavoritesService favoritesService;
+    private final NewsService newsService;
 
 
     public void restartPassword(String email) {
@@ -82,9 +90,28 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id));
     }
 
+    public UserDto getUserDetails(String id) {
+        User user = getById(id);
+        List<Favourites> favouritesForUser = favoritesService.getFavouritesForUser(user.getId());
+        Map<Boolean, List<String>> ids = favouritesForUser.stream().collect(Collectors.partitioningBy(favourites -> favourites.getGameId() != null, Collectors.mapping(favourites -> favourites.getGameId() != null ? favourites.getGameId() : favourites.getNewsId(), Collectors.toList())));
+        List<String> gamesIds = ids.get(true);
+        List<String> newsIds = ids.get(false);
+        List<News> news = newsService.getNews(newsIds);
+        return UserDto.builder()
+                .gamesIds(gamesIds)
+                .news(news)
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .build();
+    }
+
     public User getCurrentUser() {
         return userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName())
                 .orElseThrow(() -> new EntityNotFoundException("User not logged"));
+    }
+
+    public List<User> getUsers(List<String> userIds) {
+        return userRepository.findByIdIn(userIds);
     }
 
     public User uploadAvatar(MultipartFile multipartFile) throws IOException {

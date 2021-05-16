@@ -20,6 +20,7 @@ public class NewsDto {
     private Binary image;
     private Date createdDate;
     private String body;
+    private boolean sendMail;
 
 
 }

@@ -14,6 +14,7 @@ public class NewsMapper {
         return News.builder()
                 .id(newsDto.getId())
                 .title(newsDto.getTitle())
+                .sendMail(newsDto.isSendMail())
                 .description(newsDto.getDescription())
                 .image(newsDto.getImage())
                 .body(newsDto.getBody())

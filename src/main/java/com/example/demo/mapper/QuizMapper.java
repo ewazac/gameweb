@@ -13,6 +13,7 @@ public class QuizMapper {
     public Quiz toDao(QuizDto quizDto) {
         return Quiz.builder()
                 .quizList((quizDto.getAnswerList()))
+                .sendMail(quizDto.isSendMail())
                 //.description(quizDto.getDescription())
                 .id(quizDto.getId())
                 .name(quizDto.getName())

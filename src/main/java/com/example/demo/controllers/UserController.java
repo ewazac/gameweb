@@ -48,6 +48,11 @@ public class UserController {
         return userMapper.toDto(userService.save(userMapper.toDao(userDto)));
     }
 
+    @GetMapping("/details/{id}")
+    public UserDto getUserDetails(@PathVariable String id) {
+        return userService.getUserDetails(id);
+    }
+
     @PutMapping ("/uploadAvatar")
     @PreAuthorize("isAuthenticated()")
     public void addAvatar(@RequestParam("avatar") MultipartFile multipartFile) throws IOException {

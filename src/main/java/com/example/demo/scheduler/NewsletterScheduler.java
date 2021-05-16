@@ -31,8 +31,8 @@ public class NewsletterScheduler {
 //    @Scheduled(cron = "0 45,50 9 ? * MON")
 //    @Scheduled(fixedRate = 10000)
     public void sendNewsletter() {
-        List<News> news = newsRepository.findByCreatedDateIsAfter(LocalDate.now().minusDays(7));
-        List<Quiz> quiz = quizRepository.findByCreatedDateIsAfter(LocalDate.now().minusDays(7));
+        List<News> news = newsRepository.findByCreatedDateIsAfterAndSendMailIsTrue(LocalDate.now().minusDays(7));
+        List<Quiz> quiz = quizRepository.findByCreatedDateIsAfterAndSendMailIsTrue(LocalDate.now().minusDays(7));
 //        List<Game> competition = gamesRepository.findByCreatedDateIsAfter(LocalDate.now().minusDays(7));
         Context context = new Context();
         context.setVariable("news", news);

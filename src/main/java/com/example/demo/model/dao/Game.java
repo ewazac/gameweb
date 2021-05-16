@@ -34,6 +34,7 @@ public class Game {
     private LocalDate createdDate;
     private boolean recommended;
     private LocalDate recommendedDate;
+    private boolean sendMail;
 
 
 

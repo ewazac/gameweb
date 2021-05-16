@@ -27,6 +27,7 @@ public class News {
     private LocalDate createdDate;
     private String body;
     private String imageUrl;
+    private boolean sendMail;
 
 
 }
