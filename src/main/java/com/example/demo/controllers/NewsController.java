@@ -31,12 +31,13 @@ public class NewsController {
 
     @PostMapping(value = "/addNews")
     @ResponseStatus(value = HttpStatus.CREATED)
-    public void addNews(String title, String description, MultipartFile image, String body) throws IOException {
+    public void addNews(String title, String description, MultipartFile image, String body, boolean sendMail) throws IOException {
         News news = News.builder()
                 .title(title)
                 .description(description)
                 .image(new Binary(BsonBinarySubType.BINARY, image.getBytes()))
                 .body(body)
+                .sendMail(sendMail)
                 .build();
         newsRepository.save(news);
     }
