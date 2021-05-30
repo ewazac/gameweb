@@ -102,6 +102,8 @@ public class UserService {
                 .news(news)
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
+                .point(user.getPoint())
+                .nick(user.getNick())
                 .build();
     }
 
