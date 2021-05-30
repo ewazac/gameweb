@@ -18,5 +18,6 @@ public class ForumDto {
     private String id;
     private String name;
     private List<Answer> answers;
+    private String category;
 
 }

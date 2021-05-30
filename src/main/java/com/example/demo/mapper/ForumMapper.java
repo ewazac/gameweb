@@ -15,6 +15,7 @@ public class ForumMapper {
                 .id(forumDTO.getId())
                 .answers(forumDTO.getAnswers())
                 .name(forumDTO.getName())
+                .category(forumDTO.getCategory())
                 .build();
     }
 
@@ -23,6 +24,7 @@ public class ForumMapper {
                 .answers(forum.getAnswers())
                 .id(forum.getId())
                 .name(forum.getName())
+                .category(forum.getCategory())
                 .build();
     }
 

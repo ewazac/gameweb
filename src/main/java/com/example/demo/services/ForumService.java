@@ -3,12 +3,10 @@ package com.example.demo.services;
 import com.example.demo.exeption.EntityNotFoundException;
 import com.example.demo.model.dao.Answer;
 import com.example.demo.model.dao.Forum;
-import com.example.demo.model.dao.User;
 import com.example.demo.repository.ForumRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor

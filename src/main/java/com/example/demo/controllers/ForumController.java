@@ -29,7 +29,6 @@ public class ForumController {
     public ForumDto saveForum(@RequestBody ForumDto forumDTO) {
         return forumMapper.toDto(forumService.save(forumMapper.toDao(forumDTO)));
     }
-
     @PutMapping("/{id}")
     @PreAuthorize("isAuthenticated() && @securityService.hasAccessToForum(#id)")
     public ForumDto updateForum(@RequestBody ForumDto forumDTO, @PathVariable String id) {
@@ -53,8 +52,4 @@ public class ForumController {
     public ForumDto addAnswerToForum(@PathVariable String id, @RequestBody Answer answer) {
         return forumMapper.toDto(forumService.addAnswer(answer, id));
     }
-
-
-
-
 }
