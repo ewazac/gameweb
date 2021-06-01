@@ -69,10 +69,10 @@ transition: all 300ms;
 .avatar-holder{
 display: inline-block;
 position: relative;
-  overflow: hidden;
+overflow: hidden;
 
   &:before{
-    border-radius: 100%;
+    //border-radius: 100%;
     background-color: white;
     content: "";
     position: absolute;
@@ -85,11 +85,11 @@ position: relative;
   }
   img{
      z-index: 5;
-     width: 60px;
-     height: 60px;
+     width: 80px;
+     height: 80px;
      object-fit: cover;
    }
-border-radius: 100%;
+//border-radius: 100%;
 background-color: white;
 }
 .white-background{

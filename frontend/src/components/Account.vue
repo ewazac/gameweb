@@ -14,7 +14,7 @@
                     tag="article"
                     class="mb-2 w-100"
             >
-              <div class="badge-holder">
+              <div class="badge-holder" style="padding: 5px;">
                 <img v-if="currentUser.point > 4 && currentUser.point < 10" src="../assets/normal.png" width="50px">
                 <img v-if="currentUser.point >= 10 && currentUser.point <= 14" src="../assets/active.png" width="50px">
                 <img v-if="currentUser.point >= 15" src="../assets/s_active.png" width="50px">
@@ -24,15 +24,19 @@
                 <h3 class="h5">Dane osobowe</h3>
                 <div class="my-4">
                   <div class="row">
-                    <div class="col-md-2 align-center">Zmień avatar</div>
+                    <div class="col-md-2 align-center">Zmień avatar: </div>
                     <input class="left d-none" type="file" ref="file_input" @change="handleChangeAvatar($event)" />
-                    <div class="col-md-10" v-if="!avatar">
+                    <!--<div class="col-md-10" v-if="!avatar">
                       <div @click="$refs.file_input.click()" class="w-100 text-center" style="cursor: pointer; border: 1px dashed #c8c1c1; padding: 40px">
                         <span class="text-muted">Kliknij aby zmienić avatar</span>
                       </div>
-                    </div>
-                    <div class="col-md-10" v-if="avatar">
-                      <div class="avatar-holder" style="cursor: pointer" @click="$refs.file_input.click()"><img :src="avatar"></div>
+                    </div>-->
+                    <div class="col-md-10" style="padding-top:0.25rem;">
+                      <div class="avatar-holder" style="cursor: pointer" @click="$refs.file_input.click()"><img :src="'https://gameweb.s3.eu-central-1.amazonaws.com/'+currentUser.id+'.png'"></div>
+                      <b-icon id="question-target-avatar" class="ml-3" icon="question-circle"></b-icon>
+                      <b-tooltip target="question-target-avatar" triggers="hover">
+                        Naciśnij na avatar, żeby go zmienić
+                      </b-tooltip>
                     </div>
                   </div>
                 </div>
@@ -134,7 +138,7 @@
                   </div>                  
                 </div>
                 <div class="rev">
-                    <a href="/reviews" class="reviews"> Zobacz swoje recenzje! </a>
+                    <a href="/reviews" class="reviews"> Kliknij, żeby zobaczyć swoje recenzje! </a>
                   </div>
               </b-card-text>
             </b-card>
@@ -169,7 +173,7 @@
 <script>
   import axios from "axios";
 
-  const API_URL = "https:/gameweb.projektstudencki.pl/api";
+  const API_URL = "https:/gameweb.projektstudencki.pl/api/";
   import User from '../models/user'
   import Request from '../request'
   export default {
@@ -279,13 +283,15 @@
                     "Content-Type": "multipart/form-data",
                   },
                 })
-                .then(() => {
-                  /*this.$router.go();*/
-                  this.getAvatar();
+                .then((result) => {
+                  console.log(result)
+                  //this.$router.go();
+                  //this.getAvatar();
                 })
-                .catch(() => {
+                .catch((err) => {
+                  console.log(err)
                 });
-      },
+      },/*
       getAvatar(){
         axios.get(API_URL + "users/getAvatar", {
           withCredentials: true,
@@ -302,7 +308,7 @@
                 .catch((error) => {
                   console.log(error);
                 });
-      },
+      },*/
       toggleAll(checked) {
         this.selected = checked ? this.categories.slice() : [];
       },
@@ -325,7 +331,8 @@
       if (!this.currentUser) {
         this.$router.push("Login");
       }
-      this.getAvatar();
+      console.log(this.currentUser)
+      //this.getAvatar();
       axios
               .get(API_URL + "getAllCategories", {
                 withCredentials: true,
@@ -400,10 +407,10 @@
     margin: 0.5rem 0;
   }
   .reviews {
-    color: whitesmoke;
+    color: #9de0c8;
   }
   .reviews:hover, .reviews:active, .reviews:link {
-    color: #7bd5b4;
+    color: #59b493;
   }
   /*.form-control {*/
   /*  background-color: #000;*/

@@ -18,7 +18,7 @@
                                  <div style="position: absolute; top: 10px; right: 10px" v-if="currentLoggedIn">
                                     <b-icon @click="item.toggleFavourite()" scale="2" style="cursor: pointer" icon="star-fill" variant="info"></b-icon>
                                  </div>
-                                <img v-if="item.image" :src="'data:image/jpeg;base64,'+item.image.data">
+                                <img v-if="item.imageUrl" :src="'https://gwnews.s3.eu-central-1.amazonaws.com/'+item.imageUrl">
                                 <img v-else src="../assets/default.png">
                                  <div class="p-3" style="color: whitesmoke">
                                     <div class="font-weight-bold d-flex justify-content-between flex-column">
@@ -93,11 +93,13 @@
                     this.news = res.reverse().map(item => {
                         return new News(item);
                     });
+                    console.log(this.news);
                 })
                 Request({
                     url:'/fav',
                     method:'get'
                 })
+            
             },
         },
     }
