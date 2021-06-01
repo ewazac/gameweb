@@ -44,6 +44,9 @@
                    :per-page="params.per_page" first-text="First" prev-text="Prev" next-text="Next" last-text="Last">
            </b-pagination>
        </div>
+        <div class="w-100 d-flex justify-content-center my-2" v-if="loading">
+            <b-spinner variant="primary"></b-spinner>
+        </div>
     </div>
   </div>
 </template>

@@ -2,7 +2,8 @@
 <div class="container">
     <form name="form" @submit.prevent="handleSearch">
                 <h6 class="tytul">Wyszukaj tytuł:</h6>
-                <div class="sss">
+       <div class="mx-0 row">
+                <div class="col-md-10">
                     <b-form-input
                         name="search"
                         class="input"
@@ -10,8 +11,13 @@
                         v-model="search"
                         required
                     />
-                    <b-button class="account__button" type="submit">Wyszukaj</b-button>
                 </div>
+        <div class="col-md-2">
+            <b-button style="min-width: 150px" class="w-100 account__button ml-auto" type="submit">
+                Wyszukaj
+            </b-button>
+        </div>
+       </div>
     </form>
     <div class="hello text-white" v-if="games">
         <div v-for="items in games" :key="items">
@@ -76,24 +82,24 @@ export default {
   margin: 0 auto;
 }
 @media screen and (max-width: 1199px) {
-  .card-deck .card {
-    flex: 1 0 33%;
-  }
+    .card-deck .card {
+        flex: 1 0 33%;
+    }
 }
 @media screen and (max-width: 991px) {
-  .card-deck .card {
-    flex: 1 0 30%;
-  }
+    .card-deck .card {
+        flex: 1 0 30%;
+    }
 }
 @media screen and (max-width: 991px) {
-  .card-deck .card {
-    flex: 1 0 30%;
-  }
+    .card-deck .card {
+        flex: 1 0 30%;
+    }
 }
 @media screen and (min-width: 1024px) {
-  .card {
-    max-width: 247px;
-  }
+    .card {
+        max-width: 247px;
+    }
 }
 .container {
   margin-top: 1%;

@@ -30,13 +30,15 @@
                 </div>
             </div>
             <div class="w-100 d-flex justify-content-center">
-            <b-pagination
-                    @change="scrollToTop()"
-                    v-model="params.page"
-                    :total-rows="params.total_rows"
-                    :per-page="params.per_page" first-text="First" prev-text="Prev" next-text="Next" last-text="Last">
-
-            </b-pagination>
+                <b-pagination
+                        @change="scrollToTop()"
+                        v-model="params.page"
+                        :total-rows="params.total_rows"
+                        :per-page="params.per_page" first-text="First" prev-text="Prev" next-text="Next" last-text="Last">
+                </b-pagination>
+            </div>
+            <div class="w-100 d-flex justify-content-center my-2" v-if="loading">
+                <b-spinner variant="primary"></b-spinner>
             </div>
         </div>
     </div>
@@ -88,6 +90,7 @@
                             count: res[i].length,
                         })
                     }
+                    this.loading = false;
                 })
             }
         },
