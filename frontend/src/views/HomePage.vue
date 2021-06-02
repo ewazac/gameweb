@@ -147,7 +147,7 @@
                 axios.get('https://gameweb.projektstudencki.pl/apigames/api/apps/?category=GAME')
                     .then((result) => {
                         var results = result.data.results.map(item => {
-                            return new Game(null,null,null,null,item);
+                            return new Game(item);
                         });
                         this.$set(this.data, 'games',  results);
                     })
