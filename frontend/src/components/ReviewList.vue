@@ -30,7 +30,7 @@ export default {
       }
     },
     mounted() {
-      axios.get("https:/gameweb.projektstudencki.pl/api/users/reviews", {
+      axios.get("https://gameweb.projektstudencki.pl/api/users/reviews", {
           withCredentials: true
       })
       .then(response => {
