@@ -220,7 +220,7 @@ export default{
                   this.answer = ''
                   this.title = ''
                   this.paramsThreads.total += 1;
-                  console.log(result)
+                  this.$router.go();
                 }).catch((err) => {
                     console.log(err)
                 });
