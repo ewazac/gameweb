@@ -2,7 +2,11 @@ import Request from "../request";
 import store from "../store";
 
 export default class Game {
-    constructor(data) {
+    constructor(name, category, description, star, data) {
+        this.name = name;
+        this.category = category;
+        this.description = description;
+        this.star = star;
         if(data){
             for(var i in data){
                 this[i] = data[i];

@@ -30,6 +30,9 @@ Vue.mixin({
     scrollToTop(){
       window.scrollTo({top: 0, behavior: 'smooth'});
 
+    },
+    calculateStarWidth(score){
+      return (score * 100) / 5;
     }
   }
 })

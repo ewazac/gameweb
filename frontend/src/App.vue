@@ -5,9 +5,14 @@
             <b-navbar-toggle class="app__toggle-menu ml-auto" target="nav-collapse"></b-navbar-toggle>
             <b-collapse id="nav-collapse" is-nav>
                 <b-navbar-nav class="mr-auto align-items-baseline">
-                    <b-nav-item to="/Games">
+                    <b-nav-item to="/">
                         <img class="GameWeb" src="./assets/logo.png" alt="GameWeb" />
                     </b-nav-item>
+                    <router-link to="/games">
+                        <b-nav-item  to="/games">
+                            Gry
+                        </b-nav-item>
+                    </router-link>
                     <b-nav-item to="/News">
                         News
                     </b-nav-item>
