@@ -7,7 +7,7 @@
                     <p class="Created">Użytkownik: {{ firstAnswer.username }} </p>
                     <p class="Created">Dodano: {{ firstAnswer.createdDate }}</p>
                 </div>
-                <img class="avatar" v-if="firstAnswer.avatar" v-bind:src="'data:image/jpeg;base64,'+firstAnswer.avatar.data">
+                <img class="avatar" v-bind:src="'https://gameweb.s3.eu-central-1.amazonaws.com/'+firstAnswer.userId+'.png'">
             </div>
             <h4 class="ThreadMessage"> {{ firstAnswer.message }} </h4>
         </div>
@@ -29,9 +29,9 @@
         <div v-if="isAdmin">
             <div class="answers" v-for="answer in thread" :key="answer.createdDate">
                 <div class="details">
-                    <p> Użytkownik:{{ answer.username }} </p>
+                    <p style="margin-right:1rem;" @click="handleDetails(answer.userId)"> Użytkownik: {{ answer.username }}</p>
                     <p> Dodano: {{ answer.createdDate }}</p>
-                    <img class="avatar" v-if="answer.avatar" v-bind:src="'data:image/jpeg;base64,'+answer.avatar.data">
+                    <img class="avatar" v-bind:src="'https://gameweb.s3.eu-central-1.amazonaws.com/'+answer.userId+'.png'">
                 </div>
                 <div class="message">
                     <span> {{ answer.message }}</span>
@@ -42,11 +42,11 @@
         <div v-else>
             <div class="answers" v-for="answer in thread" :key="answer.createdDate">
                 <div class="details">
-                    <p> Użytkownik: {{ answer.username }} Dodano: {{ answer.createdDate }} </p>
+                    <p @click="handleDetails(answer.userId)"> Użytkownik:{{ answer.username }} Dodano: {{ answer.createdDate }} </p>
                 </div>
                 <div class="message">
                     <span> {{ answer.message }} </span>
-                    <img class="avatar" v-if="answer.avatar" v-bind:src="'data:image/jpeg;base64,'+answer.avatar.data">
+                    <img class="avatar" v-bind:src="'https://gameweb.s3.eu-central-1.amazonaws.com/'+answer.userId+'.png'">
                 </div>
             </div>
         </div>
@@ -81,6 +81,9 @@ export default {
         }
     },
     methods: {
+        handleDetails(item) {
+            this.$router.push({path:'/User/', params:{user:item}, query:{user: item}});
+        },
         show: function() {
             if (this.Show) {
                 this.Show = false
@@ -135,6 +138,7 @@ export default {
         axios.get("https://gameweb.projektstudencki.pl/api/api/forums")
         .then((result) => {
             let threads = result.data;
+            console.log(result)
             for (const thread of threads) {
                 if (thread.id == this.id){
                     this.firstAnswer = thread.answers[0]
@@ -146,7 +150,6 @@ export default {
             axios.get("https://gameweb.projektstudencki.pl/api/users/"+this.firstAnswer.userId)
             .then((result) => {
                 this.firstAnswer.username = result.data.nick
-                this.firstAnswer.avatar = result.data.avatar
                 this.firstAnswer.createdDate = this.firstAnswer.createdDate.replace(/T/gm,' ')
             })
             .catch((err) => {
@@ -166,7 +169,6 @@ export default {
                 .then((result) => {
                     console.log(result)
                     item.username = result.data.nick;
-                    item.avatar = result.data.avatar;
                     return new Thread(item);
                 })
                 .catch((err) => {

@@ -7,7 +7,7 @@
           <b-form-input
                   v-model="user.username"
                   v-validate="'required|email|max:50'"
-                  type="username"
+                  type="text"
                   class="form-control"
                   placeholder="Email"
                   name="username"
@@ -25,7 +25,7 @@
           <b-form-input
                   v-model="user.firstName"
                   v-validate="'max:50'"
-                  type="firstName"
+                  type="text"
                   class="form-control"
                   placeholder="Imię"
                   name="firstName"
@@ -37,7 +37,7 @@
           <b-form-input
                   v-model="user.lastName"
                   v-validate="'max:50'"
-                  type="lastName"
+                  type="text"
                   class="form-control"
                   placeholder="Nazwisko"
                   name="lastName"

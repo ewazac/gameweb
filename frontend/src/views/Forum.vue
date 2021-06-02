@@ -5,40 +5,51 @@
         </div>  
     <div class="forum">
       <div class="newThread">
-        <button class="button" v-on:click="Show">Utwórz nowy wątek!</button>
-        <form
-          class="addThread"
-          name="newThread"
-          v-if="show"
-          @submit.prevent="handleThread"
-        >
-          <div class="idk">
-            <p>Podaj tytuł</p>
-            <b-form-input
-              v-model="title"
-              type="text"
-              class="form-control"
-              placeholder="Tytuł"
-              name="title"
-              required
-            />
-          </div>
-          <div class="idk">
-            <p>Opis</p>
-            <b-form-textarea
-              v-model="answer"
-              type="text"
-              class="form-control"
-              placeholder="Opis"
-              name="answer"
-              required
-            />
-          </div>
-          <button class="button" type="submit">Dodaj</button>
-          <b-alert v-if="alertMessage" show variant="success">
-            {{ alertMessage }}
-          </b-alert>
-        </form>
+        <div style="width:75%;">
+          <button class="button" v-on:click="Show">Utwórz nowy wątek!</button>
+          <form
+            class="addThread"
+            name="newThread"
+            v-if="show"
+            @submit.prevent="handleThread"
+          >
+            <div class="idk">
+              <p>Podaj tytuł</p>
+              <b-form-input
+                style="margin:0"
+                v-model="title"
+                type="text"
+                class="form-control"
+                placeholder="Tytuł"
+                name="title"
+                required
+              />
+            </div>
+            <div class="idk">
+              <p>Opis</p>
+              <b-form-textarea
+                style="margin:0"
+                v-model="answer"
+                type="text"
+                class="form-control"
+                placeholder="Opis"
+                name="answer"
+                required
+              />
+            </div>
+            <div class="idk">
+              <p>Kategoria</p>
+              <b-form-select style="width:50%" v-model="newOption" :options="newOptions"></b-form-select>
+            </div>
+            <button class="button" type="submit">Dodaj</button>
+            <b-alert v-if="alertMessage" show variant="success">
+              {{ alertMessage }}
+            </b-alert>
+          </form>
+        </div>
+        <div v-if="show == false" style="width:25%;margin:auto;text-align:center;">
+          <b-form-select style="max-width: 200px; text-align:right;" v-model="option" :options="Options"></b-form-select>
+        </div>
       </div>
       <div v-if="isAdmin" class="T">
         <div class="Description">
@@ -56,7 +67,7 @@
         </div>
       </div>
       <div v-if="isAdmin">
-        <div class="thread" v-for="thread in filterdThreads" :key="thread.id">
+        <div class="thread" v-for="thread in List" :key="thread.id">
           <div class="thr">
             <div class="Description" @click="handleDetails(thread.id)">
                 <h5 class="title">{{ thread.name }}</h5>
@@ -119,12 +130,31 @@ export default{
             },
             alertMessage: null,
             variant: null,
+            List: '',
+            option: "Wszystkie",
+            Options: [
+              { value: 'Wszystkie', text: 'Wszystkie'},
+              { value: 'Ogólne', text: 'Ogólne'},
+              { value: 'Eventy', text: 'Eventy'},
+              { value: 'Problemy', text: 'Problemy'},
+            ],
+            newOption: 'Ogólne',
+            newOptions: [
+              { value: 'Ogólne', text: 'Ogólne'},
+              { value: 'Eventy', text: 'Eventy'},
+              { value: 'Problemy', text: 'Problemy'},
+            ],
         }
     },
     beforeCreate: function () {
         document.body.className = "app__body";
     },
     computed: {
+        categoriesList() {
+          return Object.values(this.filteredList).filter(post => {
+            return post.category.includes(this.option)
+          })
+        },
         filteredList() {
             return Object.values(this.threads).filter(post => {
                 return post.name.toLowerCase().includes(this.search.toLowerCase())
@@ -136,6 +166,16 @@ export default{
         filterdThreads(){
           return paginate(this.filteredList, this.paramsThreads.per_page, this.paramsThreads.page);
         },
+    },
+    watch: {
+      option() {
+        if(this.option == "Wszystkie") {
+          this.List = this.filteredList
+        }
+        else {
+          this.List = this.categoriesList
+        }
+      }
     },
     methods: {
         Show: function() {
@@ -171,6 +211,7 @@ export default{
                     message: this.answer,
                     userId: this.currentUser.id,
                 }],
+                category: this.newOption,
                 name: this.title
                 })
                 .then((result) => {
@@ -199,6 +240,7 @@ export default{
         .then((result) => {
             this.threads = result.data;
             this.paramsThreads.total = this.threads.length;
+            this.List = this.filteredList
         }).catch((err) => {
             console.log(err)
         });
@@ -275,8 +317,11 @@ export default{
   border-left: 1px solid;
 }
 .idk {
-  padding: 1rem;
-  display: flex;
+    padding: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
 }
 .button {
   min-width: 5rem;
@@ -319,6 +364,9 @@ button.page-link {
     margin: 1rem 2rem 1rem 2rem;
   }
 
+}
+.newThread {
+  display: flex;
 }
 input {
   background-color: white;

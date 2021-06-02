@@ -54,6 +54,12 @@ const routes = [
     meta:{auth: false}
   },
   {
+    path: '/user',
+    name: 'user-detail',
+    component: () => import('../components/UsersAccount.vue'),
+    meta:{auth: false}
+  },
+  {
     path: '/account',
     name: 'Account',
     component: () => import('../components/Account.vue'),

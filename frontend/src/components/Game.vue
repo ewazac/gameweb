@@ -28,6 +28,12 @@
         <b-row class="mt-5">
             <b-col sm="8" offset-sm="2">
                 <h2>Recenzje</h2>
+                <h5 v-if="fav.length==0">Ta gra jest polecana przez: {{ fav.length }} użytkowników </h5>
+                <h5 v-if="fav.length!=0 && !showFav" class="fav" style="cursor: pointer;" @click="showFavUsers()">Ta gra jest polecana przez: {{ fav.length }} użytkowników <b-icon-arrow-down></b-icon-arrow-down></h5>
+                <h5 v-if="fav.length!=0 && showFav" class="fav" style="cursor: pointer;" @click="showNoFavUsers()">Ta gra jest polecana przez: {{ fav.length }} użytkowników <b-icon-arrow-up></b-icon-arrow-up></h5>
+                <div v-if="showFav"><ul v-for="user in fav" :key="user.id">
+                    <li class="fav" style="cursor: pointer;" @click="handleDetails(user.id)"> {{ user.nick }} </li>
+                </ul></div>
                 <b-alert show>Jeśli dodasz recenzję. Przyznamy Ci 1 punkt.</b-alert>
                 <div class="d-flex">
                     <span class="rating">Średnia ocena tej gry    </span>
@@ -48,8 +54,15 @@
                     name="title"
                     required
                 />
-                <p>Oceń:</p>
-                <b-form-rating id="rating" v-model="review.stars" required inline></b-form-rating>
+                <p class="rate">Oceń grę:</p>
+                <p class="rate">Grafika:</p>
+                <b-form-rating id="rating" v-model="stars.starsGraphics" required inline></b-form-rating>
+                <p class="rate">Sterowanie:</p>
+                <b-form-rating id="rating" v-model="stars.starsControl" required inline></b-form-rating>
+                <p class="rate">Grywalność:</p>
+                <b-form-rating id="rating" v-model="stars.starsGameplay" required inline></b-form-rating>
+                <p class="rate">Optymalizajca i jakość rozgrywki:</p>
+                <b-form-rating id="rating" v-model="stars.starsOptErr" required inline></b-form-rating>
                 <p>Opis:</p>
                 <b-form-textarea
                     v-model="review.description"
@@ -106,7 +119,7 @@
                             <b-col cols="12 image">
                                 <b-form-rating id="rating" :value="r.stars" inline disabled>
                                 </b-form-rating>
-                                <img v-if="r.image" class="review-avatar" v-bind:src="'data:image/jpeg;base64,'+r.image.data" />
+                                <img class="review-avatar" v-bind:src="'https://gwreviews.s3.eu-central-1.amazonaws.com/'+r.id+'png'" />
                             </b-col>
                         </b-row>
                         <b-row>
@@ -169,6 +182,12 @@
             return {
                 currentUser: new User(JSON.parse(localStorage.getItem("user"))),
                 readMore: false,
+                stars: {
+                    starsGraphics: 0,
+                    starsControl: 0,
+                    starsGameplay: 0,
+                    starsOptErr: 0,
+                },
                 review: {
                     description: '',
                     gameId: '',
@@ -191,7 +210,9 @@
                 areaMessage: '',
                 gamewebReviewsT: '',
                 nick: '',
-                submitting: false
+                submitting: false,
+                fav: '',
+                showFav: false
             };
         },
         watch: {
@@ -244,6 +265,12 @@
             showLess() {
                 this.readMore = true;
             },
+            showFavUsers() {
+                this.showFav = true;
+            },
+            showNoFavUsers() {
+                this.showFav = false;
+            },
             Show: function() {
                 if (this.show) {
                     this.show = false
@@ -256,6 +283,9 @@
             handleFileUpload(event) {
                 this.file = event.target.files[0];
             },
+            handleDetails(item) {
+                this.$router.push({path:'/User/', params:{user:item}, query:{user: item}});
+             },
             handleReview() {
                 if(this.findNick.length>0) {
                     this.message = "Już dodałeś recenzję do tej gry!"
@@ -264,6 +294,7 @@
                 else {
                     this.$nextTick(() => {
                         const fd = new FormData();
+                        this.review.stars = (this.stars.starsGraphics + this.stars.starsControl + this.stars.starsGameplay + this.stars.starsOptErr) / 4
                         fd.append("description",this.review.description)
                         fd.append("gameId",this.review.gameId)
                         fd.append("stars",this.review.stars)
@@ -331,6 +362,14 @@
             .catch((error) => {
                 console.log(error);
             });
+            axios.get("https://gameweb.projektstudencki.pl/api/fav/users?gameId=" + this.$router.history.current.query.game2)
+            .then(result => {
+                this.fav = result.data
+                console.log("fav ",result.data)
+            })
+            .catch(err => {
+                console.log(err)
+            })
         },
     }
 </script>
@@ -437,5 +476,11 @@
     }
     .rating {
         margin: auto 0.5rem auto;
+    }
+    p.rate {
+        margin: 0;
+    }
+    .fav:hover, .fav:active, .fav:link{
+        color: #419c7b;
     }
 </style>
