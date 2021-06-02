@@ -7,7 +7,10 @@
 </template>
 <script>
     export default {
-        props:['text']
+        props:['text'],
+        beforeCreate: function () {
+            document.body.className = "app__body";
+        },
     }
 </script>
 <style lang="scss">

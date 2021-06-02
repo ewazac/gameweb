@@ -115,7 +115,7 @@
             }
         },
         mounted(){
-           this.getAllGames();
+            this.getAllGames();
         },
         methods:{
             deleteGame(item){
@@ -133,9 +133,9 @@
                 Request({
                     url:'/games',
                     method: 'post',
-                    data: this.data
+                    data: to_send
                 }).then(() => {
-                   this.$router.push('/admin/contests');
+                    this.$router.push('/admin/contests');
                 })
             },
             addGame(game){

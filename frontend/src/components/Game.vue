@@ -34,7 +34,7 @@
                 <div v-if="showFav"><ul v-for="user in fav" :key="user.id">
                     <li class="fav" style="cursor: pointer;" @click="handleDetails(user.id)"> {{ user.nick }} </li>
                 </ul></div>
-                <b-alert show>Jeśli dodasz recenzję. Przyznamy Ci 1 punkt.</b-alert>
+                <b-alert show>Jeśli dodasz recenzję, przyznamy Ci 1 punkt.</b-alert>
                 <div class="d-flex">
                     <span class="rating">Średnia ocena tej gry    </span>
                     <b-form-rating id="rating" :value="game.score" inline disabled>
