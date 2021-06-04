@@ -31,7 +31,7 @@
                         <span class="text-muted">Kliknij aby zmienić avatar</span>
                       </div>
                     </div>
-                    <div class="col-md-10" style="padding-top:0.25rem;">
+                    <div class="col-md-10" v-if="currentUser.imageUrl" style="padding-top:0.25rem;">
                       <div class="avatar-holder" style="cursor: pointer" @click="$refs.file_input.click()"><img :src="'https://gameweb.s3.eu-central-1.amazonaws.com/'+currentUser.id+'.png?' + random"></div>
                       <b-icon id="question-target-avatar" class="ml-3" icon="question-circle"></b-icon>
                       <b-tooltip target="question-target-avatar" triggers="hover">
