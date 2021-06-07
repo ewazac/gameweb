@@ -68,7 +68,7 @@ public class GamesController {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public void exceptionHandler(UserFoundException userFoundException) {
-        log.info("User has voted for that game!");
+        log.info("User has voted for that competition!");
     }
 
 

@@ -20,16 +20,47 @@ public class GameService {
 
     public void vote(String gameId, String groupId) throws UserFoundException {
         Game game = gamesRepository.findByIdAndGroupId(gameId, groupId).orElseThrow();
+        List<Game> gameListByGroupId = gamesRepository.findByGroupId(groupId);
         User currentUser = userService.getCurrentUser();
-        if (game.getUsers() == null) {
-            game.setUsers(new HashSet<>());
-        } else if(game.getUsers().contains(currentUser)) {
-            throw new UserFoundException();
+        for(Game g: gameListByGroupId) {
+            if(g.getUsers() == null) {
+                if(game.getUsers() == null) {
+                    game.setUsers(new HashSet<>());
+                }
+            }
+            else if(g.getUsers().contains(currentUser)) {
+                throw new UserFoundException();
+            }
         }
+
         game.getUsers().add(currentUser);
         game.setCounter(game.getCounter() + 1);
         gamesRepository.save(game);
+//
+//        //checkIfVoted(groupId);
+//        if (game.getUsers() == null) {
+//            game.setUsers(new HashSet<>());
+//        } else if(game.getUsers().contains(currentUser)) {
+//            throw new UserFoundException();
+//        }
+
     }
+
+//    public boolean checkIfVoted(String groupId) throws UserFoundException {
+//        List<Game> gameList = gamesRepository.findByGroupId(groupId);
+//        User currentUser= userService.getCurrentUser();
+//        for(Game game : gameList) {
+//            if(game.getUsers() == null) {
+//                return false;
+//            }
+//            else if(game.getUsers().contains(currentUser)) {
+//                throw new UserFoundException();
+//            }
+//        }
+//
+//        return true;
+//
+//    }
 
     public List<Game> save(List<Game> games) {
         String groupId = UUID.randomUUID().toString();
