@@ -30,6 +30,12 @@ const routes = [
     meta:{auth: true}
   },
   {
+    path: '/',
+    name: 'Home Page',
+    component: () => import('../views/HomePage.vue'),
+    meta:{auth:false}
+  },
+  {
     path: '/games',
     name: 'Games',
     component: () => import('../components/Games.vue'),
@@ -153,6 +159,7 @@ router.beforeEach((to, from, next) => {
   if (authRequired && !loggedIn) {
     next('/login');
   } else {
+    console.log('TEST');
     next();
   }
 });

@@ -38,6 +38,12 @@
                                             placeholder="Dodaj obrazek"
                                             drop-placeholder="Przeciągnij plik tutaj"
                                     ></b-form-file>
+                                    <b-form-checkbox
+                                            class="my-4"
+                                            v-model="data.sendMail"
+                                    >
+                                        <span class="text-white">Newsletter</span>
+                                    </b-form-checkbox>
                                     <ckeditor :editor="editor" v-model="data.body" :config="editorConfig"></ckeditor>
                                     <div class="w-100 d-flex justify-content-end mt-5">
                                      <b-button @click="saveElement()" variant="outline-success">Zapisz</b-button>

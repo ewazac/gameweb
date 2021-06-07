@@ -16,6 +16,7 @@
                                     class="mb-2 w-100">
                                 <b-card-text>
                                     <b-form-input v-model="filters.term" placeholder="Wpisz nazwę gry"></b-form-input>
+
                                     <div class="table-responsive">
                                         <b-table :fields="fields" striped hover :items="paginated" class="table-white-text">
                                             <template #cell(akcje)="{ item }">
@@ -25,7 +26,12 @@
                                             </template>
                                         </b-table>
                                     </div>
-
+                                    <b-form-checkbox
+                                            class="my-4"
+                                            v-model="sendMail"
+                                    >
+                                        <span class="text-white">Newsletter</span>
+                                    </b-form-checkbox>
                                     <b-pagination
                                             v-model="filters.page"
                                             :total-rows="filters.total_rows"
@@ -42,9 +48,7 @@
                                             </template>
                                         </b-table>
                                     </div>
-
                                     <b-button @click="save()" class="mt-5 mb-5" variant="outline-success">Zapisz konkurs</b-button>
-
                                 </b-card-text>
                             </b-card>
                         </div>
@@ -64,6 +68,7 @@
         },
         data:() => {
             return{
+                sendMail: false,
                 filters:{
                     term:'',
                     max: 10,
@@ -110,7 +115,7 @@
             }
         },
         mounted(){
-           this.getAllGames();
+            this.getAllGames();
         },
         methods:{
             deleteGame(item){
@@ -119,12 +124,18 @@
             },
             save(){
                 if(this.data.length < 2) this.$store.commit('app/ADD_MESSAGE', {text: 'Konkurs musi mieć przynajmniej 2 gry', type: 'danger'})
+                var to_send = Object.assign([], this.data);
+                this.data.forEach(item => {
+                    if(this.sendMail){
+                        item.sendMail = true;
+                    }
+                })
                 Request({
                     url:'/games',
                     method: 'post',
-                    data: this.data
+                    data: to_send
                 }).then(() => {
-                   this.$router.push('/admin/contests');
+                    this.$router.push('/admin/contests');
                 })
             },
             addGame(game){

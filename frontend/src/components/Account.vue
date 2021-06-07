@@ -26,13 +26,13 @@
                   <div class="row">
                     <div class="col-md-2 align-center">Zmień avatar: </div>
                     <input class="left d-none" type="file" ref="file_input" @change="handleChangeAvatar($event)" />
-                    <!--<div class="col-md-10" v-if="!avatar">
+                    <div class="col-md-10" v-if="!currentUser.imageUrl">
                       <div @click="$refs.file_input.click()" class="w-100 text-center" style="cursor: pointer; border: 1px dashed #c8c1c1; padding: 40px">
                         <span class="text-muted">Kliknij aby zmienić avatar</span>
                       </div>
-                    </div>-->
-                    <div class="col-md-10" style="padding-top:0.25rem;">
-                      <div class="avatar-holder" style="cursor: pointer" @click="$refs.file_input.click()"><img :src="'https://gameweb.s3.eu-central-1.amazonaws.com/'+currentUser.id+'.png'"></div>
+                    </div>
+                    <div class="col-md-10" v-if="currentUser.imageUrl" style="padding-top:0.25rem;">
+                      <div class="avatar-holder" style="cursor: pointer" @click="$refs.file_input.click()"><img :src="'https://gameweb.s3.eu-central-1.amazonaws.com/'+currentUser.id+'.png?' + random"></div>
                       <b-icon id="question-target-avatar" class="ml-3" icon="question-circle"></b-icon>
                       <b-tooltip target="question-target-avatar" triggers="hover">
                         Naciśnij na avatar, żeby go zmienić
@@ -203,7 +203,8 @@
         newsletter: false,
         edited_field:null,
         sending: false,
-        invalid_pass_message: ''
+        invalid_pass_message: '',
+        random: Math.floor(Math.random() * (10 - 1 + 1)) + 1
       };
     },
     methods: {
@@ -285,6 +286,7 @@
                 })
                 .then((result) => {
                   console.log(result)
+                  this.random = Math.floor(Math.random() * (10 - 1 + 1)) + 1;
                   //this.$router.go();
                   //this.getAvatar();
                 })

@@ -12,7 +12,7 @@
                         <b-card
                                 title="Newsy"
                                 tag="article"
-                                class="mb-2 w-100 text-white"
+                                class="mb-2 w-100"
                         >
                             <b-card-text>
                                 <div class="table-responsive">
@@ -43,7 +43,7 @@
                                 </div>
 
                                 <div class="w-100 d-flex justify-content-end">
-                                <b-button  class="ma-auto" :to="'/admin/news/create'" variant="outline-light">Dodaj nowy</b-button>
+                                    <b-button :to="'/admin/news/create'" variant="outline-light">Dodaj nowy</b-button>
                                 </div>
                             </b-card-text>
                         </b-card>
@@ -96,7 +96,7 @@
             getData(){
                 Request({
                     method: 'get',
-                    url: '/news',
+                    url: '/api/news',
                 }).then(res => {
                     this.data = res;
                 })

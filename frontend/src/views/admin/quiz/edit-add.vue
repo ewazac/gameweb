@@ -31,6 +31,12 @@
                                             class="my-2"
                                             max-rows="6"
                                     ></b-form-textarea>
+                                    <b-form-checkbox
+                                            class="my-4"
+                                            v-model="data.sendMail"
+                                    >
+                                        <span class="text-white">Newsletter</span>
+                                    </b-form-checkbox>
                                     <ckeditor :editor="editor" v-model="data.body" :config="editorConfig"></ckeditor>
                                     <b-button class="mt-3" @click="data.answerList.push({question: '', option:[]})" variant="outline-success">Dodaj pytanie</b-button>
                                     <div :key="index_question" class="w-100" v-for="(item,index_question) in data.answerList">
@@ -56,11 +62,9 @@
                                             <!--<b-button class="games__button" @click="handleDetails(item.appId)"> Zobacz więcej </b-button>-->
                                         </b-card>
                                     </div>
-
                                     <div class="w-100 d-flex justify-content-end mt-5">
                                         <b-button @click="saveElement()" variant="outline-success">Zapisz</b-button>
                                     </div>
-
                                 </b-card-text>
                             </b-card>
                         </div>
