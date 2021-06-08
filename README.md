@@ -1,5 +1,5 @@
 # GameWeb
-Engineering project for mobile gamers: https://gameweb2.herokuapp.com/
+Engineering project for mobile gamers: https://gameweb.projektstudencki.pl
 
 ## Technologies
 Created with:
