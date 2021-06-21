@@ -8,12 +8,18 @@
                 <h3 class="my-4 text-center">Ciekawostki a czasem spekulacje. Zapowiedzi, a po nich premiery. Pierwsze opinie oraz wrażenia. Bądź na bieżąco w świecie newsów!</h3>
                 <div class="mt-5">
                     <div class="row">
+                        <div class="col-12">
+                            <div class="w-100 d-flex align-center mb-3 justify-content-end">
+                                <div class="text-white mr-2">Pokaż na stronie:</div>
+                                <b-form-select style="max-width: 200px" v-model="params.per_page" :options="options"></b-form-select>
+                            </div>
+                        </div>
                         <div class="col-md-3 py-3" :key="item.id"
                              v-for="item in news">
                             <b-card
                                     class="mb-2 h-100"
                             >
-                              <div class="d-flex flex-column justify-space-between h-100">
+                              <div class="d-flex flex-column justify-space-between h-100" v-if="news">
                                <div>
                                  <div style="position: absolute; top: 10px; right: 10px" v-if="currentLoggedIn">
                                     <b-icon @click="item.toggleFavourite()" scale="2" style="cursor: pointer" icon="star-fill" variant="info"></b-icon>
@@ -42,7 +48,7 @@
                         @change="scrollToTop()"
                         v-model="params.page"
                         :total-rows="params.total_rows"
-                        :per-page="params.per_page" first-text="First" prev-text="Prev" next-text="Next" last-text="Last">
+                        :per-page="params.per_page" first-text="Pierwsza" prev-text="Poprzednia" next-text="Następna" last-text="Ostatnia">
                 </b-pagination>
             </div>
         </div>
@@ -60,6 +66,11 @@
         data:() => {
             return {
                 news:null,
+                options: [
+                    { value: 8,  text: 8 },
+                    { value: 16, text: 16 },
+                    { value: 32, text: 32 },
+                ],
                 params:{
                     page: 1,
                     per_page: 16,

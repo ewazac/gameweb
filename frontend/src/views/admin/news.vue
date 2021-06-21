@@ -96,7 +96,7 @@
             getData(){
                 Request({
                     method: 'get',
-                    url: '/api/news',
+                    url: '/news',
                 }).then(res => {
                     this.data = res;
                 })

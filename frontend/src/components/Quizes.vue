@@ -8,7 +8,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="w-100 d-flex align-center mb-3 justify-content-end">
-                        <div class="text-white mr-2">Ilość na stronie:</div>
+                        <div class="text-white mr-2">Pokaż na stronie:</div>
                         <b-form-select style="max-width: 200px" v-model="params.per_page" :options="options"></b-form-select>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
                     @change="scrollToTop()"
                     v-model="params.page"
                     :total-rows="params.total_rows"
-                    :per-page="params.per_page" first-text="First" prev-text="Prev" next-text="Next" last-text="Last">
+                    :per-page="params.per_page" first-text="Pierwsza" prev-text="Poprzednia" next-text="Następna" last-text="Ostatnia">
 
                </b-pagination>
             </div>
@@ -58,6 +58,7 @@
             return {
                 data: [],
                 options: [
+                    { value: 8,  text: 8 },
                     { value: 16, text: 16 },
                     { value: 32, text: 32 },
                 ],

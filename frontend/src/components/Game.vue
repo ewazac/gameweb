@@ -19,7 +19,7 @@
                 <p v-if="readMore" class="game__description">{{ game.description }}</p>
                 <p v-if="!readMore" class="game__description">{{ game.description.substring(0, 500) + "..." }}</p>
                 <div v-if="descLength & readMore" class="readMore" @click="showMore()">Pokaż mniej!</div>
-                <div v-if="!readMore" class="readMore" @click="showLess()">Pokaż więcej!</div>
+                <div v-if="!readMore" class="readMore" @click="showLess()">Pokaż więcej</div>
             </b-col>
         </b-row>
 
@@ -28,7 +28,7 @@
         <b-row class="mt-5">
             <b-col sm="8" offset-sm="2">
                 <h2>Recenzje</h2>
-                <h5 v-if="fav.length==0">Ta gra jest polecana przez: {{ fav.length }} użytkowników </h5>
+                <h5 v-if="fav.length==0">Ta gra jest polecana przez {{ fav.length }} użytkowników </h5>
                 <h5 v-if="fav.length!=0 && !showFav" class="fav" style="cursor: pointer;" @click="showFavUsers()">Ta gra jest polecana przez: {{ fav.length }} użytkowników <b-icon-arrow-down></b-icon-arrow-down></h5>
                 <h5 v-if="fav.length!=0 && showFav" class="fav" style="cursor: pointer;" @click="showNoFavUsers()">Ta gra jest polecana przez: {{ fav.length }} użytkowników <b-icon-arrow-up></b-icon-arrow-up></h5>
                 <div v-if="showFav"><ul style="list-style-type:none;padding:0;" v-for="user in fav" :key="user.id">
@@ -39,7 +39,7 @@
                     <span class="rating">Średnia ocena tej gry    </span>
                     <b-form-rating id="rating" :value="game.score" inline disabled>
                     </b-form-rating>
-                    <button class="button" v-on:click="Show">Dodaj recenzje!</button>
+                    <button class="button" v-on:click="Show">Dodaj recenzję</button>
                 </div>
             </b-col>
         </b-row>
@@ -93,10 +93,8 @@
                     <div class="avatar-holder" style="cursor: pointer" @click="$refs.file_input.click()"><img :src="file"></div>
                 </div>
                 <button class="button" type="submit" :disabled="submitting">Dodaj</button>
-                <div
-                  v-if="submitting"
-                  class="alert-danger"
-                >{{ "Recenzja została wysłana" }}</div>
+
+                <b-alert class="my-4" variant="warning" v-if="submitting" show>Recenzja została wysłana do zaakceptowania przez administratora</b-alert>
                 <div class="w-100 d-flex justify-content-center" v-if="review_created_succesfully">
                     <div class="pa-6 bg-success text-white">
                         <div style="font-size: 1.5rem; font-weight: bold">Przyznano Ci 1 punkt</div>
@@ -104,7 +102,7 @@
                 </div>
             </form>
             <b-alert v-else-if="!currentLoggedIn" show variant='info'>
-                {{ 'Musisz być zalogowany, aby dodać recenzje!' }}
+                {{ 'Musisz być zalogowany, aby dodać recenzję' }}
             </b-alert>
             <b-alert v-if="message" show :variant='variant'>
                 {{ message }}
@@ -169,7 +167,7 @@
             <b-pagination
                     v-model="paramsReviews.page"
                     :total-rows="paramsReviews.total"
-                    :per-page="paramsReviews.per_page" first-text="First" prev-text="Prev" next-text="Next" last-text="Last">
+                    :per-page="paramsReviews.per_page" first-text="Pierwsza" prev-text="Poprzednia" next-text="Następna" last-text="Ostatnia">
             </b-pagination>
         </div>
     </div>
@@ -297,7 +295,7 @@
              },
             handleReview() {
                 if(this.findNick.length>0) {
-                    this.message = "Już dodałeś recenzję do tej gry!"
+                    this.message = "Już dodałeś recenzję do tej gry"
                     this.variant = 'warning'
                 }
                 else {
@@ -320,7 +318,7 @@
                                     this.review.title = ''
                                     this.show = false
                                     this.review_created_succesfully = true
-                                    this.message = "Dodano nową recenzje!"
+                                    this.message = "Recenzja będzie widoczna po akceptacji administratora"
                                     this.variant = 'success'
                                 }
                                 else {
@@ -341,7 +339,7 @@
                                     this.review.title = ''
                                     this.show = false
                                     this.review_created_succesfully = true
-                                    this.message = "Dodano nową recenzje! Żeby wszyscy mogli ją zobaczyć, poczekaj, aż moderatorzy strony ją zaakceptują!"
+                                    this.message = "Dodano nową recenzję"
                                     this.variant = 'success'
                                     }  
                             })

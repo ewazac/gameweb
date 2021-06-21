@@ -8,7 +8,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="w-100 d-flex justify-content-end align-center mb-3">
-                        <div class="text-white mr-2">Ilość na stronie:</div>
+                        <div class="text-white mr-2">Pokaż na stronie:</div>
                         <b-form-select style="max-width: 200px" v-model="params.per_page" :options="options"></b-form-select>
                     </div>
                 </div>
@@ -24,7 +24,7 @@
                         <!--              img-top-->
                         <!--      >-->
                         <!--        <b-card-text v-if="item.summary">{{ item.summary.slice(0,150) }}...</b-card-text>-->
-                        <div class="text-center text-white">Ilość gier: <br> <span class="font-weight-bold" style="font-size: 2rem">{{item.count}}</span></div>
+                        <div class="text-center text-white">Liczba gier w konkursie: <br> <span class="font-weight-bold" style="font-size: 2rem">{{item.count}}</span></div>
                         <b-button class="games__button" @click="handleDetails(item.group_id)"> Weź udział </b-button>
                     </b-card>
                 </div>
@@ -34,7 +34,7 @@
                         @change="scrollToTop()"
                         v-model="params.page"
                         :total-rows="params.total_rows"
-                        :per-page="params.per_page" first-text="First" prev-text="Prev" next-text="Next" last-text="Last">
+                        :per-page="params.per_page" first-text="Pierwsza" prev-text="Poprzednia" next-text="Następna" last-text="Ostatnia">
                 </b-pagination>
             </div>
             <div class="w-100 d-flex justify-content-center my-2" v-if="loading">
@@ -56,6 +56,7 @@
             return {
                 data: '',
                 options: [
+                    { value: 8,  text: 8 },
                     { value: 16, text: 16 },
                     { value: 32, text: 32 },
                 ],

@@ -12,7 +12,7 @@
             <b-card
                     title="Ustawienia konta"
                     tag="article"
-                    class="mb-2 w-100 accDetails"
+                    class="mb-3 w-100 accDetails"
             >
               <div class="badge-holder" style="padding: 5px;">
                 <img v-if="currentUser.point > 4 && currentUser.point < 10" src="../assets/normal.png" width="50px">
@@ -62,7 +62,7 @@
                   </div>
                 </div>
                 <div class="row align-center mt-2">
-                  <div class="col-md-2 align-center">Ilość punktów:</div>
+                  <div class="col-md-2 align-center">Liczba punktów:</div>
                   <div class="col-md-10">
                     <span class="font-weight-bold">{{currentUser.point}}</span>
                     <b-icon id="question-target" class="ml-3" icon="question-circle"></b-icon>
@@ -120,7 +120,7 @@
                               required
                               aria-describedby="new_password"
                       />
-                      <b-form-invalid-feedback id="new_password">Hasło powinno mieć conajmniej 4 litery. Hasła powinny do siebie pasować.</b-form-invalid-feedback>
+                      <b-form-invalid-feedback id="new_password">Hasło powinno mieć conajmniej 4 znaki. Hasła powinny do siebie pasować.</b-form-invalid-feedback>
                       <b-form-input
                               placeholder="Powtórz nowe hasło"
                               class="input  mt-2"
@@ -138,7 +138,7 @@
                   </div>                  
                 </div>
                 <div class="rev">
-                    <a href="/reviews" class="reviews"> Kliknij, żeby zobaczyć swoje recenzje! </a>
+                    <a href="/reviews" class="reviews"> Kliknij, żeby zobaczyć swoje recenzje </a>
                   </div>
               </b-card-text>
             </b-card>
@@ -160,7 +160,7 @@
                 >
                   Wyrażam zgodę na wysyłanie newslettera.
                 </b-form-checkbox>
-                <b-alert class="my-4" variant="success" v-if="currentUser.newsletter" show>Jesteś zapisany na newsletter</b-alert>
+                <b-alert class="my-4" variant="success" v-if="currentUser.newsletter" show>Jesteś zapisany do newslettera</b-alert>
               </b-card-text>
             </b-card>
           </div>

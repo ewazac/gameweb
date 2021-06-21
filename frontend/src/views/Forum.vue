@@ -96,13 +96,6 @@
         </div>
       </div>
     </div>
-    <div class="py-5 d-flex justify-content-center">
-      <b-pagination
-        v-model="paramsThreads.page"
-        :total-rows="paramsThreads.total"
-        :per-page="paramsThreads.per_page" first-text="First" prev-text="Prev" next-text="Next" last-text="Last">
-      </b-pagination>
-    </div>
   </div>
 </template>
 

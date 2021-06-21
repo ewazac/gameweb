@@ -28,7 +28,7 @@
                   <div class="col-md-10">{{user.firstName}} {{user.lastName}} </div>
                 </div>
                 <div class="row align-center mt-2">
-                  <div class="col-md-2 align-center">Ilość punktów:</div>
+                  <div class="col-md-2 align-center">Liczba punktów:</div>
                   <div class="col-md-10">
                     <span class="font-weight-bold">{{user.point}}</span>
                     <b-icon id="question-target" class="ml-3" icon="question-circle"></b-icon>
