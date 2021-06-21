@@ -53,7 +53,7 @@
                   <div class="col-md-2 align-center" v-if="games.length > 0">
                     <b-link  class="newsModal" v-b-modal.modal-scrollable-games>Ulubione gry</b-link>
                     <b-modal id="modal-scrollable-games" ok-only ok-title="zamknij" title="Ulubione gry"> 
-                      <router-link class="news" v-for="item in games" :key="item.appId" :to="'/game/'+item.appId"> {{ item.title }} <b-icon scale="1.3" class="mr-2" icon="eye-fill" color="#007bff"></b-icon></router-link>
+                      <router-link class="news" v-for="item in games" :key="item.appId" :to="'/game?game2='+item.appId"> {{ item.title }} <b-icon scale="1.3" class="mr-2" icon="eye-fill" color="#007bff"></b-icon></router-link>
                     </b-modal>
                   </div>
                 </div>

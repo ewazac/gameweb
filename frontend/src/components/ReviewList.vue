@@ -5,8 +5,10 @@
         </dir>
         <dir class="reviews" v-for="Review in ListOfReviews" :key="Review.id">
             <dir class="review" v-if="Review.title">
-                <p> Tytuł: {{ Review.title }} </p>
-                <span> Dodano: {{ Review.createdDate }} <p>Oceniono na: {{ Review.stars }}</p> </span>
+                <p> Tytuł: <span style="text-transform: uppercase;"> {{ Review.title }} </span> </p>
+                <p v-if="Review.gameName">Gra: <router-link class="link" :to="'/game?game2='+Review.gameId"> {{ Review.gameName }} </router-link></p>
+                <p v-else><router-link class="link" :to="'/game?game2='+Review.gameId"> Przejdz do gry</router-link></p>
+                <span> Dodano: {{ Review.createdDate }} <p>Oceniono na: <span style="color:#38866a">{{ Review.stars }} </span></p> </span>
                 <p> Opis: {{ Review.description }} </p>
             </dir>
         </dir>
@@ -50,13 +52,19 @@ export default {
     padding-left: 0;
 }
 .reviews {
-    background-color: #494949;
-    color: #c6c6c6;
+    background-color: #222;
+    color: white;
     width: 75%;
     margin: auto;
     padding: 0;
 }
 .review {
     padding: 1rem;
+}
+.link {
+    color: white;
+}
+.link:hover, .link:active{
+    color: #419c7b;
 }
 </style>

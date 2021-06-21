@@ -17,9 +17,9 @@
         <b-row class="mt-4">
             <b-col sm="8" offset-sm="2">
                 <p v-if="readMore" class="game__description">{{ game.description }}</p>
-                <p v-else-if="!readMore" class="game__description">{{ game.description.substring(0, 500) + "..." }}</p>
+                <p v-if="!readMore" class="game__description">{{ game.description.substring(0, 500) + "..." }}</p>
                 <div v-if="descLength & readMore" class="readMore" @click="showMore()">Pokaż mniej!</div>
-                <div class="readMore" @click="showLess()" v-if="!readMore">Pokaż więcej!</div>
+                <div v-if="!readMore" class="readMore" @click="showLess()">Pokaż więcej!</div>
             </b-col>
         </b-row>
 
@@ -31,11 +31,11 @@
                 <h5 v-if="fav.length==0">Ta gra jest polecana przez: {{ fav.length }} użytkowników </h5>
                 <h5 v-if="fav.length!=0 && !showFav" class="fav" style="cursor: pointer;" @click="showFavUsers()">Ta gra jest polecana przez: {{ fav.length }} użytkowników <b-icon-arrow-down></b-icon-arrow-down></h5>
                 <h5 v-if="fav.length!=0 && showFav" class="fav" style="cursor: pointer;" @click="showNoFavUsers()">Ta gra jest polecana przez: {{ fav.length }} użytkowników <b-icon-arrow-up></b-icon-arrow-up></h5>
-                <div v-if="showFav"><ul v-for="user in fav" :key="user.id">
-                    <li class="fav" style="cursor: pointer;" @click="handleDetails(user.id)"> {{ user.nick }} </li>
+                <div v-if="showFav"><ul style="list-style-type:none;padding:0;" v-for="user in fav" :key="user.id">
+                    <li class="fav" style="cursor: pointer;" @click="handleDetails(user.id)"> <b-icon scale="1.3" class="mr-2" icon="eye-fill" color="#007bff"></b-icon> {{ user.nick }} </li>
                 </ul></div>
                 <b-alert show>Jeśli dodasz recenzję, przyznamy Ci 1 punkt.</b-alert>
-                <div class="d-flex">
+                <div class="d-flex mean">
                     <span class="rating">Średnia ocena tej gry    </span>
                     <b-form-rating id="rating" :value="game.score" inline disabled>
                     </b-form-rating>
@@ -45,24 +45,31 @@
         </b-row>
         <div>
             <form class="addReview" name="addReview" v-if="show & currentLoggedIn" @submit="setSubmitting" @submit.prevent="handleReview">
-                <p>Tytuł:</p>
-                <b-form-input
-                    v-model="review.title"
-                    type="text"
-                    class="form-control"
-                    placeholder="Podaj tytuł"
-                    name="title"
-                    required
-                />
+                <div class="formTitle">
+                    <p>Tytuł:</p>
+                    <b-form-input
+                        v-model="review.title"
+                        type="text"
+                        class="form-control"
+                        placeholder="Podaj tytuł"
+                        name="title"
+                        required
+                    />
+                </div>
                 <p class="rate">Oceń grę:</p>
-                <p class="rate">Grafika:</p>
-                <b-form-rating id="rating" v-model="stars.starsGraphics" required inline></b-form-rating>
-                <p class="rate">Sterowanie:</p>
-                <b-form-rating id="rating" v-model="stars.starsControl" required inline></b-form-rating>
-                <p class="rate">Grywalność:</p>
-                <b-form-rating id="rating" v-model="stars.starsGameplay" required inline></b-form-rating>
-                <p class="rate">Optymalizajca i jakość rozgrywki:</p>
-                <b-form-rating id="rating" v-model="stars.starsOptErr" required inline></b-form-rating>
+                <div class="starRating">
+                    <p>Grafika:</p>
+                    <b-form-rating id="rating" v-model="stars.starsGraphics" required inline></b-form-rating>
+                </div><div class="starRating">
+                    <p>Sterowanie:</p>
+                    <b-form-rating id="rating" v-model="stars.starsControl" required inline></b-form-rating>
+                </div><div class="starRating">
+                    <p>Grywalność:</p>
+                    <b-form-rating id="rating" v-model="stars.starsGameplay" required inline></b-form-rating>
+                </div><div class="starRating">
+                    <p>Optymalizajca i jakość rozgrywki:</p>
+                    <b-form-rating id="rating" v-model="stars.starsOptErr" required inline></b-form-rating>
+                </div>
                 <p>Opis:</p>
                 <b-form-textarea
                     v-model="review.description"
@@ -77,8 +84,8 @@
                   class="alert-danger"
                 >{{ areaMessage }}</div>
                 <input class="left d-none" type="file" ref="file_input" v-on:change="handleFileUpload($event)">
-                <div class="col-md-10" v-if="!file">
-                    <div @click="$refs.file_input.click()" class="w-100 text-center" style="cursor: pointer; border: 1px dashed #c8c1c1; padding: 40px">
+                <div class="col-md-10" style="margin:5px auto;" v-if="!file">
+                    <div @click="$refs.file_input.click()" class="w-100 text-center" style="cursor: pointer; border: 1px dashed #c8c1c1; padding: 15px">
                     <span class="text-muted">Kliknij aby dodać plik</span>
                     </div>
                 </div>
@@ -212,7 +219,8 @@
                 nick: '',
                 submitting: false,
                 fav: '',
-                showFav: false
+                showFav: false,
+                review_created_succesfully: false,
             };
         },
         watch: {
@@ -223,8 +231,7 @@
         },
         computed:{
             descLength() {
-                console.log()
-                return this.game.description.length>250;
+                return this.game.description.length > 500;
             },
             currentLoggedIn () {
                 return this.$store.state.auth.status.loggedIn;
@@ -233,6 +240,7 @@
                 return paginate(this.reviews, this.paramsReviews.per_page, this.paramsReviews.page);
             },
             reverseGamewebReviews() {
+                console.log(this.gamewebReviews)
                 return [...this.gamewebReviews].reverse();
             },
             findNick() {
@@ -254,8 +262,9 @@
                 });
             },
             maxAreaLength: function() {
-                if (this.review.description.length >= this.maxLength) {
-                    this.review.description = this.review.description.substring(0,this.maxLength);
+                if (this.review.description.length >= this.maxLength*5) {
+                    console.log('tak',this.review.description)
+                    this.review.description = this.review.description.substring(0,this.maxLength*5);
                     this.areaMessage = 'Przekroczono limit znaków'
                 }
             },
@@ -299,27 +308,42 @@
                         fd.append("gameId",this.review.gameId)
                         fd.append("stars",this.review.stars)
                         fd.append("title",this.review.title)
+                        fd.append("gameName",this.game.title)
                         axios.post("https://gameweb.projektstudencki.pl/api/reviews/", fd, {withCredentials:true})
                             .then((result) => {
-                                const fdd = new FormData();
-                                fdd.append('id', result.data.id)
-                                fdd.append('multipartFile', this.file)
-                                axios.patch('https://gameweb.projektstudencki.pl/api/reviews/addImage/'+result.data.id, fdd, {withCredentials:true})
-                                .then((result) => {
-                                    this.file = ''
+                                if (this.file == '') {
                                     console.log(result)
                                     this.gamewebReviews = this.gamewebReviews.concat(result.data)
-                                })
-                                .catch((error) => {
-                                    console.log(error)
-                                })
-                                this.review.description = ''
-                                this.review.stars = ''
-                                this.review.stars = 0
-                                this.review.title = ''
-                                this.show = false
-                                this.message = "Dodano nową recenzje!"
-                                this.variant = 'success'
+                                    this.review.description = ''
+                                    this.review.stars = ''
+                                    this.review.stars = 0
+                                    this.review.title = ''
+                                    this.show = false
+                                    this.review_created_succesfully = true
+                                    this.message = "Dodano nową recenzje!"
+                                    this.variant = 'success'
+                                }
+                                else {
+                                    const fdd = new FormData();
+                                    fdd.append('id', result.data.id)
+                                    fdd.append('multipartFile', this.file)
+                                    axios.patch('https://gameweb.projektstudencki.pl/api/reviews/addImage/'+result.data.id, fdd, {withCredentials:true})
+                                    .then((result) => {
+                                        this.file = ''
+                                        this.gamewebReviews = this.gamewebReviews.concat(result.data)
+                                    })
+                                    .catch((error) => {
+                                        console.log(error)
+                                    })
+                                    this.review.description = ''
+                                    this.review.stars = ''
+                                    this.review.stars = 0
+                                    this.review.title = ''
+                                    this.show = false
+                                    this.review_created_succesfully = true
+                                    this.message = "Dodano nową recenzje! Żeby wszyscy mogli ją zobaczyć, poczekaj, aż moderatorzy strony ją zaakceptują!"
+                                    this.variant = 'success'
+                                    }  
                             })
                             .catch((err) => {
                                 console.log(err)
@@ -387,12 +411,12 @@
         padding-top: 10px;
     }
     #rating {
-        margin: auto 0 auto;
+        margin: auto 0;
         background-color: white;
         color: mediumaquamarine;
         border-color: mediumaquamarine;
     }
-    input {
+    textarea ,input {
         background-color: white;
     }
     .gameImage {
@@ -443,7 +467,22 @@
         transform: translateY(4px);
     }
     .addReview {
-        padding: 0rem 2rem 0 2rem
+        margin: 1rem 0;
+        padding: 1rem 1rem;
+        border-style: outset;
+        text-align: left;
+    }
+    .formTitle {
+        margin: 1rem 0;
+        display: inline-flex;
+        width: 100%;
+        justify-content: space-between;
+        @media screen and(max-width: 1200px){
+            display: block;
+        }
+    }
+    .formTitle input {
+        max-width: 75%;
     }
     .review_details {
         display:flex;
@@ -480,7 +519,20 @@
     p.rate {
         margin: 0;
     }
+    .starRating {
+        width: 100%;
+        display: inline-flex;
+        justify-content: space-between;
+        @media screen and(max-width: 1200px){
+            display: block;
+        }
+    }
     .fav:hover, .fav:active, .fav:link{
         color: #419c7b;
+    }
+    .mean {
+        @media screen and(max-width: 1200px){
+            display: block !important;
+        }
     }
 </style>

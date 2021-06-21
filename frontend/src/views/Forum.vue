@@ -83,7 +83,7 @@
         </div>
       </div>
       <div v-else>
-        <div class="thread" v-for="thread in filterdThreads" :key="thread.id">
+        <div class="thread" v-for="thread in List" :key="thread.id">
           <div class="thr">
             <div class="Descriptionu" @click="handleDetails(thread.id)">
                 <h5 class="title">{{ thread.name }}</h5>
@@ -378,7 +378,10 @@ input {
 }
   .main{
     div,h1,h2,h3,h4,h5,label,button{
-      font-size: 12px !important;
+      font-size: 15px !important;
+      @media screen and (max-width: 600px) {
+        font-size: 13px !important;
+      }
     }
   }
 </style>

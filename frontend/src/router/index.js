@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Forum from '../views/Forum.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
+import Review_accept from '../views/admin/Review_accept.vue'
 import Search from '../components/Search'
 import Users from './users';
 import AdminRoutes from './admin';
@@ -52,6 +53,12 @@ const routes = [
     name: 'Recommended',
     component: Reccomended,
     meta:{auth: false}
+  },
+  {
+    path: '/admin/reviewstoaccept',
+    name: 'Review To Accept',
+    component: Review_accept,
+    meta:{auth: true}
   },
   {
     path: '/game',

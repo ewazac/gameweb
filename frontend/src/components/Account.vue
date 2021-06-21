@@ -12,7 +12,7 @@
             <b-card
                     title="Ustawienia konta"
                     tag="article"
-                    class="mb-2 w-100"
+                    class="mb-2 w-100 accDetails"
             >
               <div class="badge-holder" style="padding: 5px;">
                 <img v-if="currentUser.point > 4 && currentUser.point < 10" src="../assets/normal.png" width="50px">
@@ -287,6 +287,10 @@
                 .then((result) => {
                   console.log(result)
                   this.random = Math.floor(Math.random() * (10 - 1 + 1)) + 1;
+                  if(this.currentUser.imageUrl === null) {
+                    this.currentUser.imageUrl = this.currentUser.id + '.png'
+                    localStorage.setItem("user", JSON.stringify(this.currentUser))
+                  }
                   //this.$router.go();
                   //this.getAvatar();
                 })
@@ -395,8 +399,8 @@
   }
   .card {
       padding: 10px;
-      min-height: 15rem;
-      max-height: 25rem;
+      //min-height: 15rem;
+      //max-height: 25rem;
       border-width: 0 0 2px 0;
       -moz-border-radius: 2px;
       -webkit-border-radius: 2px;
@@ -413,6 +417,9 @@
   }
   .reviews:hover, .reviews:active, .reviews:link {
     color: #59b493;
+  }
+  .accDetails {
+    height: auto;
   }
   /*.form-control {*/
   /*  background-color: #000;*/

@@ -4,10 +4,10 @@
             <h3>{{threadName}}</h3>
             <div class="FA">
                 <div class="FADetails">
-                    <p class="Created">Użytkownik: {{ firstAnswer.username }} </p>
+                    <p class="Created username" @click="handleDetails(firstAnswer.userId)">Użytkownik: <span class="hoverUsername">{{ firstAnswer.username }} </span></p>
                     <p class="Created">Dodano: {{ firstAnswer.createdDate }}</p>
                 </div>
-                <img class="avatar" v-bind:src="'https://gameweb.s3.eu-central-1.amazonaws.com/'+firstAnswer.userId+'.png'">
+                <img class="avatar" @error="AltImg" v-bind:src="'https://gameweb.s3.eu-central-1.amazonaws.com/'+firstAnswer.userId+'.png'">
             </div>
             <h4 class="ThreadMessage"> {{ firstAnswer.message }} </h4>
         </div>
@@ -26,28 +26,16 @@
         <b-alert v-if="alertMessage" show :variant='variant'>
             {{ alertMessage }}
         </b-alert>
-        <div v-if="isAdmin">
+        <div>
             <div class="answers" v-for="answer in thread" :key="answer.createdDate">
                 <div class="details">
-                    <p style="margin-right:1rem;" @click="handleDetails(answer.userId)"> Użytkownik: {{ answer.username }}</p>
-                    <p> Dodano: {{ answer.createdDate }}</p>
-                    <img class="avatar" v-bind:src="'https://gameweb.s3.eu-central-1.amazonaws.com/'+answer.userId+'.png'">
-                </div>
-                <div class="message">
-                    <span> {{ answer.message }}</span>
-                </div>
-                <span @click='handleDelete(answers.message)'>Usuń</span>
-            </div>
-        </div>
-        <div v-else>
-            <div class="answers" v-for="answer in thread" :key="answer.createdDate">
-                <div class="details">
-                    <p @click="handleDetails(answer.userId)"> Użytkownik:{{ answer.username }} Dodano: {{ answer.createdDate }} </p>
+                    <p class="username" @click="handleDetails(answer.userId)">Użytkownik: <span class="hoverUsername"> {{ answer.username }} </span></p> Dodano: {{ answer.createdDate }}
                 </div>
                 <div class="message">
                     <span> {{ answer.message }} </span>
-                    <img class="avatar" v-bind:src="'https://gameweb.s3.eu-central-1.amazonaws.com/'+answer.userId+'.png'">
+                    <img class="avatar" @error="AltImg" v-bind:src="'https://gameweb.s3.eu-central-1.amazonaws.com/'+answer.userId+'.png'">
                 </div>
+                <span v-if="isAdmin" @click='handleDelete(answers.message)'>Usuń</span>
             </div>
         </div>
     </div>
@@ -55,7 +43,8 @@
 
 <script>
 import axios from 'axios';
-import Thread from '../models/thread'
+import Thread from '../models/thread';
+import img from '../assets/logo.png';
 
 export default {
     name: 'Thread',
@@ -70,6 +59,8 @@ export default {
             id: this.$router.history.current.query.thread,
             alertMessage: null,
             variant: null,
+            answer: '',
+            DefaultImg: img,
         }
     },
     beforeCreate: function () {
@@ -81,6 +72,9 @@ export default {
         }
     },
     methods: {
+        AltImg(e) {
+            e.target.src = img
+        },
         handleDetails(item) {
             this.$router.push({path:'/User/', params:{user:item}, query:{user: item}});
         },
@@ -95,15 +89,15 @@ export default {
         },
         handleDelete(item) {
             let i = 0;
-            console.log(item)
+            //console.log(item)
             for (const answer of this.thread) {
-                console.log(answer.message)
+                //console.log(answer.message)
                 if (answer.message == item) {
                     break
                 }
                 i = i + 1
             }
-            console.log(i)
+            //console.log(i)
             if(confirm("Czy na pewno chcesz usunąć tą wiadomość: "+item)) {
                 axios.delete("https://gameweb.projektstudencki.pl/api/api/forums/"+this.id+"/answer/"+(i-1))
                 .then((result) => {
@@ -138,7 +132,7 @@ export default {
         axios.get("https://gameweb.projektstudencki.pl/api/api/forums")
         .then((result) => {
             let threads = result.data;
-            console.log(result)
+            //console.log(result)
             for (const thread of threads) {
                 if (thread.id == this.id){
                     this.firstAnswer = thread.answers[0]
@@ -167,7 +161,7 @@ export default {
             this.thread.map(item => {  
                 axios.get("https://gameweb.projektstudencki.pl/api/users/"+item.userId)
                 .then((result) => {
-                    console.log(result)
+                    //console.log(result)
                     item.username = result.data.nick;
                     return new Thread(item);
                 })
@@ -182,10 +176,14 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@media (max-width: 1000px) {
+  .thread {
+    width: 100% !important;
+  }
+}
 .thread {
     margin: auto !important;
     width: 75%;
-    margin: 3rem;
     @media screen and(max-width: 1200px){
         margin: 10px;
         span{
@@ -193,6 +191,12 @@ export default {
         }
     }
     color: white;
+}
+.username {
+    cursor: pointer;
+}
+.username:hover .hoverUsername, .username:active .hoverUsername, .username:link .hoverUsername{
+    color: #59b493;
 }
 h3 {
     font-size: 2.5rem;
@@ -211,6 +215,7 @@ span {
     font-size: 0.8rem;
     display: flex;
     padding: 0.2rem;
+    justify-content: space-between;
 }
 .details p {
     margin: 0;
