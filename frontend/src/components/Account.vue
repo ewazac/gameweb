@@ -214,8 +214,8 @@
           const fd = new FormData();
           fd.append("newpassword", this.currentUser.newpassword);
           fd.append("oldpassword", this.currentUser.oldpassword);
-          axios
-                  .put(API_URL + "users/changePassword", fd, {
+          //axios.put(API_URL + "users/changePassword", fd, {
+            axios.put("api/users/changePassword", fd, {
                     withCredentials: true,
                   })
                   .then(() => {
@@ -231,8 +231,8 @@
         }
       },
       subscribeToNewsletter() {
-        axios
-                .post(API_URL + "newsletter", this.selected, {
+        //axios.post(API_URL + "newsletter", this.selected, {
+        axios.post("api/newsletter", this.selected, {
                   withCredentials: true,
                   headers: {
                     "Content-Type": "application/json",
@@ -277,8 +277,8 @@
         var selected_file = event.target.files[0]
         const fd = new FormData();
         fd.append("avatar", selected_file);
-        axios
-                .put(API_URL + "users/uploadAvatar", fd, {
+        //axios.put(API_URL + "users/uploadAvatar", fd, {
+          axios.put("api/users/uploadAvatar", fd, {
                   withCredentials: true,
                   headers: {
                     "Content-Type": "multipart/form-data",
@@ -339,8 +339,7 @@
       }
       console.log(this.currentUser)
       //this.getAvatar();
-      axios
-              .get(API_URL + "getAllCategories", {
+      axios.get(API_URL + "getAllCategories", {
                 withCredentials: true,
               })
               .then((response) => {

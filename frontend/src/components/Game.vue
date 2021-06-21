@@ -32,7 +32,7 @@
                 <h5 v-if="fav.length!=0 && !showFav" class="fav" style="cursor: pointer;" @click="showFavUsers()">Ta gra jest polecana przez: {{ fav.length }} użytkowników <b-icon-arrow-down></b-icon-arrow-down></h5>
                 <h5 v-if="fav.length!=0 && showFav" class="fav" style="cursor: pointer;" @click="showNoFavUsers()">Ta gra jest polecana przez: {{ fav.length }} użytkowników <b-icon-arrow-up></b-icon-arrow-up></h5>
                 <div v-if="showFav"><ul style="list-style-type:none;padding:0;" v-for="user in fav" :key="user.id">
-                    <li class="fav" style="cursor: pointer;" @click="handleDetails(user.id)"> <b-icon scale="1.3" class="mr-2" icon="eye-fill" color="#007bff"></b-icon> {{ user.nick }} </li>
+                    <li class="fav" style="cursor: pointer;" @click="handleDetails(user.id)"> {{ user.nick }} <b-icon scale="1.3" class="mr-2" icon="eye-fill" color="#007bff"></b-icon> </li>
                 </ul></div>
                 <b-alert show>Jeśli dodasz recenzję, przyznamy Ci 1 punkt.</b-alert>
                 <div class="d-flex mean">
