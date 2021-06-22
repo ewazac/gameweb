@@ -45,7 +45,7 @@
            </b-pagination>
        </div>
         <div class="w-100 d-flex justify-content-center my-2" v-if="loading">
-            <b-spinner variant="primary"></b-spinner>
+            <b-spinner variant="primary" ></b-spinner>
         </div>
     </div>
   </div>

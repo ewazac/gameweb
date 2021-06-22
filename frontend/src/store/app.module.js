@@ -8,7 +8,7 @@ export const app = {
         messages:[],
         breadcrumbs: [],
         favourites: [],
-        app_loading: false
+        app_loading: false,
     },
     actions: {
         getFavourites({commit}){

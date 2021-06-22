@@ -78,7 +78,8 @@
         name: "app",
         components:{
             MyBreadcrumbs,
-            Messages
+            Messages,
+
         },
         data:() => {
             return{

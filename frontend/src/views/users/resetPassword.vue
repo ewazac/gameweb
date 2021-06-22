@@ -76,7 +76,7 @@
                     }
                     if(this.$route.query.token){
                         Request({
-                            url:'/users',
+                            url:'/users/restart',
                             method:'patch',
                             data:{
                                 activatedCode: this.$route.query.token,

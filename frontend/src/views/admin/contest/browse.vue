@@ -52,6 +52,10 @@
                     key: 'group_id',
                     label: 'ID grupy'
                 },{
+                    key: 'name',
+                    label: 'nazwa'
+                },
+                    {
                     key: 'count',
                     label: 'Ilość gier'
                 },

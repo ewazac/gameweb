@@ -1,6 +1,10 @@
 <template>
     <div class="container">
-        <header-text text="Gry"></header-text>
+        <h3 class="text-center" style="color: whitesmoke">Witamy w serwisie Gameweb</h3>
+        <h3 class="text-center" style="color: whitesmoke">To miejsce dla prawdziwych fanów gier mobilnych</h3>
+        <hr class="mt-4" style="border-color: mediumaquamarine" />
+        <h2 class="my-4 text-center" style="color: whitesmoke">W sekcji z grami znajdziesz wszyskie gry, dostępne w serwisie. Możesz łatwo je sortować, wyszukiać przy pomocy lupy w górym pasku oraz napisać recenzję, która będzie później widoczna na Twoim koncie</h2>
+             <b-link href="/games"><header-text text="Gry"></header-text></b-link>
         <div class="row" v-if="sortedGames && sortedGames.length > 0">
             <div class="col-md-6">
                 <a :href="'/game?game2='+sortedGames[0].appId">
@@ -39,7 +43,9 @@
                 </div>
             </div>
         </div>
-        <header-text style="margin-top: 60px" text="Newsy"></header-text>
+        <hr class="mt-4" style="border-color: mediumaquamarine" />
+        <h2 class="text-center" style="color: whitesmoke">W zakładce newsy dowiesz się o ciekawostkach w świecie gier. Możesz przeczytać najnowsze zapowiedzi. Za pomocą niebieskiej gwiazdki możesz dodać newsa do ulubionych, aby szybiej go odnaleźć</h2>
+        <b-link href="/news"><header-text style="margin-top: 60px" text="Newsy"></header-text></b-link>
         <div class="row" v-if="data.news && data.news.length > 0">
             <div class="col-md-6 pt-5">
                 <a :href="'/news/'+data.news[0].id" class="d-block h-100">
@@ -74,15 +80,17 @@
                 </div>
             </div>
         </div>
-        <div class="w-100" style="padding: 60px 0px;">
+        <hr class="mt-4" style="border-color: mediumaquamarine" />
+        <h2 class="text-center" style="color: whitesmoke">W quizach sprawdzisz swoją wiedzę z zakresu gier mobilnych. To świetna zabawa! Liczba prób nieograniczona! Weź udział już teraz</h2>
+            <div class="w-100" style="padding: 60px 0px;">
             <div style=" position: relative">
                 <img class="w-100" src="../assets/banner_quiz.jpg">
                 <div class="position-absolute w-100 h-100" style="left: 0px; top: 0px;">
                     <div class="row h-100 mx-5 align-center justify-content-end">
                         <div class="col-md-6 text-left">
                             <div class="text-white">
-                                <div style="font-size: 3.2rem" class="font-weight-bold">Wez udzial w naszych quizach</div>
-                                <div style="font-size: 1.5rem" class=" my-4 font-weight-bold">Aktualnie mamy {{data.quizes}} Quizów</div>
+                                <div style="font-size: 3.2rem" class="font-weight-bold">Rozwiąż quiz </div>
+                                <div style="font-size: 1.5rem" class=" my-4 font-weight-bold">Aktualna liczba  {{data.quizes}} quizów</div>
                                 <a href="/quizy" class="btn btn-primary px-5 py-2" style="background-color: #5E9883; border-radius: 30px; font-size: 1.2rem; border: none; outline: none">Zobacz więcej</a>
                             </div>
                         </div>
@@ -93,6 +101,8 @@
         <div class="row mx-0" style="position: relative">
             <div class="white w-100" style="position: absolute; min-height: 5px; background-color: white; top: 25px; z-index: 0"></div>
             <div class="w-100 text-white font-weight-bold text-center d-flex justify-content-center" style="font-size: 1.5rem; z-index: 1"><div class="px-4 py-2" style="background-color: #111111">Tylko dla zalogowanych</div></div>
+            <h2 class="text-center" style="color: whitesmoke">Specjalnie dla Naszych zalogowanych użytkowników przygotowaliśmy dodatkowo forum - miejsce, w kótrym razem z innymi graczami
+            wymienicie się swoją wiedzą gamerską oraz konkursy - gdzie możecie oddać głosy na gry, które pojawią się w polecanych</h2>
         </div>
         <div class="mt-5">
             <div class="row">

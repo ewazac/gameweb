@@ -12,34 +12,42 @@
                         <b-form-select style="max-width: 200px" v-model="params.per_page" :options="options"></b-form-select>
                     </div>
                 </div>
-                <div class="col-md-3 my-2"  :key="item.appId" v-for="item in items">
+                <div class="col-md-3 py-3"  :key="item.appId" v-for="item in items">
                     <b-card
                             class="mb-2 h-100"
                             :title="item.name"
                     >
-                        <!--    <b-card-group class="cardGroup" v-for="i in Math.ceil(games.length/4)" :key="i" deck>-->
-                        <!--      <b-card-->
-                        <!--              class="mb-2"-->
-                        <!--              v-for="item in games.slice((i-1)*4, (i-1)*4 +  4)"-->
-                        <!--              :key="item.appId"-->
-                        <!--              :title="item.title"-->
-                        <!--              :img-src="item.icon"-->
-                        <!--              img-top-->
-                        <!--      >-->
-                        <!--        <b-card-text v-if="item.summary">{{ item.summary.slice(0,150) }}...</b-card-text>-->
-                        <div class="my-3 text-white">{{item.description}}</div>
-                        <b-button class="quiz__button mt-3" @click="handleDetails(item)"> Zobacz więcej </b-button>
+
+                        <div class="d-flex flex-column justify-space-between h-100" v-if="items">
+
+                                <div class="font-weight-bold d-flex justify-content-between flex-column" style="color: whitesmoke">{{item.description}}</div>
+
+                            <div>
+                                <b-button class="game__button align-card-bottom w-100 mb-3" @click="handleDetails(item)"> Zobacz więcej </b-button>
+                            </div>
+                        </div>
                     </b-card>
+
+                    <!--    <b-card-group class="cardGroup" v-for="i in Math.ceil(games.length/4)" :key="i" deck>-->
+                    <!--      <b-card-->
+                    <!--              class="mb-2"-->
+                    <!--              v-for="item in games.slice((i-1)*4, (i-1)*4 +  4)"-->
+                    <!--              :key="item.appId"-->
+                    <!--              :title="item.title"-->
+                    <!--              :img-src="item.icon"-->
+                    <!--              img-top-->
+                    <!--      >-->
+                    <!--        <b-card-text v-if="item.summary">{{ item.summary.slice(0,150) }}...</b-card-text>-->
                 </div>
             </div>
             <div class="w-100 d-flex justify-content-center">
-               <b-pagination
-                    @change="scrollToTop()"
-                    v-model="params.page"
-                    :total-rows="params.total_rows"
-                    :per-page="params.per_page" first-text="Pierwsza" prev-text="Poprzednia" next-text="Następna" last-text="Ostatnia">
+                <b-pagination
+                        @change="scrollToTop()"
+                        v-model="params.page"
+                        :total-rows="params.total_rows"
+                        :per-page="params.per_page" first-text="Pierwsza" prev-text="Poprzednia" next-text="Następna" last-text="Ostatnia">
 
-               </b-pagination>
+                </b-pagination>
             </div>
         </div>
     </div>
@@ -87,16 +95,35 @@
                     to: '/quizy'
                 }
             ])
-           Request({
-               url: 'api/quizy',
-               method: 'get'
-           }).then(res => {
-               this.data = res.reverse(
+            Request({
+                url: 'api/quizy',
+                method: 'get'
+            }).then(res => {
+                this.data = res.reverse(
 
-               );
-           })
+                );
+            })
         },
     }
 
 </script>
+<style lang="scss">
+    .quiz__button{
+        background-color: mediumaquamarine !important;
+        margin-top: auto;
+        border: none;
 
+        &:focus {
+            outline: none;
+            border: none;
+            box-shadow: none !important;
+        }
+    }
+    .btn-secondary {
+        background-color: mediumaquamarine;
+    }
+
+    .btn-secondary:hover {
+        opacity: 0.9;
+    }
+</style>

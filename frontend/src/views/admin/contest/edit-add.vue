@@ -35,7 +35,7 @@
                                     <b-pagination
                                             v-model="filters.page"
                                             :total-rows="filters.total_rows"
-                                            :per-page="filters.max" first-text="First" prev-text="Prev" next-text="Next" last-text="Last">
+                                            :per-page="filters.max" first-text="Pierwsza" prev-text="Poprzednia" next-text="Następna" last-text="Ostatnia">
                                     </b-pagination>
                                     <hr>
                                     <div class="font-weight-bold text-white mt-5 mb-5">Gry w tym konkursie</div>
@@ -75,6 +75,7 @@
                     page: 1,
                     total_rows: 10
                 },
+                name,
                 allGames:null,
                 data:[],
                 fields: [
