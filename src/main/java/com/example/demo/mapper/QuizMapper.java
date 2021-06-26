@@ -17,7 +17,7 @@ public class QuizMapper {
                 //.description(quizDto.getDescription())
                 .id(quizDto.getId())
                 .name(quizDto.getName())
-                .body(quizDto.getBody())
+                //.body(quizDto.getBody())
 
                 .build();
     }
@@ -28,7 +28,7 @@ public class QuizMapper {
                 .id(quiz.getId())
                 //.description(quiz.getDescription())
                 .answerList(quiz.getQuizList())
-                .body(quiz.getBody())
+                //.body(quiz.getBody())
                 .build();
     }
 

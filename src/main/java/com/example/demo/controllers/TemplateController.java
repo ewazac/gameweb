@@ -19,12 +19,12 @@ public class TemplateController {
         return templateRepository.save(template);
     }
 
-    @PostMapping("/{templateId}")
-    public void saveFile(MultipartFile multipartFile, @PathVariable String templateId) {
-        Template template = templateRepository.findTemplateById(templateId);
-        template.setBody(multipartFile.toString());
-        templateRepository.save(template);
-
-    }
+//    @PostMapping("/{templateId}")
+//    public void saveFile(MultipartFile multipartFile, @PathVariable String templateId) {
+//        Template template = templateRepository.findTemplateById(templateId);
+//        template.setBody(multipartFile.toString());
+//        templateRepository.save(template);
+//
+//    }
 
 }

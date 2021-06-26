@@ -18,18 +18,22 @@ public class NewsService {
     private final NewsRepository newsRepository;
     private final FileService fileService;
 
+    /**Displays all news*/
     public List<News> getAll() {
         return newsRepository.findAll();
     }
 
+    /**Saves news*/
     public News save(News news) {
         return newsRepository.save(news);
     }
 
+    /**Returns news by id*/
     public News getById(String id) {
         return newsRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id));
     }
 
+    /**Updates news by id*/
     public News updateNewsById(News news, String id) {
         News newsDb = getById(id);
         newsDb.setDescription(news.getDescription());
@@ -39,6 +43,7 @@ public class NewsService {
         return newsRepository.save(newsDb);
     }
 
+    /**Adds news image*/
     public News addNewsImage(MultipartFile multipartFile, String newsId) throws IOException {
         News news = getById(newsId);
         news.setImageUrl(news.getId() + ".png");
@@ -47,15 +52,18 @@ public class NewsService {
     }
 
 
+    /**Returns news body as html*/
     public String bodyAsHtml(String newsId) {
         News news = getById(newsId);
         return news.getBody();
     }
 
+    /**Deletes news by id*/
     public void deleteById(String id) {
         newsRepository.deleteById(id);
     }
 
+    /**Returns list of news by ids - used in favourites*/
     public List<News> getNews(List<String> ids) {
         return newsRepository.findByIdIn(ids);
     }

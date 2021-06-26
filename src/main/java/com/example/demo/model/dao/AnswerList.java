@@ -9,6 +9,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+/** AnswerList class is used for quizzes. It contains list of questions and answers*/
 public class AnswerList {
 
     private String question;

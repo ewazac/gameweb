@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document("template")
+/**Template class is used for creating HTML e-mail templates*/
 public class Template {
 
     @Id

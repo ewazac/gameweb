@@ -16,6 +16,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 @Document(collection = "reviews")
+/**Review class is used for creating reviews by users*/
 public class Review {
 
     @Id
@@ -24,6 +25,7 @@ public class Review {
     private String description;
     private Float stars;
     private String gameId;
+    private String gameName;
     private Binary image;
     @CreatedDate
     private LocalDate createdDate;
@@ -33,5 +35,6 @@ public class Review {
     private String userId;
     private String imageUrl;
     private boolean accepted;
+
 
 }

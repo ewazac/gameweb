@@ -18,6 +18,7 @@ import java.util.Set;
 @Document(collection = "games")
 @Builder
 @Data
+/**Game class is used for creating new competition where users can vote for the best game*/
 public class Game {
 
     @Id

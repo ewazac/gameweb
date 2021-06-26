@@ -18,26 +18,24 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
+/**Class for sending newsletter where time is scheduled*/
 public class NewsletterScheduler {
 
     private final MailService mailService;
     private final UserRepository userRepository;
     private final NewsRepository newsRepository;
     private final QuizRepository quizRepository;
-    private final GamesRepository gamesRepository;
 
     //@Scheduled(cron = "0 0 7 ? * MON")
 //    @Scheduled(cron = "0 0,5,10,20 10 ? * MON")
-//    @Scheduled(cron = "0 45,50 9 ? * MON")
-//    @Scheduled(fixedRate = 10000)
+    //@Scheduled(cron = "0 4,10,14,20 11,12,13 ? * TUE")
+    //@Scheduled(fixedRate = 10000)
     public void sendNewsletter() {
         List<News> news = newsRepository.findByCreatedDateIsAfterAndSendMailIsTrue(LocalDate.now().minusDays(7));
         List<Quiz> quiz = quizRepository.findByCreatedDateIsAfterAndSendMailIsTrue(LocalDate.now().minusDays(7));
-//        List<Game> competition = gamesRepository.findByCreatedDateIsAfter(LocalDate.now().minusDays(7));
         Context context = new Context();
         context.setVariable("news", news);
         context.setVariable("quiz", quiz);
-        //context.setVariable("competition", competition);
         userRepository.findByNewsletterIsTrue().forEach(user -> {
             mailService.sendMail("newsletter", user.getEmail(), context);
         });

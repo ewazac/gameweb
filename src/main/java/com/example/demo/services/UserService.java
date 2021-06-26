@@ -8,6 +8,7 @@ import com.example.demo.model.dao.News;
 import com.example.demo.model.dao.User;
 import com.example.demo.model.dto.UserDto;
 import com.example.demo.repository.UserRepository;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Lazy))
+//@AllArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
@@ -36,6 +38,7 @@ public class UserService {
     private final NewsService newsService;
 
 
+    /**Sends e-mail with link to restart password*/
     public void restartPassword(String email) {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException("User not found"));
         user.setActivateCode(UUID.randomUUID().toString());
@@ -43,46 +46,43 @@ public class UserService {
         Executors.newCachedThreadPool().execute(() -> {
             Context context = new Context();
             context.setVariable("activated_code", user.getActivateCode());
-            mailService.sendMail("restartPassword", user.getEmail(), context);
+            mailService.sendMail("restartPassword2", user.getEmail(), context);
         });
     }
 
+    /**Updates user*/
     public User updateUser(User user) {
         String currentUser = getCurrentUser().getId();
         User userDb = getById(currentUser);
-//        List<Review> reviews = reviewRepository.findByUserId(currentUser);
-//        for (Review review : reviews) {
-//            review.setNick(user.getNick());
-//        }
-//        reviewRepository.saveAll(reviews);
         userDb.setNick(user.getNick());
         userDb.setLastName(user.getLastName());
         userDb.setFirstName(user.getFirstName());
         userDb.setNewsletter(!userDb.isNewsletter());
-//        if(userDb.isNewsletter()) {
-//            Executors.newCachedThreadPool().execute(() -> {
-//                Context context = new Context();
-//                mailService.sendMail("restartPassword", user.getEmail(), context);
-//            });
-//        }
         userDb.setPoint(user.getPoint());
         return userRepository.save(userDb);
     }
 
+    /**Returns user by id*/
     public Optional<User> getUserById(String userId) {
         return userRepository.findById(userId);
     }
 
+    /**Returns all users*/
     public List<User> getAll() {
         return userRepository.findAll();
     }
 
+    /**Saves user - registration*/
     public User save(User user) throws UserFoundException {
         String email = user.getEmail();
         Optional<User> checkUser = userRepository.findByEmail(email);
         if(checkUser.isPresent()) {
             throw new UserFoundException();
         }
+        Executors.newCachedThreadPool().execute(() -> {
+            Context context = new Context();
+            mailService.sendMail("rejestracja", user.getEmail(), context);
+        });
         return userRepository.save(user);
     }
 
@@ -90,6 +90,7 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id));
     }
 
+    /**Returns user's profile with particular data*/
     public UserDto getUserDetails(String id) {
         User user = getById(id);
         List<Favourites> favouritesForUser = favoritesService.getFavouritesForUser(user.getId());
@@ -107,15 +108,18 @@ public class UserService {
                 .build();
     }
 
+    /**Get user - log in*/
     public User getCurrentUser() {
         return userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName())
                 .orElseThrow(() -> new EntityNotFoundException("User not logged"));
     }
 
+    /**Returns list of users - used in favourites*/
     public List<User> getUsers(List<String> userIds) {
         return userRepository.findByIdIn(userIds);
     }
 
+    /**Uploads avatar*/
     public User uploadAvatar(MultipartFile multipartFile) throws IOException {
         User user = getCurrentUser();
         user.setImageUrl(user.getId() + ".png");
@@ -123,6 +127,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    /**Changes password in user's profile*/
     public void changePassword(String newPassword, String oldPassword) throws InvalidOldPasswordException {
         User user = getCurrentUser();
         if(!passwordEncoder.matches(oldPassword, user.getPassword())) {
@@ -132,18 +137,20 @@ public class UserService {
         userRepository.save(user);
     }
 
+    /**Subscribe / unsubscribe to newsletter*/
     public void changeNewsletter() {
         User user = getCurrentUser();
         user.setNewsletter(!user.isNewsletter());
         if(user.isNewsletter()) {
             Executors.newCachedThreadPool().execute(() -> {
                 Context context = new Context();
-                mailService.sendMail("potwierdzenie", user.getEmail(), context);
+                mailService.sendMail("potwierdzenieNewsletter", user.getEmail(), context);
             });
         }
         userRepository.save(user);
     }
 
+    /**Change user's password with activated code from sent e-mail*/
     public void changeRestartPassword(String activatedCode, String password) throws Throwable {
         User user = userRepository.findByActivateCode(activatedCode).orElseThrow(() -> new EntityNotFoundException("Cannot find user by activated code"));
         user.setActivateCode(null);
@@ -151,6 +158,7 @@ public class UserService {
         userRepository.save(user);
     }
 
+    /**Adds point to user's profile after adding review*/
     public void addPoint() {
         User currentUser = getCurrentUser();
         currentUser.setPoint(currentUser.getPoint() + 1);

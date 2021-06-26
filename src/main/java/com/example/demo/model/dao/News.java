@@ -16,6 +16,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 @Document("news")
+/**News class is used for creating news*/
 public class News {
 
     @Id

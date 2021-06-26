@@ -15,6 +15,5 @@ public interface NewsRepository extends MongoRepository<News, String> {
 
     List<News> findByCreatedDateIsAfter(LocalDate date);
 
-
     List<News> findByCreatedDateIsAfterAndSendMailIsTrue(LocalDate minusDays);
 }

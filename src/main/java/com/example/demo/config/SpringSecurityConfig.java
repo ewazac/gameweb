@@ -25,6 +25,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final HttpSecurity http) throws Exception {
 
         http
+                .requiresChannel().anyRequest().requiresSecure()
+                .and()
                 .cors().configurationSource(corsConfigurationSource())
                 .and()
                 .csrf().disable()
@@ -58,9 +60,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-
-
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {

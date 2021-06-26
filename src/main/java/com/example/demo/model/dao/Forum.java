@@ -24,6 +24,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @Document(collection = "forum")
+/***Forum class is used for creating forum where users can communicate*/
 public class Forum {
 
     @Id

@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-// connector between the model and MongoDB
+
 public interface GamesRepository extends MongoRepository<Game, String > {
 
     Game findGameByName(String name);
@@ -15,7 +15,6 @@ public interface GamesRepository extends MongoRepository<Game, String > {
     List<Game> findByGroupId(String groupId);
 
     List<Game> findByCreatedDateIsAfter(LocalDate date);
-
 
     void deleteByGroupId(String groupId);
 

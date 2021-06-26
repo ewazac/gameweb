@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @Document(collection = "user")
 @Builder
-
+/**User class is created for creating user*/
 public class User {
 
     @Id

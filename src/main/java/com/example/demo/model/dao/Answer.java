@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+/** Answer class is used for single answer in forum */
 public class Answer {
 
 

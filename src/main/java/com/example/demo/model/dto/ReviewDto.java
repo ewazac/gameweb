@@ -24,6 +24,7 @@ public class ReviewDto {
     private Binary image;
     private String userId;
     private String imageUrl;
+    private String gameName;
 
 
 }

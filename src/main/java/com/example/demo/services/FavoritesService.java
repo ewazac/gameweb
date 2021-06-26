@@ -18,12 +18,14 @@ public class FavoritesService {
     private final UserService userService;
     private final NewsService newsService;
 
+    /**Adds news to user's favourites*/
     public Favourites addToFavourite(String newsId) {
         User currentUser = userService.getCurrentUser();
         News news = newsService.getById(newsId);
         return favouritesRepository.save(new Favourites(null, currentUser.getId(), news.getId(), null));
     }
 
+    /**Returns list of news that user has in favourites*/
     public List<News> getFavoritesNewsForUser() {
         User currentUser = userService.getCurrentUser();
         List<Favourites> favourites = favouritesRepository.findByUserId(currentUser.getId());
@@ -33,11 +35,13 @@ public class FavoritesService {
         return newsService.getNews(newsIds);
     }
 
+    /**Returns list of all user's favourites*/
     public List<Favourites> getAllFavourites() {
         User currentUser = userService.getCurrentUser();
         return favouritesRepository.findByUserId(currentUser.getId());
     }
 
+    /**Returns list of users for particular game*/
     public List<User> getAllUsersFavourites(String gameId) {
         List<String> userIds = favouritesRepository.findByGameId(gameId).stream()
                 .map(Favourites::getUserId)
@@ -45,15 +49,18 @@ public class FavoritesService {
         return userService.getUsers(userIds);
     }
 
+    /**Returns list of all user's favourites*/
     public List<Favourites> getFavouritesForUser(String userId) {
         return favouritesRepository.findByUserId(userId);
     }
 
+    /**Adds game to user's favourites*/
     public void addGameToFavourite(String gameId) {
         User currentUser = userService.getCurrentUser();
         favouritesRepository.save(new Favourites(null, currentUser.getId(), null, gameId));
     }
 
+    /**Returns list of games that user has in favourites*/
     public List<String> getFavoritesGamesForUser() {
         User currentUser = userService.getCurrentUser();
         List<Favourites> favourites = favouritesRepository.findByUserId(currentUser.getId());
@@ -63,11 +70,9 @@ public class FavoritesService {
         return gamesIds;
     }
 
+    /**Deletes from favourites*/
     public void deleteFromFavourite(String favouriteId) {
         favouritesRepository.deleteById(favouriteId);
     }
-
-
-
 
 }

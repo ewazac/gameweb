@@ -23,11 +23,8 @@ public class Quiz {
     @Id
     public String id;
     public String name;
-    //public String description;
-    //public List<Option> answers;
     @CreatedDate
     private LocalDate createdDate;
-    private String body;
     private List<AnswerList> quizList;
     private boolean sendMail;
 

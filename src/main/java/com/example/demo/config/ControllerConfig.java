@@ -9,8 +9,6 @@ import org.springframework.session.web.http.CookieSerializer;
 @Configuration
 public class ControllerConfig implements WebMvcConfigurer {
 
-
-
     @Bean
     public CookieSerializer cookieSerializer() {
         DefaultCookieSerializer cookieSerializer = new DefaultCookieSerializer();

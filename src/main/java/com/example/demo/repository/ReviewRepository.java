@@ -8,14 +8,11 @@ import java.util.List;
 public interface ReviewRepository extends MongoRepository<Review, String> {
 
 
-    List<Review> findByGameId(String gameId);
-
-    List<Review> findByUserId(String userId);
-
-
     List<Review> findByUserIdAndAcceptedIsTrue(String currentUser);
 
     List<Review> findByGameIdAndAcceptedIsTrue(String gameId);
 
     List<Review> findByAcceptedIsTrue();
+
+    List<Review> findByAcceptedIsFalse();
 }

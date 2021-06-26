@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+/**Option class is used for defining if answer in quiz is correct*/
 public class Option {
 
     String answer;

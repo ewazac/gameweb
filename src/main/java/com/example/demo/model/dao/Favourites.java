@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @Builder
 @Document("favourites")
+/**Favourites class is used for adding news and games to user's favourites*/
 public class Favourites {
 
     @Id
